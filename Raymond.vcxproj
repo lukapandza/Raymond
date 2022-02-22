@@ -60,12 +60,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(IntDir)uic\;F:\Qt\5.12.12\msvc2017_64\include;F:\Qt\5.12.12\msvc2017_64\include\QtWidgets</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\Spring 22\Plan Project\Raymond\src;$(IntDir)uic\;F:\Qt\5.12.12\msvc2017_64\include;F:\Qt\5.12.12\msvc2017_64\include\QtWidgets</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(IntDir)uic\;F:\Qt\5.12.12\msvc2017_64\include;F:\Qt\5.12.12\msvc2017_64\include\QtWidgets</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\Spring 22\Plan Project\Raymond\src;$(IntDir)uic\;F:\Qt\5.12.12\msvc2017_64\include;F:\Qt\5.12.12\msvc2017_64\include\QtWidgets</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -173,32 +173,6 @@
     <ClCompile Include="src\BRDFs\GlossySpecular.cpp" />
     <ClCompile Include="src\BRDFs\Lambertian.cpp" />
     <ClCompile Include="src\BRDFs\PerfectSpecular.cpp" />
-    <ClCompile Include="src\builds\2SphereShadeTest.cpp" />
-    <ClCompile Include="src\builds\AmbientOcclusionTest.cpp" />
-    <ClCompile Include="src\builds\AreaLightTest.cpp" />
-    <ClCompile Include="src\builds\BoxTest.cpp" />
-    <ClCompile Include="src\builds\BuildBBCoverPic.cpp" />
-    <ClCompile Include="src\builds\BuildMultipleObjects.cpp" />
-    <ClCompile Include="src\builds\BuildSingleSphere.cpp" />
-    <ClCompile Include="src\builds\BuildSingleSphereSamplerTests.cpp" />
-    <ClCompile Include="src\builds\ColoredShadows.cpp" />
-    <ClCompile Include="src\builds\DiskTest.cpp" />
-    <ClCompile Include="src\builds\FractalTest.cpp" />
-    <ClCompile Include="src\builds\GlobalTraceTest.cpp" />
-    <ClCompile Include="src\builds\GlossTest.cpp" />
-    <ClCompile Include="src\builds\InstancingTest.cpp" />
-    <ClCompile Include="src\builds\LoopBuildTest.cpp" />
-    <ClCompile Include="src\builds\ManySpheres.cpp" />
-    <ClCompile Include="src\builds\PerformanceTest.cpp" />
-    <ClCompile Include="src\builds\PurePathTrace.cpp" />
-    <ClCompile Include="src\builds\RectTest.cpp" />
-    <ClCompile Include="src\builds\ReflectionTest.cpp" />
-    <ClCompile Include="src\builds\SpecularTest.cpp" />
-    <ClCompile Include="src\builds\TorusReflections.cpp" />
-    <ClCompile Include="src\builds\TorusRings.cpp" />
-    <ClCompile Include="src\builds\TorusRings2.cpp" />
-    <ClCompile Include="src\builds\TorusTest.cpp" />
-    <ClCompile Include="src\builds\TriTest.cpp" />
     <ClCompile Include="src\Cameras\Camera.cpp" />
     <ClCompile Include="src\Cameras\Orthographic.cpp" />
     <ClCompile Include="src\Cameras\Pinhole.cpp" />
