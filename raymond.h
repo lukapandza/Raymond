@@ -44,7 +44,6 @@ public:
 
     QImage canvas;
     QLabel* image_label;
-    //QScrollArea* scroll_area;
     double scale_factor = 1.0;
 
     QAction* save_as_action;
@@ -53,9 +52,6 @@ public:
 
     void create_actions();
     void create_menus();
-
-signals:
-    void new_pixels(std::vector<RenderPixel*>* new_pixels);
 
 private slots:
     void save_as();
@@ -76,8 +72,6 @@ public:
     Thread(World* _world, Raymond* _main_window, int _thread_id);
 
     void SetPixel(const int x, const int y, const int r, const int g, const int b);
-
-    void NotifyCanvas();
 
     void Render(std::vector<pix_coord> batch, Thread* thread);
 };

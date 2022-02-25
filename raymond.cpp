@@ -110,32 +110,12 @@ std::vector<std::vector<pix_coord>> DistributePixels(const int num_threads, cons
 }
 
 //Thread:
-Thread::Thread(World* _world, Raymond* _main_window, int _thread_id) : world(_world), main_window(_main_window), thread_id(_thread_id), pixels(std::vector<RenderPixel*>()) {
-    //world->paintArea = this;
-}
+Thread::Thread(World* _world, Raymond* _main_window, int _thread_id) : world(_world), main_window(_main_window), thread_id(_thread_id), pixels(std::vector<RenderPixel*>()) {}
 
 void
 Thread::SetPixel(const int x, const int y, const int r, const int g, const int b) {
 
-    RenderPixel* pixel_ptr = new RenderPixel(x, y, r, g, b);
-    pixels.push_back(pixel_ptr);
-
-    if (pixels.size() > 9) //replace with timer check
-        NotifyCanvas();
-}
-
-void
-Thread::NotifyCanvas() {
-
-    //std::vector<RenderPixel*>* pixelsUpdate = new std::vector<RenderPixel*>(pixels);
-    //pixels.clear();
-
-    //this->main_window->update_pixels(pixelsUpdate);
-    for (int i = 0; i < pixels.size(); i++) {
-        RenderPixel* p = pixels[i];
-        this->main_window->canvas.setPixelColor(p->x, p->y, QColor(p->r, p->g, p->b));
-    }
-    pixels.clear();
+    this->main_window->canvas.setPixelColor(x, y, QColor(r, g, b));
 }
 
 void
@@ -147,7 +127,6 @@ Thread::Render(std::vector<pix_coord> batch, Thread* thread) {
 Raymond::Raymond(QWidget* parent)
     : QWidget(parent),
     image_label(new QLabel(this))
-    //scroll_area(new QScrollArea(this))
 {
     ui.setupUi(this);
 
@@ -161,16 +140,6 @@ Raymond::Raymond(QWidget* parent)
     this->image_label->setAlignment(Qt::AlignCenter);
     this->image_label->setScaledContents(true);
     this->image_label->setVisible(false);
-
-    //this->scroll_area->setBackgroundRole(QPalette::Dark);
-    //this->scroll_area->setWidget(this->image_label);
-    //this->scroll_area->setAlignment(Qt::AlignVCenter);
-    //this->scroll_area->setVisible(false);
-    //setCentralWidget(this->scroll_area);
-
-    //this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
-
-    //this->image_label->setPixmap(QPixmap::fromImage(*this->canvas));
 }
 
 void Raymond::create_actions()
@@ -201,25 +170,11 @@ void Raymond::create_menus()
     this->layout()->setMenuBar(menu_bar);
 }
 
-void Raymond::update_image() 
-{
-    if (this->is_rendering) {
-        this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
-        this->image_label->repaint();
-        //this->repaint();
-    }
-
-    this->is_rendering = false;
-    for (int i = 0; i < this->rendering_status.size(); i++) {
-        if (this->rendering_status[i]) {
-            this->is_rendering = true;
-            break;
-        }
-    }
-}
-
+// slots:
 void Raymond::save_as() {}
+
 void Raymond::exit() {}
+
 void Raymond::render_start() 
 {
     this->world = new World();
@@ -229,15 +184,12 @@ void Raymond::render_start()
     this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
     this->image_label->adjustSize();
     this->image_label->setVisible(true);
-    //this->scroll_area->setVisible(true);
     this->image_label->repaint();
     this->image_label->show();
+    this->resize(this->image_label->size());
     this->repaint();
 
-    std::cout << "Render started." << std::endl;
-
     const int num_threads = std::max(std::thread::hardware_concurrency(), uint(1));
-    //const int num_threads = 1;
     std::vector<std::vector<pix_coord>> batches = DistributePixels(num_threads, 32, world->vp.hres, world->vp.vres);
 
     this->is_rendering = true;
@@ -249,11 +201,27 @@ void Raymond::render_start()
     for (int i = 0; i < num_threads; i++) {
 
         Thread* new_thread = new Thread(world, this, i);
-        //connect(new_thread, &Raymond::new_pixels, this, &Raymond::update_pixels);
-        //connect(new_thread, &Raymond::new_pixels, this, &Raymond::update_pixels);
+
         this->threads.push_back(new_thread);
         this->rendering_status.push_back(true);
+
         std::thread thread(&Thread::Render, *this->threads[i], batches[i], this->threads[i]);
         thread.detach();
+    }
+}
+
+void Raymond::update_image()
+{
+    if (this->is_rendering) {
+        this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+        this->image_label->repaint();
+    }
+
+    this->is_rendering = false;
+    for (int i = 0; i < this->rendering_status.size(); i++) {
+        if (this->rendering_status[i]) {
+            this->is_rendering = true;
+            break;
+        }
     }
 }
