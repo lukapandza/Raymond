@@ -35,12 +35,12 @@ public:
     Ui::RaymondClass ui;
 
     World* world;
-    std::vector<RenderPixel*> pixels;
     std::vector<Thread*> threads;
     std::vector<bool> rendering_status;
     bool is_rendering = false;
+    bool is_repainting = false;
     QTimer* timer;
-    int repaint_frequency = 100;
+    int repaint_frequency = 16; // 60 fps = 16.66 ms.
 
     QImage canvas;
     QLabel* image_label;
@@ -52,6 +52,7 @@ public:
 
     void create_actions();
     void create_menus();
+    void paint_from_buffers();
 
 private slots:
     void save_as();
@@ -66,7 +67,7 @@ public:
 
     World* world;
     int thread_id;
-    std::vector<RenderPixel*> pixels;
+    std::vector<RenderPixel*> pixel_buffer;
     Raymond* main_window;
 
     Thread(World* _world, Raymond* _main_window, int _thread_id);

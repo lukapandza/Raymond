@@ -110,12 +110,15 @@ std::vector<std::vector<pix_coord>> DistributePixels(const int num_threads, cons
 }
 
 //Thread:
-Thread::Thread(World* _world, Raymond* _main_window, int _thread_id) : world(_world), main_window(_main_window), thread_id(_thread_id), pixels(std::vector<RenderPixel*>()) {}
+Thread::Thread(World* _world, Raymond* _main_window, int _thread_id) : world(_world), main_window(_main_window), thread_id(_thread_id), pixel_buffer(std::vector<RenderPixel*>()) {}
 
 void
 Thread::SetPixel(const int x, const int y, const int r, const int g, const int b) {
+    
+    while (this->main_window->is_repainting)
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    this->main_window->canvas.setPixelColor(x, y, QColor(r, g, b));
+    this->pixel_buffer.push_back(new RenderPixel(x, y, r, g, b));
 }
 
 void
@@ -170,6 +173,34 @@ void Raymond::create_menus()
     this->layout()->setMenuBar(menu_bar);
 }
 
+void Raymond::paint_from_buffers() 
+{
+    this->is_repainting = true;
+    std::this_thread::sleep_for(std::chrono::milliseconds(1)); 
+    // to give time for any last pixel to be written to the buffer in threads
+    // 1 ms seems to be lowest wait time that consistently produces no lost pixels at the worst
+    // possible conditions I could configure (very fast rendering cases)
+
+    for (int i = 0; i < this->threads.size(); i++) {
+        int size = this->threads[i]->pixel_buffer.size();
+        for (int ii = 0; ii < size; ii++) {
+            this->canvas.setPixelColor(
+                this->threads[i]->pixel_buffer[ii]->x,
+                this->threads[i]->pixel_buffer[ii]->y,
+                QColor(
+                    this->threads[i]->pixel_buffer[ii]->r,
+                    this->threads[i]->pixel_buffer[ii]->g,
+                    this->threads[i]->pixel_buffer[ii]->b));
+        }
+        this->threads[i]->pixel_buffer.clear();
+    }
+
+    this->is_repainting = false;
+
+    this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+    this->image_label->repaint();
+}
+
 // slots:
 void Raymond::save_as() {}
 
@@ -212,10 +243,8 @@ void Raymond::render_start()
 
 void Raymond::update_image()
 {
-    if (this->is_rendering) {
-        this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
-        this->image_label->repaint();
-    }
+    if (this->is_rendering)
+        this->paint_from_buffers();
 
     this->is_rendering = false;
     for (int i = 0; i < this->rendering_status.size(); i++) {
@@ -224,4 +253,12 @@ void Raymond::update_image()
             break;
         }
     }
+
+    if (!this->is_rendering) { 
+        // sometimes a few pixels get caught in the buffers during the repaint function
+        // at the end of render, but before the check of thread status is complete.
+        // this is a last scoop of render buffers for such cases. 
+        this->paint_from_buffers();
+    }
+    
 }

@@ -77,7 +77,7 @@
 //#include "../builds/BuildSingleSphereSamplerTests.cpp"
 //#include "../builds/2SphereShadeTest.cpp"
 //#include "../builds/SpecularTest.cpp"
-//#include "../builds/ColoredShadows.cpp"
+#include "../builds/ColoredShadows.cpp"
 //#include "../builds/AmbientOcclusionTest.cpp"
 //#include "../builds/BoxTest.cpp"
 //#include "../builds/DiskTest.cpp"
@@ -93,7 +93,7 @@
 //#include "../builds/TorusRings.cpp"
 //#include "../builds/TorusRings2.cpp"
 //#include "../builds/GlossTest.cpp"
-#include "../builds/PurePathTrace.cpp"
+//#include "../builds/PurePathTrace.cpp"
 //#include "../builds/GlobalTraceTest.cpp"
 
 //#include "../builds/PerformanceTest.cpp"
