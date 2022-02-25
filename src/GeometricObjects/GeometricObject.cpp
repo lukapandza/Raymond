@@ -7,14 +7,16 @@
 // ---------------------------------------------------------------------- default constructor
 
 GeometricObject::GeometricObject(void)
-	: 	color(black)
+	: 	color(black),
+	material_ptr(nullptr)
 {}
 
 
 // ---------------------------------------------------------------------- copy constructor
 
 GeometricObject::GeometricObject (const GeometricObject& object)
-	: 	color(object.color)
+	: 	color(object.color),
+	material_ptr(object.material_ptr)
 {}	
 
 

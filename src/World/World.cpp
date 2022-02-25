@@ -93,10 +93,10 @@
 //#include "../builds/TorusRings.cpp"
 //#include "../builds/TorusRings2.cpp"
 //#include "../builds/GlossTest.cpp"
-//#include "../builds/PurePathTrace.cpp"
+#include "../builds/PurePathTrace.cpp"
 //#include "../builds/GlobalTraceTest.cpp"
 
-#include "../builds/PerformanceTest.cpp"
+//#include "../builds/PerformanceTest.cpp"
 
 
 // -------------------------------------------------------------------- default constructor
@@ -205,11 +205,12 @@ World::hit_bare_bones_objects(const Ray& ray) {
 	return (sr);   
 }
 
-ShadeRec&
+ShadeRec
 World::hit_objects(const Ray& raymond) const {
 	
 	//World wr = *this;
 	ShadeRec sr(*this);
+	//ShadeRec* sr = new ShadeRec(*this);
 	double t; 
 	Normal normal;
 	Point3D local_hit_point;

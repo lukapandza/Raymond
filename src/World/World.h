@@ -34,7 +34,7 @@ public:
 	RGBColor						background_color;
 	Camera*							camera_ptr;
 	Tracer*							tracer_ptr;
-	Sphere 							sphere;		// for Chapter 3 only
+	//Sphere 							sphere;		// for Chapter 3 only
 	std::vector<GeometricObject*>	objects;
 
 	Light*							ambient_ptr;
@@ -77,7 +77,7 @@ public:
 	ShadeRec									
 		hit_bare_bones_objects(const Ray& ray);
 
-	ShadeRec&
+	ShadeRec
 		hit_objects(const Ray& raymond) const;
 						
 private:

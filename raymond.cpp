@@ -11,9 +11,9 @@
 
 
 // utility functions:
-QImage* CreateCheckered(int width, int height) {
+QImage CreateCheckered(int width, int height) {
 
-    QImage* bmp = new QImage(width, height, QImage::Format_Indexed8);
+    QImage bmp(width, height, QImage::Format_RGB32);
 
     QColor light(180, 180, 180);
     QColor dark(120, 120, 120);
@@ -21,9 +21,9 @@ QImage* CreateCheckered(int width, int height) {
     for (UINT i = 0; i < width; i++)
         for (UINT ii = 0; ii < height; ii++) {
             if ((i % 16 >= 8) ^ (ii % 16 >= 8))
-                bmp->setPixelColor(i, ii, light);
+                bmp.setPixelColor(i, ii, light);
             else
-                bmp->setPixelColor(i, ii, dark);
+                bmp.setPixelColor(i, ii, dark);
         }
 
     return bmp;
@@ -110,7 +110,7 @@ std::vector<std::vector<pix_coord>> DistributePixels(const int num_threads, cons
 }
 
 //Thread:
-Thread::Thread(World* _world, Raymond* _main_window) : world(_world), main_window(_main_window), pixels(std::vector<RenderPixel*>()) {
+Thread::Thread(World* _world, Raymond* _main_window, int _thread_id) : world(_world), main_window(_main_window), thread_id(_thread_id), pixels(std::vector<RenderPixel*>()) {
     //world->paintArea = this;
 }
 
@@ -127,21 +127,27 @@ Thread::SetPixel(const int x, const int y, const int r, const int g, const int b
 void
 Thread::NotifyCanvas() {
 
-    std::vector<RenderPixel*>* pixelsUpdate = new std::vector<RenderPixel*>(pixels);
-    pixels.clear();
+    //std::vector<RenderPixel*>* pixelsUpdate = new std::vector<RenderPixel*>(pixels);
+    //pixels.clear();
 
-    this->main_window->update_pixels(pixelsUpdate);
+    //this->main_window->update_pixels(pixelsUpdate);
+    for (int i = 0; i < pixels.size(); i++) {
+        RenderPixel* p = pixels[i];
+        this->main_window->canvas.setPixelColor(p->x, p->y, QColor(p->r, p->g, p->b));
+    }
+    pixels.clear();
 }
 
 void
 Thread::Render(std::vector<pix_coord> batch, Thread* thread) {
     world->camera_ptr->render_scene(*world, batch, thread);
+    this->main_window->rendering_status[this->thread_id] = false;
 }
 
 Raymond::Raymond(QWidget* parent)
     : QWidget(parent),
-    image_label(new QLabel),
-    scroll_area(new QScrollArea)
+    image_label(new QLabel(this))
+    //scroll_area(new QScrollArea(this))
 {
     ui.setupUi(this);
 
@@ -151,15 +157,20 @@ Raymond::Raymond(QWidget* parent)
     this->create_menus();
 
     this->image_label->setBackgroundRole(QPalette::Base);
-    this->image_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    this->image_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    this->image_label->setAlignment(Qt::AlignCenter);
     this->image_label->setScaledContents(true);
+    this->image_label->setVisible(false);
 
-    this->scroll_area->setBackgroundRole(QPalette::Dark);
-    this->scroll_area->setWidget(this->image_label);
-    this->scroll_area->setVisible(false);
+    //this->scroll_area->setBackgroundRole(QPalette::Dark);
+    //this->scroll_area->setWidget(this->image_label);
+    //this->scroll_area->setAlignment(Qt::AlignVCenter);
+    //this->scroll_area->setVisible(false);
     //setCentralWidget(this->scroll_area);
 
-    this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
+    //this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
+
+    //this->image_label->setPixmap(QPixmap::fromImage(*this->canvas));
 }
 
 void Raymond::create_actions()
@@ -190,17 +201,59 @@ void Raymond::create_menus()
     this->layout()->setMenuBar(menu_bar);
 }
 
-void Raymond::update_pixels(std::vector<RenderPixel*>* new_pixels) 
+void Raymond::update_image() 
 {
-    std::vector<RenderPixel*> update_pixels(*new_pixels);
-    delete new_pixels;
-    for (int i = 0; i < update_pixels.size(); i++) {
-        RenderPixel* p = update_pixels[i];
-        this->canvas->setPixelColor(p->x, p->y, QColor(p->r, p->g, p->b));
-        this->repaint();
+    if (this->is_rendering) {
+        this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+        this->image_label->repaint();
+        //this->repaint();
+    }
+
+    this->is_rendering = false;
+    for (int i = 0; i < this->rendering_status.size(); i++) {
+        if (this->rendering_status[i]) {
+            this->is_rendering = true;
+            break;
+        }
     }
 }
 
 void Raymond::save_as() {}
 void Raymond::exit() {}
-void Raymond::render_start() {}
+void Raymond::render_start() 
+{
+    this->world = new World();
+    this->world->build();
+
+    this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
+    this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+    this->image_label->adjustSize();
+    this->image_label->setVisible(true);
+    //this->scroll_area->setVisible(true);
+    this->image_label->repaint();
+    this->image_label->show();
+    this->repaint();
+
+    std::cout << "Render started." << std::endl;
+
+    const int num_threads = std::max(std::thread::hardware_concurrency(), uint(1));
+    //const int num_threads = 1;
+    std::vector<std::vector<pix_coord>> batches = DistributePixels(num_threads, 32, world->vp.hres, world->vp.vres);
+
+    this->is_rendering = true;
+
+    this->timer = new QTimer(this);
+    connect(this->timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_image));
+    this->timer->start(this->repaint_frequency); // update displayed image every 50 ms
+
+    for (int i = 0; i < num_threads; i++) {
+
+        Thread* new_thread = new Thread(world, this, i);
+        //connect(new_thread, &Raymond::new_pixels, this, &Raymond::update_pixels);
+        //connect(new_thread, &Raymond::new_pixels, this, &Raymond::update_pixels);
+        this->threads.push_back(new_thread);
+        this->rendering_status.push_back(true);
+        std::thread thread(&Thread::Render, *this->threads[i], batches[i], this->threads[i]);
+        thread.detach();
+    }
+}

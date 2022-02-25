@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 1000;
+    int num_samples = 100;
 
     vp.set_hres(512);
     vp.set_vres(512);
@@ -33,7 +33,7 @@ World::build() {
 
     Sampler* sampler_ptr = new MultiJittered(num_samples);
 
-    Rect* rectangle_ptr1 = new Rect(3, 5, 4, 1, 0, 0, 0, 0, -1, 0, -1, 0);
+    RectangleObject* rectangle_ptr1 = new RectangleObject(3, 5, 4, 1, 0, 0, 0, 0, -1, 0, -1, 0);
     rectangle_ptr1->set_material(emissive_ptr1);
     rectangle_ptr1->set_sampler(sampler_ptr);
     add_object(rectangle_ptr1);

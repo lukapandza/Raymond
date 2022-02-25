@@ -1,10 +1,11 @@
 #pragma once
 
 #include <QtWidgets/QWidget>
-#include <Qlabel.h>
+#include <QLabel>
 #include <QScrollArea>
 #include "ui_raymond.h"
 #include <vector>
+#include <iostream>
 
 // forward declerations:
 class World;
@@ -29,16 +30,21 @@ class Raymond : public QWidget
     Q_OBJECT
 
 public:
-    Raymond(QWidget* parent = Q_NULLPTR);
+    Raymond(QWidget* parent = nullptr);
 
     Ui::RaymondClass ui;
 
     World* world;
     std::vector<RenderPixel*> pixels;
+    std::vector<Thread*> threads;
+    std::vector<bool> rendering_status;
+    bool is_rendering = false;
+    QTimer* timer;
+    int repaint_frequency = 100;
 
-    QImage* canvas;
+    QImage canvas;
     QLabel* image_label;
-    QScrollArea* scroll_area;
+    //QScrollArea* scroll_area;
     double scale_factor = 1.0;
 
     QAction* save_as_action;
@@ -48,23 +54,26 @@ public:
     void create_actions();
     void create_menus();
 
-    void update_pixels(std::vector<RenderPixel*>* new_pixels);
+signals:
+    void new_pixels(std::vector<RenderPixel*>* new_pixels);
 
 private slots:
     void save_as();
     void exit();
     void render_start();
+    void update_image();
 };
 
-class Thread {
+class Thread{
 
 public:
 
     World* world;
-    Raymond* main_window;
+    int thread_id;
     std::vector<RenderPixel*> pixels;
+    Raymond* main_window;
 
-    Thread(World* _world, Raymond* _main_window);
+    Thread(World* _world, Raymond* _main_window, int _thread_id);
 
     void SetPixel(const int x, const int y, const int r, const int g, const int b);
 
