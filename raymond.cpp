@@ -202,9 +202,14 @@ void Raymond::paint_from_buffers()
 }
 
 // slots:
-void Raymond::save_as() {}
+void Raymond::save_as() {
+    QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), "./Renders/untitled.png", tr("Image (*.png)"));
+    this->canvas.save(file_name, nullptr, 100); //max quality
+}
 
-void Raymond::exit() {}
+void Raymond::exit() {
+    QApplication::quit();
+}
 
 void Raymond::render_start() 
 {
