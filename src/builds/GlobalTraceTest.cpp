@@ -6,7 +6,7 @@ World::build() {
     vp.set_hres(512);
     vp.set_vres(512);
     vp.set_samples(num_samples);
-    vp.set_max_depth(8);
+    vp.set_max_depth(32);
 
     background_color = black;
     tracer_ptr = new GlobalTrace(this);
@@ -28,18 +28,24 @@ World::build() {
 
     //light: 
     Emissive* emissive_ptr1 = new Emissive;
-    emissive_ptr1->set_ls(64.0);
+    emissive_ptr1->set_ls(16);
     emissive_ptr1->set_ce(1.0, 0.83, 0.6);
 
     Sampler* sampler_ptr = new MultiJittered(num_samples);
-
+    /*
     RectangleObject* rectangle_ptr1 = new RectangleObject(3.5, 5, 4.5, 1, 0, -1, -1, 0, -1, 0, -1, 0);
     rectangle_ptr1->set_material(emissive_ptr1);
     rectangle_ptr1->set_sampler(sampler_ptr);
     add_object(rectangle_ptr1);
+    */
+
+    Sphere* sphere_ptr = new Sphere(Point3D(3.5, 7.0, 3.5), 2.15);
+    sphere_ptr->set_material(emissive_ptr1);
+    sphere_ptr->set_sampler(sampler_ptr);
+    add_object(sphere_ptr);
 
     AreaLight* area_light_ptr1 = new AreaLight;
-    area_light_ptr1->set_object(rectangle_ptr1);
+    area_light_ptr1->set_object(sphere_ptr);
     area_light_ptr1->set_shadows(true);
     add_light(area_light_ptr1);
 
@@ -73,6 +79,10 @@ World::build() {
     Plane* east = new Plane(Point3D(6, 0, 0), Normal(-1, 0, 0));
     east->set_material(mat_green);
     add_object(east);
+
+    Plane* south = new Plane(Point3D(0, 0, 20.1), Normal(0, 0, -1));
+    south->set_material(mat);
+    add_object(south);
 
     //boxes:
     Instance* box1 = new Instance(new Box(-0.75, 0, -0.75, 0.75, 3.0, 0.75));

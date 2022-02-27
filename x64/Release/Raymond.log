@@ -1,8 +1,3 @@
 ﻿  Reading Qt configuration (F:/Qt/5.12.12/msvc2017_64/bin/qmake)
-  moc raymond.h
-  stdafx.cpp
   raymond.cpp
-  main.cpp
-  qrc_raymond.cpp
-  moc_raymond.cpp
   Raymond.vcxproj -> F:\Spring 22\Plan Project\Raymond\x64\Release\Raymond.exe

@@ -94,7 +94,9 @@ Matte::shade(ShadeRec& sr) {
 			}
 
 			if (!in_shadow)
-				L += diffuse_brdf->f(sr, w_o, w_i) * sr.w.lights[i]->L(sr) * normal_dot_w_i;
+				L += diffuse_brdf->f(sr, w_o, w_i) 
+					* sr.w.lights[i]->L(sr) 
+					* normal_dot_w_i;
 		}
 	}
 
@@ -124,7 +126,11 @@ Matte::area_light_shade(ShadeRec& sr) {
 			}
 
 			if (!in_shadow)
-				L += diffuse_brdf->f(sr, w_o, w_i) * sr.w.lights[i]->L(sr) * sr.w.lights[i]->G(sr) * normal_dot_w_i / sr.w.lights[i]->pdf(sr);
+				L += diffuse_brdf->f(sr, w_o, w_i) 
+					* sr.w.lights[i]->L(sr) 
+					* sr.w.lights[i]->G(sr) 
+					* normal_dot_w_i 
+					/ sr.w.lights[i]->pdf(sr);
 		}
 	}
 
@@ -145,12 +151,7 @@ Matte::path_shade(ShadeRec& sr) {
 
 	RGBColor reflected_color = sr.w.tracer_ptr->trace_ray(reflected_ray, sr.depth + 1);
 
-	f *= n_dot_wi;
-	f *= reflected_color;
-	f *= (1.0 / pdf);
-
-	//return f * reflected_color * n_dot_wi / pdf;
-	return f;
+	return f * reflected_color * n_dot_wi / pdf;
 }
 
 RGBColor

@@ -63,7 +63,7 @@ GlossySpecular::sample_f(const ShadeRec& sr, Vector3D& w_i, const Vector3D& w_o)
 }
 
 RGBColor
-GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double & pdf) const {
+GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double& pdf) const {
 	
 	double  n_dot_wo = sr.normal * w_o;
 	Vector3D r = -w_o + 2.0 * sr.normal * n_dot_wo; // direction of mirror

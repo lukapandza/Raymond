@@ -39,6 +39,9 @@ public:
 	virtual RGBColor
 		area_light_shade(ShadeRec& sr);
 
+	//virtual RGBColor
+		//path_shade(ShadeRec& sr);
+
 private:
 
 	GlossySpecular* glossy_specular_brdf;

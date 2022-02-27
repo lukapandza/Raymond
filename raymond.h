@@ -2,10 +2,11 @@
 
 #include <QtWidgets/QWidget>
 #include <QLabel>
-#include <QScrollArea>
+#include <qstatusbar.h>
 #include "ui_raymond.h"
 #include <vector>
 #include <iostream>
+#include <chrono>
 
 // forward declerations:
 class World;
@@ -50,6 +51,15 @@ public:
     QAction* exit_action;
     QAction* render_start_action;
 
+    int pixels_to_render;
+    int pixels_rendered = 0;
+
+    std::chrono::time_point<std::chrono::steady_clock> start_time;
+
+    QLabel* status_label;
+    QStatusBar* status_bar;
+    QTimer* status_timer;
+
     void create_actions();
     void create_menus();
     void paint_from_buffers();
@@ -59,6 +69,7 @@ private slots:
     void exit();
     void render_start();
     void update_image();
+    void update_status_message();
 };
 
 class Thread{

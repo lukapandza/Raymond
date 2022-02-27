@@ -52,6 +52,9 @@ public:
 	void
 		set_cs(const RGBColor& col);
 
+	void
+		set_samples(const int num_samples, const double exp);
+
 	//functions
 
 	virtual RGBColor
@@ -59,6 +62,9 @@ public:
 
 	virtual RGBColor
 		area_light_shade(ShadeRec& sr);
+
+	virtual RGBColor
+		path_shade(ShadeRec& sr);
 
 protected:
 
@@ -120,4 +126,10 @@ Phong::set_cs(const double  r, const double  g, const double  b) {
 inline void
 Phong::set_cs(const RGBColor& col) {
 	specular_brdf->set_cs(col);
+}
+
+inline void
+Phong::set_samples(const int num_samples, const double exp) {
+	diffuse_brdf->set_samples(num_samples);
+	specular_brdf->set_samples(num_samples, exp);
 }

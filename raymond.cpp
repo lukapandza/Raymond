@@ -1,11 +1,9 @@
 #include "raymond.h"
 #include "stdafx.h"
-
 #include "src/World/World.h"
 #include <thread>
 #include <algorithm>
 #include <random>
-#include <chrono>
 #include "commctrl.h"
 #include <sstream>
 
@@ -143,6 +141,15 @@ Raymond::Raymond(QWidget* parent)
     this->image_label->setAlignment(Qt::AlignCenter);
     this->image_label->setScaledContents(true);
     this->image_label->setVisible(false);
+
+    /*
+    this->status_label = new QLabel(this);
+    this->status_label->setAlignment(Qt::AlignBottom);
+    this->status_label->setVisible(true);
+
+    this->status_bar = new QStatusBar(this->status_label);
+    this->status_bar->showMessage(tr("Ready"));
+    */
 }
 
 void Raymond::create_actions()
@@ -191,6 +198,8 @@ void Raymond::paint_from_buffers()
                     this->threads[i]->pixel_buffer[ii]->r,
                     this->threads[i]->pixel_buffer[ii]->g,
                     this->threads[i]->pixel_buffer[ii]->b));
+
+            this->pixels_rendered++;
         }
         this->threads[i]->pixel_buffer.clear();
     }
@@ -216,6 +225,8 @@ void Raymond::render_start()
     this->world = new World();
     this->world->build();
 
+    this->pixels_to_render = this->world->vp.hres * this->world->vp.vres;
+
     this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
     this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
     this->image_label->adjustSize();
@@ -232,7 +243,15 @@ void Raymond::render_start()
 
     this->timer = new QTimer(this);
     connect(this->timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_image));
-    this->timer->start(this->repaint_frequency); // update displayed image every 50 ms
+    this->timer->start(this->repaint_frequency); // update displayed image every time interval
+
+    /*
+    this->status_timer = new QTimer(this);
+    connect(this->status_timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_status_message));
+    this->status_timer->start(1000); // update message every second
+    */
+
+
 
     for (int i = 0; i < num_threads; i++) {
 
@@ -252,6 +271,7 @@ void Raymond::update_image()
         this->paint_from_buffers();
 
     this->is_rendering = false;
+
     for (int i = 0; i < this->rendering_status.size(); i++) {
         if (this->rendering_status[i]) {
             this->is_rendering = true;
@@ -266,4 +286,24 @@ void Raymond::update_image()
         this->paint_from_buffers();
     }
     
+}
+
+void Raymond::update_status_message() 
+{
+    QString message = "";
+    message += "Rendering... ";
+    auto curr_time = std::chrono::steady_clock::now();
+    int total_elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>(curr_time - this->start_time).count();
+    int elapsed_seconds = total_elapsed_seconds % 60;
+    int elapsed_minutes = total_elapsed_seconds / 60;
+    int elapsed_hours = elapsed_minutes / 60;
+
+    message += (elapsed_hours < 10 ? "0" : "") + QString(elapsed_hours) + ":";
+    message += (elapsed_minutes < 10 ? "0" : "") + QString(elapsed_minutes) + ":";
+    message += (elapsed_seconds < 10 ? "0" : "") + QString(elapsed_seconds);
+
+    message += " [ " + QString(this->pixels_rendered / total_elapsed_seconds) + " pixels / second ]";
+
+    this->status_bar->clearMessage();
+    this->status_bar->showMessage(message);
 }

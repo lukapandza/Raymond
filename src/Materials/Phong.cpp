@@ -113,7 +113,9 @@ Phong::shade(ShadeRec& sr) {
 			}
 
 			if (!in_shadow)
-				L += (diffuse_brdf->f(sr, w_o, w_i) + specular_brdf->f(sr, w_o, w_i)) * sr.w.lights[i]->L(sr) * n_dot_w_i;
+				L += (diffuse_brdf->f(sr, w_o, w_i) + specular_brdf->f(sr, w_o, w_i)) 
+					* sr.w.lights[i]->L(sr) 
+					* n_dot_w_i;
 		}
 			
 	}
@@ -144,10 +146,42 @@ Phong::area_light_shade(ShadeRec& sr) {
 			}
 
 			if (!in_shadow)
-				L += (diffuse_brdf->f(sr, w_o, w_i) + specular_brdf->f(sr, w_o, w_i)) * sr.w.lights[i]->L(sr) * n_dot_w_i * sr.w.lights[i]->G(sr) * n_dot_w_i / sr.w.lights[i]->pdf(sr);
+				L += (diffuse_brdf->f(sr, w_o, w_i) + specular_brdf->f(sr, w_o, w_i)) 
+					* sr.w.lights[i]->L(sr) * n_dot_w_i 
+					* sr.w.lights[i]->G(sr) * n_dot_w_i 
+					/ sr.w.lights[i]->pdf(sr);
 		}
 
 	}
 
 	return L;
+}
+
+RGBColor
+Phong::path_shade(ShadeRec& sr) {
+
+	Vector3D w_i_d;
+	Vector3D w_i_s;
+
+	Vector3D w_o = -sr.ray.d;
+
+	double pdf_d;
+	double pdf_s;
+
+	RGBColor f_d = diffuse_brdf->sample_f(sr, w_o, w_i_d, pdf_d);
+	RGBColor f_s = specular_brdf->sample_f(sr, w_o, w_i_s, pdf_s);
+
+	double  n_dot_wi_d = sr.normal * w_i_d;
+	double  n_dot_wi_s = sr.normal * w_i_s;
+
+	Ray reflected_ray_d(sr.hit_point, w_i_d);
+	Ray reflected_ray_s(sr.hit_point, w_i_s);
+
+	RGBColor reflected_color_d = sr.w.tracer_ptr->trace_ray(reflected_ray_d, sr.depth + 1);
+	RGBColor reflected_color_s = sr.w.tracer_ptr->trace_ray(reflected_ray_s, sr.depth + 1);
+
+	RGBColor col_d = f_d * reflected_color_d * n_dot_wi_d / pdf_d;
+	RGBColor col_s = f_s * reflected_color_s * n_dot_wi_s / pdf_s;
+
+	return col_d + col_s;
 }
