@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <chrono>
+#include <mutex>
 
 // forward declerations:
 class World;
@@ -42,6 +43,7 @@ public:
     bool is_repainting = false;
     QTimer* timer;
     int repaint_frequency = 16; // 60 fps = 16.66 ms.
+    std::mutex mtx;
 
     QImage canvas;
     QLabel* image_label;

@@ -42,8 +42,9 @@ Emissive::operator=(const Emissive& rhs) {
 
 RGBColor
 Emissive::shade(ShadeRec& sr) {
+	
 	if (-sr.normal * sr.ray.d > 0.0)
-		return (ls * ce);
+		return sr.depth == 0 ? ce : ls * ce; // for anti aliasing when ls >> 1.0
 	else
 		return (black);
 }
@@ -51,7 +52,7 @@ Emissive::shade(ShadeRec& sr) {
 RGBColor
 Emissive::area_light_shade(ShadeRec& sr) {
 	if (-sr.normal * sr.ray.d > 0.0)
-		return (ls * ce);
+		return sr.depth == 0 ? ce : ls * ce; // for anti aliasing when ls >> 1.0
 	else
 		return (black);
 }
@@ -59,7 +60,7 @@ Emissive::area_light_shade(ShadeRec& sr) {
 RGBColor
 Emissive::path_shade(ShadeRec& sr) {
 	if (-sr.normal * sr.ray.d > 0.0)
-		return ls * ce;
+		return sr.depth == 0 ? ce : ls * ce; // for anti aliasing when ls >> 1.0
 	else
 		return black;
 }
@@ -71,7 +72,7 @@ Emissive::global_shade(ShadeRec& sr) {
 		return black;
 
 	if (-sr.normal * sr.ray.d > 0.0)
-		return ls * ce;
+		return sr.depth == 0 ? ce : ls * ce; // for anti aliasing when ls >> 1.0
 	else
 		return black;
 }

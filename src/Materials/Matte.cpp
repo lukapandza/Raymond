@@ -157,7 +157,7 @@ Matte::path_shade(ShadeRec& sr) {
 RGBColor
 Matte::global_shade(ShadeRec& sr) {
 
-	RGBColor L;
+	RGBColor L(0);
 
 	if (sr.depth == 0)
 		L = area_light_shade(sr);

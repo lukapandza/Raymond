@@ -47,6 +47,10 @@ Random::~Random(void) {}
 
 void 
 Random::generate_samples(void) {
+
+	// set rand seed:
+	set_rand_seed(num_samples);
+
 	for (int set_num = 0; set_num < num_sets; set_num++) {
 		for (int sample = 0; sample < num_samples; sample++) {
 			samples.push_back(Point2D(rand_float(), rand_float()));

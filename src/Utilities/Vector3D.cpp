@@ -100,7 +100,7 @@ Vector3D::length(void) {
 // converts the vector to a unit vector
 
 void 													
-Vector3D::normalize(void) {	
+Vector3D::normalize(void) {
 	double length = sqrt(x * x + y * y + z * z);
 	x /= length; y /= length; z /= length;
 }

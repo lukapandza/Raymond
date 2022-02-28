@@ -39,8 +39,11 @@ public:
 	virtual RGBColor
 		area_light_shade(ShadeRec& sr);
 
-	//virtual RGBColor
-		//path_shade(ShadeRec& sr);
+	virtual RGBColor
+		path_shade(ShadeRec& sr);
+
+	virtual RGBColor
+		global_shade(ShadeRec& sr);
 
 private:
 
@@ -49,6 +52,7 @@ private:
 
 inline void
 GlossyReflector::set_samples(const int num_samples, const double  exp) {
+	Phong::set_samples(num_samples, exp);
 	glossy_specular_brdf->set_samples(num_samples, exp);
 }
 

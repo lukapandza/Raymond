@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 2500;
+    int num_samples = 400;
 
     vp.set_hres(960);
     vp.set_vres(540);
@@ -54,22 +54,22 @@ World::build() {
 
     float height = 6.0;
 
-    Rect* rectangle_ptr1 = new Rect(3, height, 3, 1, 0, -1, -1, 0, -1, 0, -1, 0);
+    RectangleObject* rectangle_ptr1 = new RectangleObject(3, height, 3, 1, 0, -1, -1, 0, -1, 0, -1, 0);
     rectangle_ptr1->set_material(emissive_ptr1);
     rectangle_ptr1->set_sampler(light_sampler_ptr);
     add_object(rectangle_ptr1);
 
-    Rect* rectangle_ptr2 = new Rect(5, height, 5, 1, 0, -1, -1, 0, -1, 0, -1, 0);
+    RectangleObject* rectangle_ptr2 = new RectangleObject(5, height, 5, 1, 0, -1, -1, 0, -1, 0, -1, 0);
     rectangle_ptr2->set_material(emissive_ptr2);
     rectangle_ptr2->set_sampler(light_sampler_ptr);
     add_object(rectangle_ptr2);
 
-    Rect* rectangle_ptr3 = new Rect(7, height, 3, 1, 0, -1, -1, 0, -1, 0, -1, 0);
+    RectangleObject* rectangle_ptr3 = new RectangleObject(7, height, 3, 1, 0, -1, -1, 0, -1, 0, -1, 0);
     rectangle_ptr3->set_material(emissive_ptr3);
     rectangle_ptr3->set_sampler(light_sampler_ptr);
     add_object(rectangle_ptr3);
 
-    Rect* rectangle_ptr4 = new Rect(5, height, 1, 1, 0, -1, -1, 0, -1, 0, -1, 0);
+    RectangleObject* rectangle_ptr4 = new RectangleObject(5, height, 1, 1, 0, -1, -1, 0, -1, 0, -1, 0);
     rectangle_ptr4->set_material(emissive_ptr4);
     rectangle_ptr4->set_sampler(light_sampler_ptr);
     add_object(rectangle_ptr4);

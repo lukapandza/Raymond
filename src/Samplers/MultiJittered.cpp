@@ -47,6 +47,10 @@ MultiJittered::~MultiJittered(void) {}
 
 void
 MultiJittered::generate_samples(void) {
+
+	// set rand seed:
+	set_rand_seed(num_samples);
+
 	//n is side of closest perfect square to num_samples:
 	int n = (int)sqrt((float)num_samples);
 	double subsquare_side = 1.0 / ((float)num_samples);

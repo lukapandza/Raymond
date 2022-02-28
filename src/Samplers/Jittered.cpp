@@ -47,6 +47,10 @@ Jittered::~Jittered(void) {}
 
 void 
 Jittered::generate_samples(void) {
+
+	// set rand seed:
+	set_rand_seed(num_samples);
+
 	//forcing num_samples into the closest perfect square (side n):
 	int n = (int)sqrt((float)num_samples);
 

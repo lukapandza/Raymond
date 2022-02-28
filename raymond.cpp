@@ -113,10 +113,15 @@ Thread::Thread(World* _world, Raymond* _main_window, int _thread_id) : world(_wo
 void
 Thread::SetPixel(const int x, const int y, const int r, const int g, const int b) {
     
+    /*
     while (this->main_window->is_repainting)
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
     this->pixel_buffer.push_back(new RenderPixel(x, y, r, g, b));
+    */
+    this->main_window->mtx.lock();
+    this->main_window->canvas.setPixelColor(x, y, QColor(r, g, b));
+    this->main_window->mtx.unlock();
 }
 
 void
@@ -182,6 +187,7 @@ void Raymond::create_menus()
 
 void Raymond::paint_from_buffers() 
 {
+    /*
     this->is_repainting = true;
     std::this_thread::sleep_for(std::chrono::milliseconds(1)); 
     // to give time for any last pixel to be written to the buffer in threads
@@ -208,6 +214,12 @@ void Raymond::paint_from_buffers()
 
     this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
     this->image_label->repaint();
+    */
+
+    mtx.lock();
+    this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+    this->image_label->repaint();
+    mtx.unlock();
 }
 
 // slots:
@@ -237,6 +249,7 @@ void Raymond::render_start()
     this->repaint();
 
     const int num_threads = std::max(std::thread::hardware_concurrency(), uint(1));
+    //const int num_threads = 1;
     std::vector<std::vector<pix_coord>> batches = DistributePixels(num_threads, 32, world->vp.hres, world->vp.vres);
 
     this->is_rendering = true;
@@ -255,7 +268,10 @@ void Raymond::render_start()
 
     for (int i = 0; i < num_threads; i++) {
 
-        Thread* new_thread = new Thread(world, this, i);
+        World* thread_world = new World();
+        thread_world->build();
+
+        Thread* new_thread = new Thread(thread_world, this, i);
 
         this->threads.push_back(new_thread);
         this->rendering_status.push_back(true);

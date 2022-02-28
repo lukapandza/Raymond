@@ -64,3 +64,39 @@ GlossyReflector::area_light_shade(ShadeRec& sr) {
 
 	return L;
 }
+
+RGBColor
+GlossyReflector::path_shade(ShadeRec& sr) {
+
+	RGBColor L(Phong::path_shade(sr)); // direct illumination
+
+	Vector3D w_o(-sr.ray.d);
+	Vector3D w_i;
+	double pdf;
+
+	/*
+	RGBColor fr(glossy_specular_brdf->sample_f(sr, w_o, w_i, pdf));
+	Ray reflected_ray(sr.hit_point, w_i);
+
+	L += fr * sr.w.tracer_ptr->trace_ray(reflected_ray, sr.depth + 1) * (sr.normal * w_i) / pdf;
+	*/
+
+	L += glossy_specular_brdf->sample_f(sr, w_o, w_i, pdf)
+		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1)
+		* (sr.normal * w_i)
+		/ pdf;
+
+	return L;
+}
+
+RGBColor
+GlossyReflector::global_shade(ShadeRec& sr) {
+
+	RGBColor L(0);
+
+	if (sr.depth == 0)
+		L = this->area_light_shade(sr);
+
+	RGBColor f = this->path_shade(sr);
+	return L + f;
+}

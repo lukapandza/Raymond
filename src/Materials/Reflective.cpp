@@ -90,3 +90,15 @@ Reflective::path_shade(ShadeRec& sr) {
 
 	return fr * sr.w.tracer_ptr->trace_ray(reflected_ray, sr.depth + 1) * (sr.normal * w_i) / pdf;
 }
+
+RGBColor
+Reflective::global_shade(ShadeRec& sr) {
+
+	RGBColor L(0);
+	if (sr.depth == 0)
+		L = this->area_light_shade(sr);
+
+	RGBColor f = this->path_shade(sr);
+
+	return L + f;
+}

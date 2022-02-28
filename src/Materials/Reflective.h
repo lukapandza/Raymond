@@ -40,6 +40,9 @@ public:
 	RGBColor
 		path_shade(ShadeRec& sr);
 
+	RGBColor
+		global_shade(ShadeRec& sr);
+
 private:
 
 	PerfectSpecular* reflective_brdf;

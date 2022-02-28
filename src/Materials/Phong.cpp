@@ -1,5 +1,6 @@
 #include "Phong.h"
 #include "../World/World.h"
+#include <math.h>
 
 // default constructor
 Phong::Phong(void) 
@@ -128,6 +129,7 @@ Phong::area_light_shade(ShadeRec& sr) {
 
 	Vector3D w_o(-sr.ray.d);
 	RGBColor L = ambient_brdf->rho(sr, w_o) * sr.w.ambient_ptr->L(sr);
+
 	int num_lights = sr.w.lights.size();
 
 	for (int i = 0; i < num_lights; i++) {
@@ -145,13 +147,14 @@ Phong::area_light_shade(ShadeRec& sr) {
 				in_shadow = sr.w.lights[i]->in_shadow(shadow_ray, sr);
 			}
 
-			if (!in_shadow)
-				L += (diffuse_brdf->f(sr, w_o, w_i) + specular_brdf->f(sr, w_o, w_i)) 
-					* sr.w.lights[i]->L(sr) * n_dot_w_i 
-					* sr.w.lights[i]->G(sr) * n_dot_w_i 
-					/ sr.w.lights[i]->pdf(sr);
-		}
+			if (!in_shadow) {
 
+				L += (diffuse_brdf->f(sr, w_o, w_i) + specular_brdf->f(sr, w_o, w_i))
+					* sr.w.lights[i]->L(sr) * n_dot_w_i
+					* sr.w.lights[i]->G(sr) * n_dot_w_i
+					/ sr.w.lights[i]->pdf(sr);
+			}
+		}
 	}
 
 	return L;
@@ -160,6 +163,8 @@ Phong::area_light_shade(ShadeRec& sr) {
 RGBColor
 Phong::path_shade(ShadeRec& sr) {
 
+
+	/* This code is much clearer but it was slowing down the renders significantly. Will leave it here as a reference:
 	Vector3D w_i_d;
 	Vector3D w_i_s;
 
@@ -184,4 +189,39 @@ Phong::path_shade(ShadeRec& sr) {
 	RGBColor col_s = f_s * reflected_color_s * n_dot_wi_s / pdf_s;
 
 	return col_d + col_s;
+	*/
+	
+	RGBColor L(0);
+
+	Vector3D w_o = -sr.ray.d;
+
+	Vector3D w_i;
+	double pdf;
+
+	L += diffuse_brdf->sample_f(sr, w_o, w_i, pdf) // diffuse contribution
+		* (sr.normal * w_i) // n dot w_i
+		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1) // tracing the reflected ray
+		/ pdf;
+
+	// note: w_i and pdf get overwritten in next line: reusing them to save memory and initialization cost
+
+	L += specular_brdf->sample_f(sr, w_o, w_i, pdf) // specular contribution
+		* (sr.normal * w_i) // n dot w_i
+		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1) // tracing the reflected ray
+		/ pdf;
+
+	return L;
+
+}
+
+RGBColor
+Phong::global_shade(ShadeRec& sr) {
+
+	RGBColor L(0);
+	if (sr.depth == 0)
+		L = this->area_light_shade(sr);
+
+	RGBColor f = this->path_shade(sr);
+
+	return L + f;
 }

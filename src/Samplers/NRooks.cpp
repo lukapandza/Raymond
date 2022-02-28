@@ -47,6 +47,10 @@ NRooks::~NRooks(void) {}
 
 void 
 NRooks::generate_samples(void) {
+
+	// set rand seed:
+	set_rand_seed(num_samples);
+
 	//generate samples along the main (y=x) diagonal:
 	for (int i = 0; i < num_sets; i++) {
 		for (int ii = 0; ii < num_samples; ii++) {

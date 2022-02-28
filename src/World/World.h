@@ -34,7 +34,6 @@ public:
 	RGBColor						background_color;
 	Camera*							camera_ptr;
 	Tracer*							tracer_ptr;
-	//Sphere 							sphere;		// for Chapter 3 only
 	std::vector<GeometricObject*>	objects;
 
 	Light*							ambient_ptr;
@@ -43,7 +42,7 @@ public:
 	Thread* 						paintArea; 	//connection to skeleton - wxRaytracer.h
 			
 	
-	World(void);												
+	World(void);
 		
 	~World();
 								
