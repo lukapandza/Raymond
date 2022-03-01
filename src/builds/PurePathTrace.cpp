@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 100;
+    int num_samples = 997;
 
     vp.set_hres(512);
     vp.set_vres(512);
@@ -10,8 +10,8 @@ World::build() {
 
     background_color = black;
 
-    tracer_ptr = new AreaLighting(this);
-    //tracer_ptr = new PathTrace(this);
+    //tracer_ptr = new AreaLighting(this);
+    tracer_ptr = new PathTrace(this);
     //tracer_ptr = new GlobalTrace(this);
     
 
@@ -35,7 +35,8 @@ World::build() {
 
     //light: 
     Emissive* emissive_ptr1 = new Emissive;
-    emissive_ptr1->set_ls(64);
+    emissive_ptr1->set_ls(32);
+    //emissive_ptr1->set_ls(64);
     emissive_ptr1->set_ce(1.0, 0.83, 0.6);
 
     Sampler* sampler_ptr = new MultiJittered(num_samples);
@@ -108,12 +109,12 @@ World::build() {
     add_object(box1);
 
     Instance* box2 = new Instance(new Box(-0.75, 0, -0.75, 0.75, 1.5, 0.75));
-    box2->set_material(p_mat);
+    box2->set_material(mat);
     box2->rotate_y(-15);
     box2->translate(4.5, 0, 4);
     add_object(box2);
 
-    
+    /*
     GlossyReflector* glossy_ptr = new GlossyReflector;
     glossy_ptr->set_samples(num_samples, num_samples);
     glossy_ptr->set_ka(0.1);
@@ -145,7 +146,7 @@ World::build() {
         add_object(sphere);
 
     }
-    
+    */
     
 
 }

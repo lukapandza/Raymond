@@ -146,12 +146,17 @@ Matte::path_shade(ShadeRec& sr) {
 
 	RGBColor f = diffuse_brdf->sample_f(sr, w_o, w_i, pdf);
 
-	double  n_dot_wi = sr.normal * w_i;
-	Ray reflected_ray(sr.hit_point, w_i);
+	//double  n_dot_wi = sr.normal * w_i;
+	//Ray reflected_ray(sr.hit_point, w_i);
 
-	RGBColor reflected_color = sr.w.tracer_ptr->trace_ray(reflected_ray, sr.depth + 1);
+	//RGBColor reflected_color = sr.w.tracer_ptr->trace_ray(reflected_ray, sr.depth + 1);
 
-	return f * reflected_color * n_dot_wi / pdf;
+	//return f * reflected_color * n_dot_wi / pdf;
+
+	return f
+		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1)
+		* (sr.normal * w_i)
+		/ pdf;
 }
 
 RGBColor

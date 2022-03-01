@@ -128,7 +128,7 @@ Thread::Thread(World* _world, Raymond* _main_window, int _thread_id) : world(_wo
 
 void
 Thread::SetPixel(const int x, const int y, const int r, const int g, const int b) {
-    
+
     this->main_window->mtx.lock();
     this->main_window->canvas.setPixelColor(x, y, QColor(r, g, b));
     this->main_window->pixels_rendered++;
@@ -278,7 +278,7 @@ void Raymond::update_status_message()
 
         message += " [ " + std::to_string(speed) + " pixels / second ] Time Remaining: ";
 
-        message += time_string_from_int((this->pixels_to_render - this->pixels_rendered) / speed);
+        message += time_string_from_int((this->pixels_to_render - this->pixels_rendered) / (speed + 1)); // to avoid div by 0
 
         this->status_label->setText(QString::fromStdString(message));
         this->progress_bar->setValue((int)(this->pixels_rendered * 100.0 / this->pixels_to_render));
