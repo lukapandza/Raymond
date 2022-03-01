@@ -15,16 +15,6 @@
 class World;
 class Thread;
 
-struct RenderPixel
-{
-public:
-    RenderPixel(int _x, int _y, int _r, int _g, int _b) : x(_x), y(_y), r(_r), g(_g), b(_b) {}
-
-public:
-    int x, y;
-    int r, g, b;
-};
-
 struct pix_coord {
     int x, y;
 };
@@ -40,9 +30,7 @@ public:
 
     World* world;
     std::vector<Thread*> threads;
-    //std::vector<bool> rendering_status;
-    bool is_rendering = false;
-    //bool is_repainting = false;
+
     QTimer* timer;
     int repaint_frequency = 16; // 60 fps = 16.66 ms.
     std::mutex mtx;
@@ -66,7 +54,6 @@ public:
 
     void create_actions();
     void create_menus();
-    void paint_from_buffers();
 
 private slots:
     void save_as();
@@ -83,7 +70,6 @@ public:
 
     World* world;
     int thread_id;
-    std::vector<RenderPixel*> pixel_buffer;
     Raymond* main_window;
 
     Thread(World* _world, Raymond* _main_window, int _thread_id);
