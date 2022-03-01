@@ -1,5 +1,6 @@
 #pragma once
 
+#include <qmainwindow.h>
 #include <QtWidgets/QWidget>
 #include <QLabel>
 #include <qstatusbar.h>
@@ -8,6 +9,7 @@
 #include <iostream>
 #include <chrono>
 #include <mutex>
+#include <qprogressbar.h>
 
 // forward declerations:
 class World;
@@ -27,20 +29,20 @@ struct pix_coord {
     int x, y;
 };
 
-class Raymond : public QWidget
+class Raymond : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    Raymond(QWidget* parent = nullptr);
+    Raymond();
 
     Ui::RaymondClass ui;
 
     World* world;
     std::vector<Thread*> threads;
-    std::vector<bool> rendering_status;
+    //std::vector<bool> rendering_status;
     bool is_rendering = false;
-    bool is_repainting = false;
+    //bool is_repainting = false;
     QTimer* timer;
     int repaint_frequency = 16; // 60 fps = 16.66 ms.
     std::mutex mtx;
@@ -59,7 +61,7 @@ public:
     std::chrono::time_point<std::chrono::steady_clock> start_time;
 
     QLabel* status_label;
-    QStatusBar* status_bar;
+    QProgressBar* progress_bar;
     QTimer* status_timer;
 
     void create_actions();
@@ -72,6 +74,7 @@ private slots:
     void render_start();
     void update_image();
     void update_status_message();
+    void render_end();
 };
 
 class Thread{

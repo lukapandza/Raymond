@@ -6,6 +6,7 @@
 #include <random>
 #include "commctrl.h"
 #include <sstream>
+#include <string>
 
 
 // utility functions:
@@ -107,6 +108,21 @@ std::vector<std::vector<pix_coord>> DistributePixels(const int num_threads, cons
     return batches;
 }
 
+std::string time_string_from_int(int total_seconds) {
+    
+    std::string out = "";
+
+    int elapsed_seconds = total_seconds % 60;
+    int elapsed_minutes = total_seconds / 60;
+    int elapsed_hours = elapsed_minutes / 60;
+
+    out += (elapsed_hours < 10 ? "0" : "") + std::to_string(elapsed_hours) + ":";
+    out += (elapsed_minutes < 10 ? "0" : "") + std::to_string(elapsed_minutes) + ":";
+    out += (elapsed_seconds < 10 ? "0" : "") + std::to_string(elapsed_seconds);
+
+    return out;
+}
+
 //Thread:
 Thread::Thread(World* _world, Raymond* _main_window, int _thread_id) : world(_world), main_window(_main_window), thread_id(_thread_id), pixel_buffer(std::vector<RenderPixel*>()) {}
 
@@ -121,22 +137,26 @@ Thread::SetPixel(const int x, const int y, const int r, const int g, const int b
     */
     this->main_window->mtx.lock();
     this->main_window->canvas.setPixelColor(x, y, QColor(r, g, b));
+    this->main_window->pixels_rendered++;
     this->main_window->mtx.unlock();
 }
 
 void
 Thread::Render(std::vector<pix_coord> batch, Thread* thread) {
     world->camera_ptr->render_scene(*world, batch, thread);
-    this->main_window->rendering_status[this->thread_id] = false;
+    //this->main_window->rendering_status[this->thread_id] = false;
 }
 
-Raymond::Raymond(QWidget* parent)
-    : QWidget(parent),
-    image_label(new QLabel(this))
+Raymond::Raymond()
+    : QMainWindow(),
+    image_label(new QLabel),
+    status_label(new QLabel),
+    progress_bar(new QProgressBar)
 {
-    ui.setupUi(this);
+    //ui.setupUi(this);
 
-    QVBoxLayout* box_layout = new QVBoxLayout(this);
+    QVBoxLayout* box_layout = new QVBoxLayout;
+    QWidget* central_widget = new QWidget;
 
     this->create_actions();
     this->create_menus();
@@ -147,14 +167,18 @@ Raymond::Raymond(QWidget* parent)
     this->image_label->setScaledContents(true);
     this->image_label->setVisible(false);
 
-    /*
-    this->status_label = new QLabel(this);
-    this->status_label->setAlignment(Qt::AlignBottom);
-    this->status_label->setVisible(true);
+    this->setCentralWidget(central_widget);
+    central_widget->setLayout(box_layout);
+    box_layout->addWidget(this->image_label);
 
-    this->status_bar = new QStatusBar(this->status_label);
-    this->status_bar->showMessage(tr("Ready"));
-    */
+    this->statusBar()->addPermanentWidget(this->progress_bar);
+    this->progress_bar->setValue(0);
+    this->progress_bar->setVisible(false);
+
+    this->statusBar()->addWidget(this->status_label);
+    this->status_label->setText(QString("Ready."));
+
+    
 }
 
 void Raymond::create_actions()
@@ -258,13 +282,13 @@ void Raymond::render_start()
     connect(this->timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_image));
     this->timer->start(this->repaint_frequency); // update displayed image every time interval
 
-    /*
+    
     this->status_timer = new QTimer(this);
     connect(this->status_timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_status_message));
     this->status_timer->start(1000); // update message every second
-    */
 
-
+    this->start_time = std::chrono::steady_clock::now();
+    this->progress_bar->setVisible(true);
 
     for (int i = 0; i < num_threads; i++) {
 
@@ -274,7 +298,7 @@ void Raymond::render_start()
         Thread* new_thread = new Thread(thread_world, this, i);
 
         this->threads.push_back(new_thread);
-        this->rendering_status.push_back(true);
+        //this->rendering_status.push_back(true);
 
         std::thread thread(&Thread::Render, *this->threads[i], batches[i], this->threads[i]);
         thread.detach();
@@ -283,6 +307,7 @@ void Raymond::render_start()
 
 void Raymond::update_image()
 {
+    /*
     if (this->is_rendering)
         this->paint_from_buffers();
 
@@ -301,25 +326,50 @@ void Raymond::update_image()
         // this is a last scoop of render buffers for such cases. 
         this->paint_from_buffers();
     }
-    
+    */
+    this->mtx.lock();
+    this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+    this->image_label->repaint();
+    this->mtx.unlock();
 }
 
 void Raymond::update_status_message() 
 {
-    QString message = "";
-    message += "Rendering... ";
+    if (this->pixels_rendered == this->pixels_to_render)
+        this->render_end();
+    else {
+    
+        std::string message = "";
+        message += "Rendering... ";
+        auto curr_time = std::chrono::steady_clock::now();
+        int total_elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>(curr_time - this->start_time).count();
+
+        message += time_string_from_int(total_elapsed_seconds);
+
+        int speed = this->pixels_rendered / (total_elapsed_seconds + 1); // to avoid div by 0
+
+        message += " [ " + std::to_string(speed) + " pixels / second ] Time Remaining: ";
+
+        message += time_string_from_int((this->pixels_to_render - this->pixels_rendered) / speed);
+
+        this->status_label->setText(QString::fromStdString(message));
+
+        this->progress_bar->setValue((int)(this->pixels_rendered * 100.0 / this->pixels_to_render));
+    }
+}
+
+void Raymond::render_end()
+{
+    delete this->status_timer;
+
+    std::string message = "";
+    message += "Done. Elapsed time: ";
+
     auto curr_time = std::chrono::steady_clock::now();
     int total_elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>(curr_time - this->start_time).count();
-    int elapsed_seconds = total_elapsed_seconds % 60;
-    int elapsed_minutes = total_elapsed_seconds / 60;
-    int elapsed_hours = elapsed_minutes / 60;
+    
+    message += time_string_from_int(total_elapsed_seconds);
 
-    message += (elapsed_hours < 10 ? "0" : "") + QString(elapsed_hours) + ":";
-    message += (elapsed_minutes < 10 ? "0" : "") + QString(elapsed_minutes) + ":";
-    message += (elapsed_seconds < 10 ? "0" : "") + QString(elapsed_seconds);
-
-    message += " [ " + QString(this->pixels_rendered / total_elapsed_seconds) + " pixels / second ]";
-
-    this->status_bar->clearMessage();
-    this->status_bar->showMessage(message);
+    this->status_label->setText(QString::fromStdString(message));
+    this->progress_bar->setValue(100);
 }

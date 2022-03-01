@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 1000;
+    int num_samples = 100;
 
     vp.set_hres(512);
     vp.set_vres(512);
@@ -10,8 +10,8 @@ World::build() {
 
     background_color = black;
 
-    //tracer_ptr = new AreaLighting(this);
-    tracer_ptr = new PathTrace(this);
+    tracer_ptr = new AreaLighting(this);
+    //tracer_ptr = new PathTrace(this);
     //tracer_ptr = new GlobalTrace(this);
     
 
@@ -30,7 +30,7 @@ World::build() {
     // ambient:
     
     Ambient* ambient_ptr = new Ambient();
-    ambient_ptr->set_intensity(0.0);
+    ambient_ptr->set_intensity(0.3);
     set_ambient_light(ambient_ptr);
 
     //light: 
