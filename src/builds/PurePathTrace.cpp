@@ -30,7 +30,7 @@ World::build() {
     // ambient:
     
     Ambient* ambient_ptr = new Ambient();
-    ambient_ptr->set_intensity(0.3);
+    ambient_ptr->set_intensity(0.4);
     set_ambient_light(ambient_ptr);
 
     //light: 
@@ -63,18 +63,17 @@ World::build() {
 
     Matte* mat = new Matte();
     mat->set_samples(num_samples);
-    mat->set_ka(0.0);
-    mat->set_kd(0.95);
+    mat->set_ka(0.25);
+    mat->set_kd(1);
     mat->set_cd(1); // white
 
     Phong* p_mat = new Phong();
     p_mat->set_samples(num_samples, 256);
-    p_mat->set_ka(0.0);
-    p_mat->set_kd(0.95);
-    p_mat->set_cd(1); // white
-    p_mat->set_ks(1);
-    p_mat->set_exp(32);
-
+    p_mat->set_ka(.25);
+    p_mat->set_kd(1);
+    p_mat->set_cd(.47, .54, .86); // blue
+    p_mat->set_ks(2.5);
+    p_mat->set_exp(4);
 
     //walls:
     Plane* floor = new Plane(Point3D(0, 0, 0), Normal(0, 1, 0));
@@ -109,33 +108,32 @@ World::build() {
     add_object(box1);
 
     Instance* box2 = new Instance(new Box(-0.75, 0, -0.75, 0.75, 1.5, 0.75));
-    box2->set_material(mat);
+    box2->set_material(p_mat);
     box2->rotate_y(-15);
     box2->translate(4.5, 0, 4);
     add_object(box2);
 
-    /*
+    
     GlossyReflector* glossy_ptr = new GlossyReflector;
     glossy_ptr->set_samples(num_samples, num_samples);
-    glossy_ptr->set_ka(0.1);
-    glossy_ptr->set_kd(1);
-    glossy_ptr->set_ks(0.45);
-    glossy_ptr->set_exp(100);
+    glossy_ptr->set_ka(0.25);
+    glossy_ptr->set_kd(0.5);
+    glossy_ptr->set_ks(0.5);
+    glossy_ptr->set_exp(16);
     // glossy_ptr->set_cd(0.9, 0.89, 0.89); // platinum
     glossy_ptr->set_cd(0.72, 0.45, 0.2); // copper
-    glossy_ptr->set_kr(0.8);
-    glossy_ptr->set_exponent(100);
+    glossy_ptr->set_kr(0.7);
+    glossy_ptr->set_exponent(256);
     // glossy_ptr->set_cr(0.9, 0.89, 0.89); // platinum
     glossy_ptr->set_cr(0.72, 0.45, 0.2); // copper
 
     for (int i = 0; i < 5; i++) {
 
-        
         float exp = pow(5.0, i);
 
         GlossyReflector* mat = new GlossyReflector(*glossy_ptr);
         mat->set_samples(num_samples, exp);
-        mat->set_exp(exp);
+        //mat->set_exp(exp);
         mat->set_exponent(exp);
         
 
@@ -144,9 +142,5 @@ World::build() {
         Sphere* sphere = new Sphere(Point3D(i + 1.5, radius, 6.5), radius);
         sphere->set_material(mat);
         add_object(sphere);
-
     }
-    */
-    
-
 }

@@ -19,6 +19,9 @@ public:
 	Lambertian& //assignment operator
 		operator= (const Lambertian& rhs);
 
+	double
+		get_kd();
+
 	// setters
 
 	void // set diffuse reflection coefficient
@@ -73,4 +76,9 @@ Lambertian::set_cd(const double  r, const double  g, const double  b) {
 inline void
 Lambertian::set_cd(const RGBColor col) {
 	cd = col;
+}
+
+inline double
+Lambertian::get_kd() {
+	return this->kd;
 }

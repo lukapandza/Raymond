@@ -118,7 +118,6 @@ Phong::shade(ShadeRec& sr) {
 					* sr.w.lights[i]->L(sr) 
 					* n_dot_w_i;
 		}
-			
 	}
 
 	return L;
@@ -163,117 +162,24 @@ Phong::area_light_shade(ShadeRec& sr) {
 RGBColor
 Phong::path_shade(ShadeRec& sr) {
 
-	/*
-	// This code is much clearer but it slows down renders significantly. Will leave it here as a reference:
-	Vector3D w_i_d;
-	Vector3D w_i_s;
-
-	Vector3D w_o = -sr.ray.d;
-
-	double pdf_d;
-	double pdf_s;
-
-	RGBColor f_d = diffuse_brdf->sample_f(sr, w_o, w_i_d, pdf_d);
-	RGBColor f_s = specular_brdf->sample_f(sr, w_o, w_i_s, pdf_s);
-
-	double  n_dot_wi_d = sr.normal * w_i_d;
-	double  n_dot_wi_s = sr.normal * w_i_s;
-
-	Ray reflected_ray_d(sr.hit_point, w_i_d);
-	Ray reflected_ray_s(sr.hit_point, w_i_s);
-
-	RGBColor reflected_color_d = sr.w.tracer_ptr->trace_ray(reflected_ray_d, sr.depth + 1);
-	RGBColor reflected_color_s = sr.w.tracer_ptr->trace_ray(reflected_ray_s, sr.depth + 1);
-
-	RGBColor col_d = f_d * reflected_color_d * n_dot_wi_d / pdf_d;
-	RGBColor col_s = f_s * reflected_color_s * n_dot_wi_s / pdf_s;
-
-	return (col_d + col_s) / 2.0; // average
-	*/
-
-	/*
-	// This code is much clearer but it slows down renders significantly. Will leave it here as a reference:
-	Vector3D w_i_d;
-	Vector3D w_i_s;
-
-	Vector3D w_o = -sr.ray.d;
-
-	double pdf_d;
-	double pdf_s;
-
-	RGBColor f_d = diffuse_brdf->sample_f(sr, w_o, w_i_d, pdf_d);
-	RGBColor f_s = specular_brdf->sample_f(sr, w_o, w_i_s, pdf_s);
-
-	double  n_dot_wi_s = sr.normal * w_i_s;
-
-	Ray reflected_ray_s(sr.hit_point, w_i_s);
-
-	RGBColor reflected_color_s = sr.w.tracer_ptr->trace_ray(reflected_ray_s, sr.depth + 1);
-
-	RGBColor col = (f_d + f_s) * reflected_color_s * n_dot_wi_s / pdf_s;
-
-	return col;
-	*/
-
-	// This code is much clearer but it slows down renders significantly. Will leave it here as a reference:
-	Vector3D w_i_d;
-	Vector3D w_i_s;
-
-	Vector3D w_o = -sr.ray.d;
-
-	double pdf_d;
-	double pdf_s;
-
-	//RGBColor f_d = diffuse_brdf->sample_f(sr, w_o, w_i_d, pdf_d);
-	RGBColor f_s = specular_brdf->sample_f(sr, w_o, w_i_s, pdf_s);
-
-	//double  n_dot_wi_s = sr.normal * w_i_s;
-
-	//Ray reflected_ray_s(sr.hit_point, w_i_s);
-
-	//RGBColor reflected_color_s = sr.w.tracer_ptr->trace_ray(reflected_ray_s, sr.depth + 1);
-
-	return (diffuse_brdf->sample_f(sr, w_o, w_i_d, pdf_d) + f_s)
-		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.depth + 1)
-		* (sr.normal * w_i_s) 
-		/ pdf_s;
-
-	/*
 	Vector3D w_o = -sr.ray.d;
 
 	Vector3D w_i;
 	double pdf;
+	RGBColor f(0);
 
-	
-	RGBColor L_d = diffuse_brdf->sample_f(sr, w_o, w_i, pdf) // diffuse contribution
-		* (sr.normal * w_i) // n dot w_i
-		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1) // tracing the reflected ray
-		/ pdf;
+	double u = rand_float(0, 1.0);
 
-	// note: w_i and pdf get overwritten in next line: reusing them to save memory and initialization cost
+	if (u < this->diffuse_brdf->get_kd()) // diffuse sample
+		f = diffuse_brdf->sample_f(sr, w_o, w_i, pdf);
 
-	RGBColor L_s = specular_brdf->sample_f(sr, w_o, w_i, pdf) // specular contribution
-		* (sr.normal * w_i) // n dot w_i
-		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1) // tracing the reflected ray
-		/ pdf;
+	else if (u < this->diffuse_brdf->get_kd() + this->specular_brdf->get_ks()) // specular sample
+		f = specular_brdf->sample_f(sr, w_o, w_i, pdf);
 
-	return (L_d + L_s) * 0.5; // average of diffuse and specular
-	*/
-
-	/*
-	Vector3D w_o = -sr.ray.d;
-
-	Vector3D w_i_d;
-	Vector3D w_i;
-	double pdf_d;
-	double pdf;
-
-	return (diffuse_brdf->sample_f(sr, w_o, w_i_d, pdf_d) + specular_brdf->sample_f(sr, w_o, w_i, pdf))
+	return f
 		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1)
 		* (sr.normal * w_i)
 		/ pdf;
-	*/
-
 }
 
 RGBColor

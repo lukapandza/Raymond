@@ -20,6 +20,9 @@ public:
 	GlossySpecular& //assignment operator
 		operator= (const GlossySpecular& rhs);
 
+	double
+		get_ks();
+
 	// setters
 
 	void
@@ -93,4 +96,9 @@ inline void
 GlossySpecular::set_samples(const int num_samples, const double  exp) {
 	sampler_ptr = new MultiJittered(num_samples);
 	sampler_ptr->map_samples_to_hemisphere(exp);
+}
+
+inline double
+GlossySpecular::get_ks() {
+	return this->ks;
 }

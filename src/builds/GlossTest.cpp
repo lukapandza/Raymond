@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 400;
+    int num_samples = 256;
 
     vp.set_hres(960);
     vp.set_vres(540);
@@ -100,10 +100,12 @@ World::build() {
     glossy_ptr->set_kd(1);
     glossy_ptr->set_ks(0.3);
     glossy_ptr->set_exp(100);
-    glossy_ptr->set_cd(0.9, 0.89, 0.89);
+    //glossy_ptr->set_cd(0.9, 0.89, 0.89); // platinum
+    glossy_ptr->set_cd(0.72, 0.45, 0.2); // copper
     glossy_ptr->set_kr(0.6);
     glossy_ptr->set_exponent(100);
-    glossy_ptr->set_cr(0.9, 0.89, 0.89); // platinum
+    //glossy_ptr->set_cr(0.9, 0.89, 0.89); // platinum
+    glossy_ptr->set_cr(0.72, 0.45, 0.2); // copper
 
     for (int i = 0; i < 5; i++) {
 
