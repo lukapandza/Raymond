@@ -31,4 +31,8 @@
 *.out
 *.app
 *.ipch
+
+x64/*
 .vs/Raymond/v16/Browse.VC.opendb
+.vs/Raymond/v16/Browse.VC.db
+.vs/Raymond/v16/.suo

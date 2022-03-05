@@ -1,39 +1,14 @@
 ﻿  Reading Qt configuration (F:/Qt/5.12.12/msvc2017_64/bin/qmake)
   raymond.cpp
-  BRDF.cpp
-  GlossySpecular.cpp
-  Lambertian.cpp
-  PerfectSpecular.cpp
   Camera.cpp
   Pinhole.cpp
-  Box.cpp
-  Disk.cpp
-  GeometricObject.cpp
-  Instance.cpp
-  Plane.cpp
-  RectangleObject.cpp
-  Sphere.cpp
-  Torus.cpp
-  Triangle.cpp
-  Ambient.cpp
   AmbientOccluder.cpp
   AreaLight.cpp
-  Directional.cpp
-  Light.cpp
   PointLight.cpp
-  Emissive.cpp
   GlossyReflector.cpp
-  Material.cpp
   Matte.cpp
   Phong.cpp
   Reflective.cpp
-  Hammersley.cpp
-  Jittered.cpp
-  MultiJittered.cpp
-  NRooks.cpp
-  Random.cpp
-  Regular.cpp
-  Sampler.cpp
   AreaLighting.cpp
   GlobalTrace.cpp
   MultipleObjects.cpp
@@ -42,11 +17,7 @@
   SingleSphere.cpp
   Tracer.cpp
   Whitted.cpp
-  BBox.cpp
-  Maths.cpp
-  RGBColor.cpp
   ShadeRec.cpp
-  ViewPlane.cpp
   World.cpp
   raymond.obj : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
   Generating code

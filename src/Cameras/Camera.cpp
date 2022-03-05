@@ -149,37 +149,6 @@ Camera::order_pixels(const int& chunk_size, const int& width, const int& height)
 	return indices;
 }
 
-RGBColor
-Camera::max_to_one(const RGBColor& c) const {
-	
-	double max_value = max(c.r, max(c.g, c.b));
-
-	/*
-	if (max_value > 1.0)
-		return (c / max_value);
-	else
-		return (c);
-	*/
-
-	return max_value > 1.0 ? c / max_value : c;
-}
-
-
-// ------------------------------------------------------------------ clamp_to_color
-// Set color to red if any component is greater than one
-
-RGBColor
-Camera::clamp_to_color(const RGBColor& raw_color) const {
-	RGBColor c(raw_color);
-
-	if (raw_color.r > 1.0 || raw_color.g > 1.0 || raw_color.b > 1.0) {
-		c.r = 1.0; c.g = 0.0; c.b = 0.0;
-	}
-
-	return (c);
-}
-
-
 // ---------------------------------------------------------------------------display_pixel
 
 // raw_color is the pixel color computed by the ray tracer
@@ -195,18 +164,6 @@ Camera::clamp_to_color(const RGBColor& raw_color) const {
 void
 Camera::display_pixel(const int row, const int column, const RGBColor& raw_color, const World& w, Thread*& paintArea) const {
 
-	/*
-	RGBColor mapped_color;
-
-	if (w.vp.show_out_of_gamut)
-		mapped_color = clamp_to_color(raw_color);
-	else
-		mapped_color = max_to_one(raw_color);
-
-	if (w.vp.gamma != 1.0)
-		mapped_color = mapped_color.powc(w.vp.inv_gamma);
-	*/
-
 	RGBColor mapped_color;
 
 	if (w.vp.show_out_of_gamut)
@@ -216,7 +173,6 @@ Camera::display_pixel(const int row, const int column, const RGBColor& raw_color
 
 	if (w.vp.gamma != 1.0)
 		mapped_color = mapped_color.powc(w.vp.inv_gamma);
-
 
 	//have to start from max y coordinate to convert to screen coordinates
 	int x = column;

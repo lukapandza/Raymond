@@ -38,9 +38,6 @@ public:
 
 	Light*							ambient_ptr;
 	std::vector<Light*>				lights;
-		
-	Thread* 						paintArea; 	//connection to skeleton - wxRaytracer.h
-			
 	
 	World(void);
 		
@@ -60,18 +57,6 @@ public:
 		
 	void 					
 		build(void);
-
-	//void 												
-		//render_scene(void) const;
-						
-	RGBColor
-		max_to_one(const RGBColor& c) const;
-		
-	RGBColor
-		clamp_to_color(const RGBColor& c) const;
-		
-	void
-		display_pixel(const int row, const int column, const RGBColor& pixel_color) const;
 
 	ShadeRec									
 		hit_bare_bones_objects(const Ray& ray);

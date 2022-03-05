@@ -36,9 +36,6 @@ public:
 		ray_direction(const Point2D& p) const;
 
 	virtual void
-		render_scene(const World& world);
-
-	virtual void
 		render_scene(const World& world, std::vector<pix_coord>& batch, Thread*& paintArea);
 
 private:

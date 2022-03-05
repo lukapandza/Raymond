@@ -59,19 +59,10 @@ public:
 		order_pixels(const int& chunk_size, const int& width, const int& height);
 
 	virtual void
-		render_scene(const World& w) = 0;
-
-	virtual void
 		render_scene(const World& w, std::vector<pix_coord>& batch, Thread*& paintArea) = 0;
 
 	void
 		display_pixel(const int row, const int column, const RGBColor& raw_color, const World& w, Thread*& paintArea) const;
-
-	RGBColor
-		max_to_one(const RGBColor& c) const;
-
-	RGBColor
-		clamp_to_color(const RGBColor& raw_color) const;
 
 protected:
 

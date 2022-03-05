@@ -103,9 +103,9 @@
 
 World::World(void)
 	: background_color(black),
-	tracer_ptr(NULL),
-	camera_ptr(NULL),
-	ambient_ptr(NULL)
+	tracer_ptr(nullptr),
+	camera_ptr(nullptr),
+	ambient_ptr(nullptr)
 {}
 
 
@@ -116,97 +116,11 @@ World::~World(void) {
 	
 	if(tracer_ptr) {
 		delete tracer_ptr;
-		tracer_ptr = NULL;
+		tracer_ptr = nullptr;
 	}	
 	
 	delete_objects();	
 }
-
-
-// ------------------------------------------------------------------ clamp
-
-RGBColor
-World::max_to_one(const RGBColor& c) const  {
-	double max_value = max(c.r, max(c.g, c.b));
-	
-	if (max_value > 1.0)
-		return (c / max_value);
-	else
-		return (c);
-}
-
-
-// ------------------------------------------------------------------ clamp_to_color
-// Set color to red if any component is greater than one
-
-RGBColor
-World::clamp_to_color(const RGBColor& raw_color) const {
-	RGBColor c(raw_color);
-	
-	if (raw_color.r > 1.0 || raw_color.g > 1.0 || raw_color.b > 1.0) {
-		c.r = 1.0; c.g = 0.0; c.b = 0.0;
-	}
-		
-	return (c);
-}
-
-
-// ---------------------------------------------------------------------------display_pixel
-
-// raw_color is the pixel color computed by the ray tracer
-// its RGB doubleing point components can be arbitrarily large
-// mapped_color has all components in the range [0, 1], but still doubleing point
-// display color has integer components for computer display
-// the Mac's components are in the range [0, 65535]
-// a PC's components will probably be in the range [0, 255]
-// the system-dependent code is in the function convert_to_display_color
-// the function SetCPixel is a Mac OS function
-
-
-void
-World::display_pixel(const int row, const int column, const RGBColor& raw_color) const {
-	
-	/*
-	RGBColor mapped_color;
-
-	if (vp.show_out_of_gamut)
-		mapped_color = clamp_to_color(raw_color);
-	else
-		mapped_color = max_to_one(raw_color);
-	
-	if (vp.gamma != 1.0)
-		mapped_color = mapped_color.powc(vp.inv_gamma);
-	
-   //have to start from max y coordinate to convert to screen coordinates
-   int x = column;
-   int y = vp.vres - row - 1;
-
-   paintArea->SetPixel(x, y, (int)(mapped_color.r * 255),
-                             (int)(mapped_color.g * 255),
-                             (int)(mapped_color.b * 255));
-	*/
-
-	RGBColor mapped_color;
-
-	if (this->vp.show_out_of_gamut)
-		mapped_color = raw_color.clamp_to_red();
-	else
-		mapped_color = raw_color.max_to_one();
-
-	if (this->vp.gamma != 1.0)
-		mapped_color = mapped_color.powc(this->vp.inv_gamma);
-
-
-	//have to start from max y coordinate to convert to screen coordinates
-	int x = column;
-	int y = this->vp.vres - row - 1;
-
-	this->paintArea->SetPixel(x, y,
-		(int)(mapped_color.r * 255),
-		(int)(mapped_color.g * 255),
-		(int)(mapped_color.b * 255));
-}
-
 
 
 // ----------------------------------------------------------------------------- hit_bare_bones_objects
@@ -231,9 +145,7 @@ World::hit_bare_bones_objects(const Ray& ray) {
 ShadeRec
 World::hit_objects(const Ray& raymond) const {
 	
-	//World wr = *this;
 	ShadeRec sr(*this);
-	//ShadeRec* sr = new ShadeRec(*this);
 	double t; 
 	Normal normal;
 	Point3D local_hit_point;
@@ -255,7 +167,6 @@ World::hit_objects(const Ray& raymond) const {
 
 	if (sr.hit_an_object) {
 		
-		//sr.t = tmin; no t?
 		sr.normal = normal;
 		sr.local_hit_point = local_hit_point;
 	}
