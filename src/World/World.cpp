@@ -59,6 +59,7 @@
 #include "../Lights/PointLight.h"
 #include "../Lights/Directional.h"
 #include "../Lights/AreaLight.h"
+#include "../Lights/EnvironmentLight.h"
 
 // materials
 
@@ -92,9 +93,10 @@
 //#include "../builds/TorusReflections.cpp"
 //#include "../builds/TorusRings.cpp"
 //#include "../builds/TorusRings2.cpp"
-#include "../builds/GlossTest.cpp"
+//#include "../builds/GlossTest.cpp"
 //#include "../builds/PurePathTrace.cpp"
 //#include "../builds/GlobalTraceTest.cpp"
+#include "../builds/EnvironmentLightTest.cpp"
 
 //#include "../builds/PerformanceTest.cpp"
 

@@ -295,6 +295,9 @@
     <ClCompile Include="src\Samplers\Sampler.cpp">
       <Filter>Source Files\Samplers</Filter>
     </ClCompile>
+    <ClCompile Include="src\Lights\EnvironmentLight.cpp">
+      <Filter>Source Files\Lights</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="raymond.h">
@@ -472,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="src\Samplers\Sampler.h">
       <Filter>Header Files\Samplers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lights\EnvironmentLight.h">
+      <Filter>Header Files\Lights</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

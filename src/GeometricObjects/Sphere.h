@@ -50,10 +50,10 @@ class Sphere: public GeometricObject {
 		double
 			pdf(ShadeRec& sr);
 
-		Normal
+		virtual Normal
 			get_normal(const Point3D& p);
 		
-	private:
+	protected:
 	
 		Point3D 	center;   			// center coordinates as a point  
 		double 		radius;				// the radius 
@@ -103,6 +103,24 @@ Sphere::pdf(ShadeRec& sr) {
 inline Normal
 Sphere::get_normal(const Point3D& p) {
 	Normal n = p - center;
+	n.normalize();
+	return n;
+}
+
+class ConcaveSphere : public Sphere {
+	
+public:
+	ConcaveSphere() : Sphere() {}
+
+	~ConcaveSphere() { Sphere::~Sphere(); }
+
+	Normal
+		get_normal(const Point3D& p);
+};
+
+inline Normal
+ConcaveSphere::get_normal(const Point3D& p) {
+	Normal n = center - p;
 	n.normalize();
 	return n;
 }

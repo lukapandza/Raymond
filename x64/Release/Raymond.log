@@ -1,23 +1,4 @@
 ﻿  Reading Qt configuration (F:/Qt/5.12.12/msvc2017_64/bin/qmake)
-  raymond.cpp
-  Camera.cpp
-  Pinhole.cpp
-  AmbientOccluder.cpp
-  AreaLight.cpp
-  PointLight.cpp
-  GlossyReflector.cpp
-  Matte.cpp
-  Phong.cpp
-  Reflective.cpp
-  AreaLighting.cpp
-  GlobalTrace.cpp
-  MultipleObjects.cpp
-  PathTrace.cpp
-  RayCast.cpp
-  SingleSphere.cpp
-  Tracer.cpp
-  Whitted.cpp
-  ShadeRec.cpp
   World.cpp
   raymond.obj : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
   Generating code
