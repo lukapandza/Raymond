@@ -151,12 +151,17 @@ Camera::order_pixels(const int& chunk_size, const int& width, const int& height)
 
 RGBColor
 Camera::max_to_one(const RGBColor& c) const {
+	
 	double max_value = max(c.r, max(c.g, c.b));
 
+	/*
 	if (max_value > 1.0)
 		return (c / max_value);
 	else
 		return (c);
+	*/
+
+	return max_value > 1.0 ? c / max_value : c;
 }
 
 
@@ -189,10 +194,8 @@ Camera::clamp_to_color(const RGBColor& raw_color) const {
 
 void
 Camera::display_pixel(const int row, const int column, const RGBColor& raw_color, const World& w, Thread*& paintArea) const {
-	
-	if (raw_color.r < 0 || raw_color.g < 0 || raw_color.b < 0)
-		int t = 0;
 
+	/*
 	RGBColor mapped_color;
 
 	if (w.vp.show_out_of_gamut)
@@ -202,22 +205,25 @@ Camera::display_pixel(const int row, const int column, const RGBColor& raw_color
 
 	if (w.vp.gamma != 1.0)
 		mapped_color = mapped_color.powc(w.vp.inv_gamma);
+	*/
 
-	if (mapped_color.r < 0 || mapped_color.g < 0 || mapped_color.b < 0)
-		int t = 0;
+	RGBColor mapped_color;
+
+	if (w.vp.show_out_of_gamut)
+		mapped_color = raw_color.clamp_to_red();
+	else
+		mapped_color = raw_color.max_to_one();
+
+	if (w.vp.gamma != 1.0)
+		mapped_color = mapped_color.powc(w.vp.inv_gamma);
+
 
 	//have to start from max y coordinate to convert to screen coordinates
 	int x = column;
 	int y = w.vp.vres - row - 1;
 
-	int r = (int)(mapped_color.r * 255);
-	int g = (int)(mapped_color.g * 255);
-	int b = (int)(mapped_color.b * 255);
-
-	if (r < 0 || g < 0 || b < 0)
-		int t = 0;
-
-	paintArea->SetPixel(x, y, (int)(mapped_color.r * 255),
+	paintArea->SetPixel(x, y, 
+		(int)(mapped_color.r * 255),
 		(int)(mapped_color.g * 255),
 		(int)(mapped_color.b * 255));
 }

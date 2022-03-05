@@ -1,40 +1,42 @@
 void
 World::build() {
 
-    int num_samples = 256;
+    int num_samples = 900;
 
-    vp.set_hres(960);
-    vp.set_vres(540);
+    vp.set_hres(480);
+    vp.set_vres(270);
     vp.set_samples(num_samples);
     vp.set_max_depth(12);
 
     background_color = black;
-    tracer_ptr = new AreaLighting(this);
+    //tracer_ptr = new AreaLighting(this);
+    tracer_ptr = new PathTrace(this);
 
     //camera:
     Pinhole* pinhole_ptr = new Pinhole();
     pinhole_ptr->set_eye(5, 1, 9);
     pinhole_ptr->set_lookat(5, 1, 0);
     pinhole_ptr->set_view_distance(100.0);
-    pinhole_ptr->set_zoom(6.0);
+    pinhole_ptr->set_zoom(3.0);
     pinhole_ptr->compute_uvw();
     camera_ptr = pinhole_ptr;
 
     // ambient:
-    /*
+    
     Ambient* ambient_ptr = new Ambient();
     ambient_ptr->set_intensity(0.4);
     set_ambient_light(ambient_ptr);
-    */
+    
 
     MultiJittered* light_sampler_ptr = new MultiJittered(num_samples);
-
+    /*
     AmbientOccluder* occluder_ptr = new AmbientOccluder;
     occluder_ptr->set_intensity(0.9);
     occluder_ptr->set_color(white);
     occluder_ptr->set_min(0.00);
     occluder_ptr->set_sampler(light_sampler_ptr);
     set_ambient_light(occluder_ptr);
+    */
 
     Emissive* emissive_ptr1 = new Emissive;
     emissive_ptr1->set_ls(8.0);
@@ -102,7 +104,7 @@ World::build() {
     glossy_ptr->set_exp(100);
     //glossy_ptr->set_cd(0.9, 0.89, 0.89); // platinum
     glossy_ptr->set_cd(0.72, 0.45, 0.2); // copper
-    glossy_ptr->set_kr(0.6);
+    glossy_ptr->set_kr(0.7);
     glossy_ptr->set_exponent(100);
     //glossy_ptr->set_cr(0.9, 0.89, 0.89); // platinum
     glossy_ptr->set_cr(0.72, 0.45, 0.2); // copper
@@ -125,6 +127,7 @@ World::build() {
     }
 
     Phong* phong_ptr1 = new Phong();
+    phong_ptr1->set_samples(num_samples, 32);
     phong_ptr1->set_ka(1);
     phong_ptr1->set_kd(0.9);
     phong_ptr1->set_cd(1); // white

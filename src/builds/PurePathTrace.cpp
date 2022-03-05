@@ -1,12 +1,12 @@
 void
 World::build() {
 
-    int num_samples = 997;
+    int num_samples = 900;
 
     vp.set_hres(512);
     vp.set_vres(512);
     vp.set_samples(num_samples);
-    vp.set_max_depth(32);
+    vp.set_max_depth(24);
 
     background_color = black;
 
@@ -68,11 +68,11 @@ World::build() {
     mat->set_cd(1); // white
 
     Phong* p_mat = new Phong();
-    p_mat->set_samples(num_samples, 256);
+    p_mat->set_samples(num_samples, 64);
     p_mat->set_ka(.25);
-    p_mat->set_kd(1);
+    p_mat->set_kd(.4);
     p_mat->set_cd(.47, .54, .86); // blue
-    p_mat->set_ks(2.5);
+    p_mat->set_ks(.6);
     p_mat->set_exp(4);
 
     //walls:
@@ -117,12 +117,12 @@ World::build() {
     GlossyReflector* glossy_ptr = new GlossyReflector;
     glossy_ptr->set_samples(num_samples, num_samples);
     glossy_ptr->set_ka(0.25);
-    glossy_ptr->set_kd(0.5);
-    glossy_ptr->set_ks(0.5);
+    glossy_ptr->set_kd(.6);
+    glossy_ptr->set_ks(.4);
     glossy_ptr->set_exp(16);
     // glossy_ptr->set_cd(0.9, 0.89, 0.89); // platinum
     glossy_ptr->set_cd(0.72, 0.45, 0.2); // copper
-    glossy_ptr->set_kr(0.7);
+    glossy_ptr->set_kr(1);
     glossy_ptr->set_exponent(256);
     // glossy_ptr->set_cr(0.9, 0.89, 0.89); // platinum
     glossy_ptr->set_cr(0.72, 0.45, 0.2); // copper

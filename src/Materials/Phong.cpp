@@ -164,22 +164,19 @@ Phong::path_shade(ShadeRec& sr) {
 
 	Vector3D w_o = -sr.ray.d;
 
-	Vector3D w_i;
-	double pdf;
-	RGBColor f(0);
+	Vector3D w_i_d;
+	double pdf_d;
+	RGBColor f_d = this->diffuse_brdf->sample_f(sr, w_o, w_i_d, pdf_d);
+	RGBColor reflected_d = sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_d), sr.depth + 1);
 
-	double u = rand_float(0, 1.0);
+	Vector3D w_i_s;
+	double pdf_s;
+	RGBColor f_s = this->specular_brdf->sample_f(sr, w_o, w_i_s, pdf_s);
+	RGBColor reflected_s = sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.depth + 1);
 
-	if (u < this->diffuse_brdf->get_kd()) // diffuse sample
-		f = diffuse_brdf->sample_f(sr, w_o, w_i, pdf);
 
-	else if (u < this->diffuse_brdf->get_kd() + this->specular_brdf->get_ks()) // specular sample
-		f = specular_brdf->sample_f(sr, w_o, w_i, pdf);
-
-	return f
-		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1)
-		* (sr.normal * w_i)
-		/ pdf;
+	return f_d * reflected_d * (sr.normal * w_i_d) / pdf_d
+		+ f_s * reflected_s * (sr.normal * w_i_s) / pdf_s;
 }
 
 RGBColor

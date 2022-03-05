@@ -57,6 +57,15 @@ class RGBColor {
 
         static RGBColor
         convert_wave_length_nm_to_rgb(const double wave_length_nm);
+
+		RGBColor
+			max_to_one() const;
+
+		RGBColor
+			clamp_to_red() const;
+
+		RGBColor
+			gamma(double gamma) const;
 };
 
 
@@ -225,4 +234,28 @@ RGBColor::convert_wave_length_nm_to_rgb(const double wave_length_nm) {
 	double b = blue * factor;
 
 	return RGBColor(r, g, b);
+}
+
+inline RGBColor
+RGBColor::max_to_one() const {
+
+	double g_or_b = this->g > this->b ? this->g : this->b;
+	double max_value = this->r > g_or_b ? this->r : g_or_b;
+
+	return max_value > 1.0 ? RGBColor(*this / max_value) : RGBColor(*this);
+}
+
+inline RGBColor
+RGBColor::clamp_to_red() const {
+	
+	if (this->r > 1.0 || this->g > 1.0 || this->b > 1.0)
+		return RGBColor(1.0, 0.0, 0.0);
+	else
+		return *this;
+}
+
+inline RGBColor
+RGBColor::gamma(double gamma) const {
+
+	return this->powc(gamma);
 }

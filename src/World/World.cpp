@@ -92,8 +92,8 @@
 //#include "../builds/TorusReflections.cpp"
 //#include "../builds/TorusRings.cpp"
 //#include "../builds/TorusRings2.cpp"
-//#include "../builds/GlossTest.cpp"
-#include "../builds/PurePathTrace.cpp"
+#include "../builds/GlossTest.cpp"
+//#include "../builds/PurePathTrace.cpp"
 //#include "../builds/GlobalTraceTest.cpp"
 
 //#include "../builds/PerformanceTest.cpp"
@@ -165,6 +165,8 @@ World::clamp_to_color(const RGBColor& raw_color) const {
 
 void
 World::display_pixel(const int row, const int column, const RGBColor& raw_color) const {
+	
+	/*
 	RGBColor mapped_color;
 
 	if (vp.show_out_of_gamut)
@@ -182,6 +184,27 @@ World::display_pixel(const int row, const int column, const RGBColor& raw_color)
    paintArea->SetPixel(x, y, (int)(mapped_color.r * 255),
                              (int)(mapped_color.g * 255),
                              (int)(mapped_color.b * 255));
+	*/
+
+	RGBColor mapped_color;
+
+	if (this->vp.show_out_of_gamut)
+		mapped_color = raw_color.clamp_to_red();
+	else
+		mapped_color = raw_color.max_to_one();
+
+	if (this->vp.gamma != 1.0)
+		mapped_color = mapped_color.powc(this->vp.inv_gamma);
+
+
+	//have to start from max y coordinate to convert to screen coordinates
+	int x = column;
+	int y = this->vp.vres - row - 1;
+
+	this->paintArea->SetPixel(x, y,
+		(int)(mapped_color.r * 255),
+		(int)(mapped_color.g * 255),
+		(int)(mapped_color.b * 255));
 }
 
 

@@ -145,9 +145,6 @@ Pinhole::render_scene(const World& world, std::vector<pix_coord>& batch, Thread*
 		color /= vp.num_samples;
 		color *= exposure_time;
 
-		if (color.r >= 1.0 || color.g >= 1.0 || color.b >= 1.0)
-			int t = 0;
-
 		display_pixel(i, ii, color, world, paintArea);
 	}
 }
