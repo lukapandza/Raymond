@@ -3,10 +3,10 @@ World::build() {
 
     int num_samples = 900;
 
-    vp.set_hres(512);
-    vp.set_vres(512);
+    vp.set_hres(256);
+    vp.set_vres(256);
     vp.set_samples(num_samples);
-    vp.set_max_depth(12);
+    vp.set_max_depth(6);
 
     background_color = black;
 
@@ -22,7 +22,7 @@ World::build() {
     pinhole_ptr->set_lookat(3.5, 2.5, 0);
     pinhole_ptr->set_view_distance(12.0);
     //pinhole_ptr->set_view_distance(5.0);
-    pinhole_ptr->set_zoom(100.0);
+    pinhole_ptr->set_zoom(42.0);
     //pinhole_ptr->set_zoom(80.0);
     pinhole_ptr->compute_uvw();
     camera_ptr = pinhole_ptr;
@@ -101,20 +101,19 @@ World::build() {
 
     Phong2* p_mat = new Phong2();
     p_mat->set_samples(num_samples);
-    p_mat->set_ka(.25);
+    p_mat->set_ka(.4);
     p_mat->set_kd(.35);
     p_mat->set_c(.47, .54, .86); // blue
     p_mat->set_ks(.65);
     p_mat->set_exp(32);
 
     //walls:
-    
-    Phong2* p_mat_white = new Phong2(*p_mat);
-    p_mat_white->set_ks(0);
-    p_mat_white->set_kd(1);
-    p_mat_white->set_c(1.0, 1.0, 1.0);
+
+    Matte* mat_blue = new Matte(*mat);
+    mat_blue->set_cd(.47, .54, .86);
     Plane* floor = new Plane(Point3D(0, 0, 0), Normal(0, 1, 0));
-    floor->set_material(p_mat);
+    floor->set_material(mat_blue);
+    //floor->set_material(mat);
     add_object(floor);
 
     Plane* ceiling = new Plane(Point3D(0, 5.0, 0), Normal(0.0024, -1, 0.00093));
@@ -128,7 +127,7 @@ World::build() {
     add_object(west);
 
     Plane* north = new Plane(Point3D(0, 0, 1), Normal(0, 0, 1));
-    north->set_material(p_mat_white);
+    north->set_material(mat);
     add_object(north);
 
     Matte* mat_green = new Matte(*mat);
@@ -136,6 +135,10 @@ World::build() {
     Plane* east = new Plane(Point3D(6, 0, 0), Normal(-1, 0, 0));
     east->set_material(mat_green);
     add_object(east);
+
+    Plane* south = new Plane(Point3D(0, 0, 20.1), Normal(0, 0, -1));
+    south->set_material(mat);
+    add_object(south);
 
     //boxes:
     Instance* box1 = new Instance(new Box(-0.75, 0, -0.75, 0.75, 3.0, 0.75));
@@ -157,13 +160,13 @@ World::build() {
 
         float exp = pow(10.0, i);
 
-        Phong2* mat = new Phong2(*p_mat_copper);
-        mat->set_exp(exp);
+        Phong2* material = new Phong2(*p_mat_copper);
+        material->set_exp(exp);
 
         double radius = 0.4;
 
         Sphere* sphere = new Sphere(Point3D(i + 1.5, radius, 6.5), radius);
-        sphere->set_material(mat);
+        sphere->set_material(material);
         add_object(sphere);
     }
 }

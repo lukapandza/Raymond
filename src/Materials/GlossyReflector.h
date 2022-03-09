@@ -3,7 +3,7 @@
 #include "Phong.h"
 #include "Phong2.h"
 
-class GlossyReflector : public Phong2 {
+class GlossyReflector : public Phong {
 
 public:
 
@@ -37,13 +37,13 @@ public:
 	void
 		set_exponent(const double  exp);
 
-	virtual RGBColor
+	RGBColor
 		area_light_shade(ShadeRec& sr);
 
-	virtual RGBColor
+	RGBColor
 		path_shade(ShadeRec& sr);
 
-	virtual RGBColor
+	RGBColor
 		global_shade(ShadeRec& sr);
 
 private:
@@ -53,8 +53,8 @@ private:
 
 inline void
 GlossyReflector::set_samples(const int num_samples, const double  exp) {
-	//Phong::set_samples(num_samples, exp);
-	Phong2::set_samples(num_samples);
+	Phong::set_samples(num_samples, exp);
+	//Phong2::set_samples(num_samples);
 	glossy_specular_brdf->set_samples(num_samples, exp);
 }
 

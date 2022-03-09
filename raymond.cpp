@@ -155,7 +155,7 @@ Raymond::Raymond()
     this->create_menus();
 
     this->image_label->setBackgroundRole(QPalette::Base);
-    this->image_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    this->image_label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     this->image_label->setAlignment(Qt::AlignCenter);
     this->image_label->setScaledContents(true);
     this->image_label->setVisible(false);
@@ -170,6 +170,8 @@ Raymond::Raymond()
 
     this->statusBar()->addWidget(this->status_label);
     this->status_label->setText(QString("Ready."));
+
+    this->setMinimumSize(512, 256);
 }
 
 void Raymond::create_actions()
@@ -223,7 +225,7 @@ void Raymond::render_start()
     this->image_label->setVisible(true);
     this->image_label->repaint();
     this->image_label->show();
-    this->resize(this->image_label->size());
+    this->resize(this->world->vp.hres + 75, this->world->vp.vres + 75);
 
     const int num_threads = std::max(std::thread::hardware_concurrency(), uint(1));
     //const int num_threads = 1;

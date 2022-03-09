@@ -9,7 +9,12 @@ BRDF::BRDF(void)
 // copy constructor
 BRDF::BRDF(const BRDF& rhs)
 	: sampler_ptr(rhs.sampler_ptr)
-{}
+{
+	if (rhs.sampler_ptr)
+		this->sampler_ptr = rhs.sampler_ptr->clone();
+	else
+		this->sampler_ptr = nullptr;
+}
 
 // destructor
 BRDF::~BRDF() {
@@ -43,7 +48,7 @@ BRDF::f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const {
 }
 
 RGBColor
-BRDF::sample_f(const ShadeRec& sr, Vector3D& w_i, const Vector3D& w_o) const {
+BRDF::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const {
 	return black;
 }
 

@@ -41,28 +41,27 @@ public:
 		set_cs(const RGBColor col);
 
 	void
+		set_samples(const int num_samples);
+
+	void
 		set_samples(const int num_samples, const double  exp);
 
 	// functions
 
-	virtual RGBColor
+	RGBColor
 		f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
 
-	virtual RGBColor
-		sample_f(const ShadeRec& sr, Vector3D& w_i, const Vector3D& w_o) const;
+	RGBColor
+		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
 
-	virtual RGBColor
+	RGBColor
 		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double & pdf) const;
-
-	virtual RGBColor
-		rho(const ShadeRec& sr, const Vector3D& w_o) const;
 
 private:
 
 	double  ks; // specular highlight intensity
 	RGBColor cs; // specular highlight color
 	double  exp; // specular exponent
-	Sampler* sampler_ptr;
 };
 
 // inlined functions:
@@ -75,6 +74,7 @@ GlossySpecular::set_ks(const double  c) {
 inline void
 GlossySpecular::set_exponent(const double  c) {
 	exp = c;
+	sampler_ptr->map_samples_to_hemisphere(exp);
 }
 
 inline void
@@ -93,7 +93,13 @@ GlossySpecular::set_cs(const RGBColor col) {
 }
 
 inline void
-GlossySpecular::set_samples(const int num_samples, const double  exp) {
+GlossySpecular::set_samples(const int num_samples) {
+	sampler_ptr = new MultiJittered(num_samples);
+	sampler_ptr->map_samples_to_hemisphere(this->exp);
+}
+
+inline void
+GlossySpecular::set_samples(const int num_samples, const double exp) {
 	sampler_ptr = new MultiJittered(num_samples);
 	sampler_ptr->map_samples_to_hemisphere(exp);
 }

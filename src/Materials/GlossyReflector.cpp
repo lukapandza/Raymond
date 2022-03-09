@@ -2,12 +2,12 @@
 #include "../World/World.h"
 
 GlossyReflector::GlossyReflector(void)
-	: Phong2(),
+	: Phong(),
 	glossy_specular_brdf(new GlossySpecular)
 {}
 
 GlossyReflector::GlossyReflector(const GlossyReflector& rhs)
-	: Phong2(rhs) {
+	: Phong(rhs) {
 	if (rhs.glossy_specular_brdf)
 		glossy_specular_brdf = rhs.glossy_specular_brdf->clone();
 	else
@@ -21,12 +21,12 @@ GlossyReflector::clone(void) const {
 
 GlossyReflector::~GlossyReflector(void) {
 
-	Phong2::~Phong2();
-
 	if (glossy_specular_brdf) {
 		delete glossy_specular_brdf;
 		glossy_specular_brdf = NULL;
 	}
+
+	Phong::~Phong();
 }
 
 GlossyReflector&
@@ -35,7 +35,7 @@ GlossyReflector::operator=(const GlossyReflector& rhs) {
 	if (this == &rhs)
 		return *this;
 
-	Phong2::operator=(rhs);
+	Phong::operator=(rhs);
 
 	if (glossy_specular_brdf) {
 		delete glossy_specular_brdf;
@@ -51,7 +51,7 @@ GlossyReflector::operator=(const GlossyReflector& rhs) {
 RGBColor
 GlossyReflector::area_light_shade(ShadeRec& sr) {
 	
-	RGBColor L(Phong2::area_light_shade(sr)); // direct illumination
+	RGBColor L(Phong::area_light_shade(sr)); // direct illumination
 	
 	Vector3D w_o(-sr.ray.d);
 	Vector3D w_i;
@@ -69,13 +69,15 @@ RGBColor
 GlossyReflector::path_shade(ShadeRec& sr) {
 
 	
-	RGBColor L(Phong2::path_shade(sr)); // direct illumination
+	RGBColor L(Phong::path_shade(sr)); // direct illumination
 
 	Vector3D w_o(-sr.ray.d);
 	Vector3D w_i;
 	double pdf;
 	
-	L += glossy_specular_brdf->sample_f(sr, w_o, w_i, pdf)
+	RGBColor f = glossy_specular_brdf->sample_f(sr, w_o, w_i, pdf);
+	
+	L += f
 		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1)
 		* (sr.normal * w_i)
 		/ pdf;

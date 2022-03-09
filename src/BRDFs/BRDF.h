@@ -33,13 +33,13 @@ public:
 	//functions
 
 	virtual RGBColor
-		f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const = 0;
+		f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
 
 	virtual RGBColor
-		sample_f(const ShadeRec& sr, Vector3D& w_i, const Vector3D& w_o) const = 0;
+		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
 
 	virtual RGBColor
-		rho(const ShadeRec& sr, const Vector3D& w_o) const = 0;
+		rho(const ShadeRec& sr, const Vector3D& w_o) const;
 
 protected:
 

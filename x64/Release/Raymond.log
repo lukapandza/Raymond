@@ -3,5 +3,6 @@
   raymond.obj : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
   Generating code
 F:\Spring 22\Plan Project\Raymond\src\GeometricObjects\Box.cpp(221): warning C4715: 'Box::get_normal': not all control paths return a value
+F:\Spring 22\Plan Project\Raymond\src\Materials\Reflective.cpp(87): warning C4700: uninitialized local variable 'pdf' used
   Finished generating code
   Raymond.vcxproj -> F:\Spring 22\Plan Project\Raymond\x64\Release\Raymond.exe

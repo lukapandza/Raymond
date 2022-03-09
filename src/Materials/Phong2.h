@@ -2,7 +2,7 @@
 
 #include "Material.h"
 #include "../BRDFs/Lambertian.h"
-#include "../BRDFs/PhongBRDF.h"
+#include "../BRDFs/GlossySpecular.h"
 
 class Phong2 : public Material {
 
@@ -23,10 +23,10 @@ public:
 
 	// getters
 	double
-		get_kd() { return this->brdf->get_kd(); }
+		get_kd() { return this->diffuse_brdf->get_kd(); }
 
 	double
-		get_ks() { return this->brdf->get_ks(); }
+		get_ks() { return this->specular_brdf->get_ks(); }
 
 	// setters
 
@@ -70,7 +70,8 @@ public:
 
 protected:
 	Lambertian* ambient_brdf;
-	PhongBRDF* brdf;
+	Lambertian* diffuse_brdf;
+	GlossySpecular* specular_brdf;
 };
 
 inline void // set ambient intensity
@@ -81,36 +82,38 @@ Phong2::set_ka(const double  k) {
 inline void // set diffuse color
 Phong2::set_cd(const double  r, const double  g, const double  b) {
 	this->ambient_brdf->set_cd(r, g, b);
-	this->brdf->set_cd(r, g, b);
+	this->diffuse_brdf->set_cd(r, g, b);
 }
 
 inline void // set diffuse intensity
 Phong2::set_kd(const double k) {
-	this->brdf->set_kd(k);
+	this->diffuse_brdf->set_kd(k);
 }
 
 inline void // set specular color
 Phong2::set_cs(const double  r, const double  g, const double  b) {
-	this->brdf->set_cs(r, g, b);
+	this->specular_brdf->set_cs(r, g, b);
 }
 
 inline void // set specular intensity
 Phong2::set_ks(const double k) {
-	this->brdf->set_ks(k);
+	this->specular_brdf->set_ks(k);
 }
 
 inline void // set both diffuse and specular colors
 Phong2::set_c(const double  r, const double  g, const double  b) {
 	this->ambient_brdf->set_cd(r, g, b);
-	this->brdf->set_c(r, g, b);
+	this->diffuse_brdf->set_cd(r, g, b);
+	this->specular_brdf->set_cs(r, g, b);
 }
 
 inline void // set specular exponent
 Phong2::set_exp(const double e) {
-	this->brdf->set_exp(e);
+	this->specular_brdf->set_exponent(e);
 }
 
 inline void // set samples
 Phong2::set_samples(const int num_samples) {
-	this->brdf->set_samples(num_samples);
+	this->diffuse_brdf->set_samples(num_samples);
+	this->specular_brdf->set_samples(num_samples);
 }

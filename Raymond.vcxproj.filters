@@ -298,9 +298,6 @@
     <ClCompile Include="src\Lights\EnvironmentLight.cpp">
       <Filter>Source Files\Lights</Filter>
     </ClCompile>
-    <ClCompile Include="src\BRDFs\PhongBRDF.cpp">
-      <Filter>Source Files\BRDFs</Filter>
-    </ClCompile>
     <ClCompile Include="src\Materials\Phong2.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
@@ -484,9 +481,6 @@
     </ClInclude>
     <ClInclude Include="src\Lights\EnvironmentLight.h">
       <Filter>Header Files\Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BRDFs\PhongBRDF.h">
-      <Filter>Header Files\BRDFs</Filter>
     </ClInclude>
     <ClInclude Include="src\Materials\Phong2.h">
       <Filter>Header Files\Materials</Filter>

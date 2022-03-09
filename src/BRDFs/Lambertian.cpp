@@ -46,8 +46,18 @@ Lambertian::f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) cons
 }
 
 RGBColor
-Lambertian::sample_f(const ShadeRec& sr, Vector3D& w_i, const Vector3D& w_o) const {
-	return black;
+Lambertian::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const {
+	
+	Vector3D w(sr.normal);
+	Vector3D v = Vector3D(0.0034, 1.0, 0.0063) ^ w;
+	v.normalize();
+	Vector3D u = v ^ w;
+
+	Point3D sp = this->sampler_ptr->sample_hemisphere();
+	w_i = sp.x * u + sp.y * v + sp.z * w;
+	w_i.normalize();
+
+	return this->kd * this->cd;
 }
 
 RGBColor

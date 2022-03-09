@@ -42,7 +42,7 @@ public:
 		f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
 
 	virtual RGBColor
-		sample_f(const ShadeRec& sr, Vector3D& w_i, const Vector3D& w_o) const;
+		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
 
 	virtual RGBColor
 		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double & pdf) const;

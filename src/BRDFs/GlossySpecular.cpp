@@ -58,8 +58,23 @@ GlossySpecular::f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) 
 }
 
 RGBColor
-GlossySpecular::sample_f(const ShadeRec& sr, Vector3D& w_i, const Vector3D& w_o) const {
-	return black;
+GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const {
+	
+	double  n_dot_wo = sr.normal * w_o;
+
+	// reflection:
+	Vector3D w = -w_o + 2.0 * sr.normal * n_dot_wo; // direction of perfect mirror reflection
+	Vector3D u = Vector3D(0.00024, 1, 0.00064) ^ w;
+	u.normalize();
+	Vector3D v = u ^ w;
+
+	Point3D sp = this->sampler_ptr->sample_hemisphere();
+	w_i = sp.x * u + sp.y * v + sp.z * w; // reflected ray direction
+	if (sr.normal * w_i < 0.0) // reflected ray is below surface
+		w_i = -sp.x * u - sp.y * v + sp.z * w;
+	w_i.normalize();
+
+	return this->ks * this->cs;
 }
 
 RGBColor
@@ -84,9 +99,4 @@ GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i,
 	pdf = phong_lobe * (sr.normal * w_i);
 
 	return (ks * cs * phong_lobe);
-}
-
-RGBColor
-GlossySpecular::rho(const ShadeRec& sr, const Vector3D& w_o) const {
-	return black;
 }
