@@ -176,6 +176,7 @@ Sampler::map_samples_to_unit_disk(void) {
 void
 Sampler::map_samples_to_hemisphere(const double e) {
 	int size = samples.size();
+	hemisphere_samples.clear();
 	hemisphere_samples.reserve(num_samples * num_sets);
 
 	for (int i = 0; i < size; i++) {

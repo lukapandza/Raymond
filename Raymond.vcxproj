@@ -120,6 +120,7 @@
     <ClInclude Include="src\BRDFs\GlossySpecular.h" />
     <ClInclude Include="src\BRDFs\Lambertian.h" />
     <ClInclude Include="src\BRDFs\PerfectSpecular.h" />
+    <ClInclude Include="src\BRDFs\PhongBRDF.h" />
     <ClInclude Include="src\Cameras\Camera.h" />
     <ClInclude Include="src\Cameras\Orthographic.h" />
     <ClInclude Include="src\Cameras\Pinhole.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="src\Materials\Material.h" />
     <ClInclude Include="src\Materials\Matte.h" />
     <ClInclude Include="src\Materials\Phong.h" />
+    <ClInclude Include="src\Materials\Phong2.h" />
     <ClInclude Include="src\Materials\Reflective.h" />
     <ClInclude Include="src\Samplers\Hammersley.h" />
     <ClInclude Include="src\Samplers\Jittered.h" />
@@ -178,6 +180,7 @@
     <ClCompile Include="src\BRDFs\GlossySpecular.cpp" />
     <ClCompile Include="src\BRDFs\Lambertian.cpp" />
     <ClCompile Include="src\BRDFs\PerfectSpecular.cpp" />
+    <ClCompile Include="src\BRDFs\PhongBRDF.cpp" />
     <ClCompile Include="src\Cameras\Camera.cpp" />
     <ClCompile Include="src\Cameras\Orthographic.cpp" />
     <ClCompile Include="src\Cameras\Pinhole.cpp" />
@@ -202,6 +205,7 @@
     <ClCompile Include="src\Materials\Material.cpp" />
     <ClCompile Include="src\Materials\Matte.cpp" />
     <ClCompile Include="src\Materials\Phong.cpp" />
+    <ClCompile Include="src\Materials\Phong2.cpp" />
     <ClCompile Include="src\Materials\Reflective.cpp" />
     <ClCompile Include="src\Samplers\Hammersley.cpp" />
     <ClCompile Include="src\Samplers\Jittered.cpp" />

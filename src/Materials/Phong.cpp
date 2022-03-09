@@ -174,7 +174,6 @@ Phong::path_shade(ShadeRec& sr) {
 	RGBColor f_s = this->specular_brdf->sample_f(sr, w_o, w_i_s, pdf_s);
 	RGBColor reflected_s = sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.depth + 1);
 
-
 	return f_d * reflected_d * (sr.normal * w_i_d) / pdf_d
 		+ f_s * reflected_s * (sr.normal * w_i_s) / pdf_s;
 }

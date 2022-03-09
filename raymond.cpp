@@ -113,7 +113,7 @@ std::string time_string_from_int(int total_seconds) {
     std::string out = "";
 
     int elapsed_seconds = total_seconds % 60;
-    int elapsed_minutes = total_seconds / 60;
+    int elapsed_minutes = (total_seconds / 60) % 60;
     int elapsed_hours = elapsed_minutes / 60;
 
     out += (elapsed_hours < 10 ? "0" : "") + std::to_string(elapsed_hours) + ":";

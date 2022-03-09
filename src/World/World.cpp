@@ -69,6 +69,7 @@
 #include "../Materials/Emissive.h"
 #include "../Materials/Reflective.h"
 #include "../Materials/GlossyReflector.h"
+#include "../Materials/Phong2.h"
 
 // build functions
 
@@ -96,7 +97,8 @@
 //#include "../builds/GlossTest.cpp"
 //#include "../builds/PurePathTrace.cpp"
 //#include "../builds/GlobalTraceTest.cpp"
-#include "../builds/EnvironmentLightTest.cpp"
+//#include "../builds/EnvironmentLightTest.cpp"
+#include "../builds/Phong2Test.cpp"
 
 //#include "../builds/PerformanceTest.cpp"
 
