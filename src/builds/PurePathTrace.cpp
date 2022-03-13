@@ -1,12 +1,12 @@
 void
 World::build() {
 
-    int num_samples = 900;
+    int num_samples = 16384;
 
-    vp.set_hres(512);
-    vp.set_vres(512);
+    vp.set_hres(256);
+    vp.set_vres(256);
     vp.set_samples(num_samples);
-    vp.set_max_depth(24);
+    vp.set_max_depth(6);
 
     background_color = black;
 
@@ -22,7 +22,7 @@ World::build() {
     pinhole_ptr->set_lookat(3.5, 2.5, 0);
     pinhole_ptr->set_view_distance(12.0);
     //pinhole_ptr->set_view_distance(5.0);
-    pinhole_ptr->set_zoom(100.0);
+    pinhole_ptr->set_zoom(50.0);
     //pinhole_ptr->set_zoom(80.0);
     pinhole_ptr->compute_uvw();
     camera_ptr = pinhole_ptr;
@@ -67,6 +67,7 @@ World::build() {
     mat->set_kd(1);
     mat->set_cd(1); // white
 
+    /*
     Phong* p_mat = new Phong();
     p_mat->set_samples(num_samples, 64);
     p_mat->set_ka(.25);
@@ -74,6 +75,7 @@ World::build() {
     p_mat->set_cd(.47, .54, .86); // blue
     p_mat->set_ks(.6);
     p_mat->set_exp(4);
+    */
 
     //walls:
     Plane* floor = new Plane(Point3D(0, 0, 0), Normal(0, 1, 0));
@@ -108,12 +110,12 @@ World::build() {
     add_object(box1);
 
     Instance* box2 = new Instance(new Box(-0.75, 0, -0.75, 0.75, 1.5, 0.75));
-    box2->set_material(p_mat);
+    box2->set_material(mat);
     box2->rotate_y(-15);
     box2->translate(4.5, 0, 4);
     add_object(box2);
 
-    
+    /*
     GlossyReflector* glossy_ptr = new GlossyReflector;
     glossy_ptr->set_samples(num_samples, num_samples);
     glossy_ptr->set_ka(0.25);
@@ -143,4 +145,5 @@ World::build() {
         sphere->set_material(mat);
         add_object(sphere);
     }
+    */
 }
