@@ -301,6 +301,12 @@
     <ClCompile Include="src\Materials\Phong2.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
+    <ClCompile Include="src\Materials\Matte2.cpp">
+      <Filter>Source Files\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Materials\GlossyReflector2.cpp">
+      <Filter>Source Files\Materials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="raymond.h">
@@ -483,6 +489,12 @@
       <Filter>Header Files\Lights</Filter>
     </ClInclude>
     <ClInclude Include="src\Materials\Phong2.h">
+      <Filter>Header Files\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Materials\Matte2.h">
+      <Filter>Header Files\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Materials\GlossyReflector2.h">
       <Filter>Header Files\Materials</Filter>
     </ClInclude>
   </ItemGroup>

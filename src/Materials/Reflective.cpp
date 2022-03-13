@@ -81,14 +81,11 @@ Reflective::area_light_shade(ShadeRec& sr) {
 RGBColor
 Reflective::path_shade(ShadeRec& sr) {
 	
-	Vector3D w_o = -sr.ray.d;
+	//Vector3D w_o = -sr.ray.d;
 	Vector3D w_i;
-	double  pdf;
-	RGBColor fr = reflective_brdf->sample_f(sr, w_o, w_i, pdf);
+	RGBColor fr = reflective_brdf->sample_f(sr, -sr.ray.d, w_i);
 
-	Ray reflected_ray(sr.hit_point, w_i);
-
-	return fr * sr.w.tracer_ptr->trace_ray(reflected_ray, sr.depth + 1);
+	return fr * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1);
 }
 
 RGBColor

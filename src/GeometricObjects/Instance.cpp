@@ -20,6 +20,8 @@ Instance::Instance(GeometricObject* obj_ptr)
 	bbox(),
 	transform_the_texture(true) {
 	forward_matrix.set_identity();
+	if (obj_ptr->get_material())
+		this->material_ptr = obj_ptr->get_material();
 }
 
 Instance::Instance(const Instance& rhs) 
@@ -99,8 +101,11 @@ Instance::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
 		sr.normal = inv_matrix * sr.normal;
 		sr.normal.normalize();
 
-		if (object_ptr->get_material())
-			material_ptr = object_ptr->get_material();
+		if (this->material_ptr)
+			sr.material_ptr = this->material_ptr;
+
+		else if (object_ptr->get_material())
+			sr.material_ptr = object_ptr->get_material();
 
 		if (!transform_the_texture)
 			sr.local_hit_point = raymond.o + tmin * raymond.d;

@@ -108,17 +108,19 @@ std::vector<std::vector<pix_coord>> DistributePixels(const int num_threads, cons
     return batches;
 }
 
-std::string time_string_from_int(int total_seconds) {
+std::string time_string_from_int(int total_milliseconds) {
     
     std::string out = "";
 
-    int elapsed_seconds = total_seconds % 60;
-    int elapsed_minutes = (total_seconds / 60) % 60;
-    int elapsed_hours = elapsed_minutes / 60;
+    int elapsed_milliseconds = total_milliseconds % 1000;
+    int elapsed_seconds = (total_milliseconds / 1000) % 60;
+    int elapsed_minutes = (total_milliseconds / 60 / 1000) % 60;
+    int elapsed_hours = total_milliseconds / 1000 / 60 / 60;
 
     out += (elapsed_hours < 10 ? "0" : "") + std::to_string(elapsed_hours) + ":";
     out += (elapsed_minutes < 10 ? "0" : "") + std::to_string(elapsed_minutes) + ":";
-    out += (elapsed_seconds < 10 ? "0" : "") + std::to_string(elapsed_seconds);
+    out += (elapsed_seconds < 10 ? "0" : "") + std::to_string(elapsed_seconds) + ".";
+    out += std::to_string(elapsed_milliseconds);
 
     return out;
 }
@@ -272,15 +274,15 @@ void Raymond::update_status_message()
         std::string message = "";
         message += "Rendering... ";
         auto curr_time = std::chrono::steady_clock::now();
-        int total_elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>(curr_time - this->start_time).count();
+        int total_elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(curr_time - this->start_time).count();
 
-        message += time_string_from_int(total_elapsed_seconds);
+        message += time_string_from_int(total_elapsed_milliseconds);
 
-        int speed = this->pixels_rendered / (total_elapsed_seconds + 1); // to avoid div by 0
+        int speed = this->pixels_rendered / (total_elapsed_milliseconds / 1000 + 1); // to avoid div by 0
 
         message += " [ " + std::to_string(speed) + " pixels / second ] Time Remaining: ";
 
-        message += time_string_from_int((this->pixels_to_render - this->pixels_rendered) / (speed + 1)); // to avoid div by 0
+        message += time_string_from_int((this->pixels_to_render - this->pixels_rendered) / (speed + 1) * 1000); // to avoid div by 0
 
         this->status_label->setText(QString::fromStdString(message));
         this->progress_bar->setValue((int)(this->pixels_rendered * 100.0 / this->pixels_to_render));
@@ -295,9 +297,9 @@ void Raymond::render_end()
     message += "Done. Elapsed time: ";
 
     auto curr_time = std::chrono::steady_clock::now();
-    int total_elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>(curr_time - this->start_time).count();
+    int total_elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(curr_time - this->start_time).count();
     
-    message += time_string_from_int(total_elapsed_seconds);
+    message += time_string_from_int(total_elapsed_milliseconds);
 
     this->status_label->setText(QString::fromStdString(message));
     this->progress_bar->setValue(100);

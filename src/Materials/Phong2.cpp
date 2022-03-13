@@ -159,16 +159,15 @@ RGBColor
 Phong2::path_shade(ShadeRec& sr) {
 
 	/*
-	Vector3D w_o = -sr.ray.d;
-
-	Vector3D w_i;
-	double pdf;
-	RGBColor f = this->brdf->sample_f(sr, w_o, w_i, pdf);
-	RGBColor reflected_d = sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1);
-
-	return f * reflected_d;
+	notes:
+		-> outgoing direction w_o is the vector opposite to the cast ray (w_o = -sr.ray.d).
+		-> the reflected ray has the hit point as the origin and its direction is computed by the brdf in the sample_f function.
+		-> since there are multiple brdfs in this material, the outgoing direction will be selected randomly.
+		-> the intensities in brdfs will serve as the weights for the random selection.
+		-> if the sampled material color is black, there is no need to cast further rays, as they are multiplied.
 	*/
 
+	/*
 	Vector3D w_o = -sr.ray.d;
 	Vector3D w_i_d, w_i_s;
 
@@ -187,6 +186,29 @@ Phong2::path_shade(ShadeRec& sr) {
 	// using the p * f / k to allow for k_d + k_s >= 1.0 and still have energy conservation.
 	return (p_d * f_d / k_d + p_s * f_s / k_s)
 		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1);
+	*/
+
+	// optimized code:
+
+	Vector3D w_i_d, w_i_s;
+	RGBColor f = this->diffuse_brdf->sample_f(sr, -sr.ray.d, w_i_d);
+	f += this->specular_brdf->sample_f(sr, -sr.ray.d, w_i_s);
+
+	if (f.r == 0.0 && f.g == 0.0 && f.b == 0.0)
+		return f;
+
+	double rand = rand_float(0, 1.0);
+	double running_threshold = this->diffuse_brdf->get_kd();
+
+	if (rand < running_threshold) // diffuse reflection
+		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_d), sr.depth + 1);
+	
+	running_threshold += this->specular_brdf->get_ks();
+
+	if (rand < running_threshold) // specular reflection
+		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.depth + 1);
+
+	return RGBColor(0, 0, 0); // light is absorbed (only happens when k_s + k_d < 1.0)
 }
 
 RGBColor

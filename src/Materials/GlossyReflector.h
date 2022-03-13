@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Phong.h"
-#include "Phong2.h"
 
 class GlossyReflector : public Phong {
 
@@ -54,7 +53,6 @@ private:
 inline void
 GlossyReflector::set_samples(const int num_samples, const double  exp) {
 	Phong::set_samples(num_samples, exp);
-	//Phong2::set_samples(num_samples);
 	glossy_specular_brdf->set_samples(num_samples, exp);
 }
 
