@@ -65,13 +65,10 @@
 
 #include "../Materials/Material.h"
 #include "../Materials/Matte.h"
-#include "../Materials/Matte2.h"
 #include "../Materials/Phong.h"
-#include "../Materials/Phong2.h"
 #include "../Materials/Emissive.h"
 #include "../Materials/Reflective.h"
 #include "../Materials/GlossyReflector.h"
-#include "../Materials/GlossyReflector2.h"
 
 // build functions
 
@@ -102,7 +99,7 @@
 //#include "../builds/EnvironmentLightTest.cpp"
 //#include "../builds/Phong2Test.cpp"
 //#include "../builds/OldAllMaterialsTest.cpp"
-#include "../builds/NewAllMaterialsTest.cpp"
+#include "../builds/AllMaterialsTest.cpp"
 
 //#include "../builds/PerformanceTest.cpp"
 

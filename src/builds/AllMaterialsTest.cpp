@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 16384;
+    int num_samples = 400;
 
     vp.set_hres(256);
     vp.set_vres(256);
@@ -14,7 +14,7 @@ World::build() {
     //vp.set_max_depth(12);     // 00:00:12.178
     //vp.set_max_depth(14);     // 00:00:13.020
     //vp.set_max_depth(16);     // 00:00:14.625
-    vp.set_max_depth(32);
+    vp.set_max_depth(16);
 
     background_color = black;
 
@@ -47,22 +47,22 @@ World::build() {
     emissive_ptr1->set_ls(16);
     emissive_ptr1->set_ce(1.0, 0.89, 0.72);
 
-    Matte2* mat = new Matte2();
+    Matte* mat = new Matte();
     mat->set_samples(num_samples);
     mat->set_ka(0.25);
     mat->set_kd(1);
     mat->set_cd(1); // white
 
-    Matte2* mat_red = new Matte2(*mat);
+    Matte* mat_red = new Matte(*mat);
     mat_red->set_cd(.66, 0.17, 0.14);
 
-    Matte2* mat_green = new Matte2(*mat);
+    Matte* mat_green = new Matte(*mat);
     mat_green->set_cd(0.18, .48, 0.43);
 
-    Matte2* mat_blue = new Matte2(*mat);
+    Matte* mat_blue = new Matte(*mat);
     mat_blue->set_cd(.57, .78, .99);
 
-    Phong2* p_mat = new Phong2();
+    Phong* p_mat = new Phong();
     p_mat->set_samples(num_samples);
     p_mat->set_exp(32);
     p_mat->set_ka(.4);
@@ -76,11 +76,11 @@ World::build() {
     reflective->set_kd(0);
     reflective->set_ks(0);
     reflective->set_kr(1);
-    reflective->set_cd(1);
-    reflective->set_cs(1);
+    reflective->set_cd(1, 1, 1);
+    reflective->set_cs(1, 1, 1);
     reflective->set_cr(1);
 
-    GlossyReflector2* glossy_ptr = new GlossyReflector2;
+    GlossyReflector* glossy_ptr = new GlossyReflector;
     glossy_ptr->set_samples(num_samples);
     glossy_ptr->set_ka(0);
     glossy_ptr->set_kd(0);
@@ -92,7 +92,7 @@ World::build() {
     glossy_ptr->set_exp_s(16);
     glossy_ptr->set_exp_r(50000);
 
-    GlossyReflector2* orb_mat = new GlossyReflector2;
+    GlossyReflector* orb_mat = new GlossyReflector;
     orb_mat->set_samples(num_samples);
     orb_mat->set_ka(0);
     orb_mat->set_kd(.4);
@@ -104,7 +104,7 @@ World::build() {
     orb_mat->set_exp_s(16);
     orb_mat->set_exp_r(2048);
 
-    Phong2* copper = new Phong2;
+    Phong* copper = new Phong;
     copper->set_samples(num_samples);
     copper->set_exp(100);
     copper->set_ka(.4);
@@ -113,7 +113,7 @@ World::build() {
     copper->set_ks(.65);
     copper->set_cs(.72, .45, .2);
 
-    Phong2* gold = new Phong2(*copper);
+    Phong* gold = new Phong(*copper);
     gold->set_cd(.83, .68, .22); // gold
     gold->set_cs(.83, .68, .22); // gold
 

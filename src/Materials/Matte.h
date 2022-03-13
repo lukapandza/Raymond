@@ -7,12 +7,12 @@ class Matte : public Material {
 
 public:
 
-	Matte(void); // default constructor
+	Matte(); // default constructor
 
 	Matte(const Matte& rhs); // copy constructor
 
 	virtual Matte*
-		clone(void) const;
+		clone() const;
 
 	virtual // destructor
 		~Matte();
@@ -42,16 +42,16 @@ public:
 
 	// functions
 
-	virtual RGBColor
+	RGBColor
 		shade(ShadeRec& sr);
 
-	virtual RGBColor
+	RGBColor
 		area_light_shade(ShadeRec& sr);
 
-	virtual RGBColor
+	RGBColor
 		path_shade(ShadeRec& sr);
 
-	virtual RGBColor
+	RGBColor
 		global_shade(ShadeRec& sr);
 
 private:

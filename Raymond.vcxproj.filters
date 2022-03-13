@@ -193,16 +193,7 @@
     <ClCompile Include="src\Materials\Emissive.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="src\Materials\GlossyReflector.cpp">
-      <Filter>Source Files\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="src\Materials\Material.cpp">
-      <Filter>Source Files\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Materials\Matte.cpp">
-      <Filter>Source Files\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Materials\Phong.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
     <ClCompile Include="src\Materials\Reflective.cpp">
@@ -298,13 +289,13 @@
     <ClCompile Include="src\Lights\EnvironmentLight.cpp">
       <Filter>Source Files\Lights</Filter>
     </ClCompile>
-    <ClCompile Include="src\Materials\Phong2.cpp">
+    <ClCompile Include="src\Materials\Phong.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="src\Materials\Matte2.cpp">
+    <ClCompile Include="src\Materials\Matte.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="src\Materials\GlossyReflector2.cpp">
+    <ClCompile Include="src\Materials\GlossyReflector.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
   </ItemGroup>
@@ -386,16 +377,7 @@
     <ClInclude Include="src\Materials\Emissive.h">
       <Filter>Header Files\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="src\Materials\GlossyReflector.h">
-      <Filter>Header Files\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="src\Materials\Material.h">
-      <Filter>Header Files\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Materials\Matte.h">
-      <Filter>Header Files\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Materials\Phong.h">
       <Filter>Header Files\Materials</Filter>
     </ClInclude>
     <ClInclude Include="src\Materials\Reflective.h">
@@ -488,13 +470,13 @@
     <ClInclude Include="src\Lights\EnvironmentLight.h">
       <Filter>Header Files\Lights</Filter>
     </ClInclude>
-    <ClInclude Include="src\Materials\Phong2.h">
+    <ClInclude Include="src\Materials\Phong.h">
       <Filter>Header Files\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="src\Materials\Matte2.h">
+    <ClInclude Include="src\Materials\Matte.h">
       <Filter>Header Files\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="src\Materials\GlossyReflector2.h">
+    <ClInclude Include="src\Materials\GlossyReflector.h">
       <Filter>Header Files\Materials</Filter>
     </ClInclude>
   </ItemGroup>

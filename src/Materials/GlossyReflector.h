@@ -1,40 +1,58 @@
 #pragma once
 
-#include "Phong.h"
+#include "Material.h"
+#include "BRDFs/Lambertian.h"
+#include "BRDFs/GlossySpecular.h"
 
-class GlossyReflector : public Phong {
+class GlossyReflector : public Material {
 
 public:
 
-	GlossyReflector(void);
+	GlossyReflector();
 
 	GlossyReflector(const GlossyReflector& rhs);
 
 	GlossyReflector*
-		clone(void) const;
+		clone() const;
 
-	~GlossyReflector(void);
+	~GlossyReflector();
 
 	GlossyReflector&
 		operator=(const GlossyReflector& rhs);
 
 	void
-		set_samples(const int num_samples, const double  exp);
+		set_samples(const int num_samples);
+
+	void
+		set_ka(const double k);
+
+	void
+		set_ca(const double r, const double g, const double b);
+
+
+	void 
+		set_kd(const double k);
+
+	void
+		set_cd(const double r, const double g, const double b);
+
+	void
+		set_ks(const double k);
+
+	void
+		set_cs(const double r, const double g, const double b);
+
+	void
+		set_exp_s(const double e);
 
 	void
 		set_kr(const double  k);
 
 	void
-		set_cr(const double  c);
-
-	void 
 		set_cr(const double  r, const double  g, const double  b);
 
 	void
-		set_cr(const RGBColor& col);
-
-	void
-		set_exponent(const double  exp);
+		set_exp_r(const double e);
 
 	RGBColor
 		area_light_shade(ShadeRec& sr);
@@ -47,36 +65,65 @@ public:
 
 private:
 
-	GlossySpecular* glossy_specular_brdf;
+	Lambertian* ambient_brdf;
+	Lambertian* diffuse_brdf;
+	GlossySpecular* specular_brdf;
+	GlossySpecular* reflected_brdf;
 };
 
 inline void
-GlossyReflector::set_samples(const int num_samples, const double  exp) {
-	Phong::set_samples(num_samples, exp);
-	glossy_specular_brdf->set_samples(num_samples, exp);
+GlossyReflector::set_samples(const int num_samples) {
+	this->diffuse_brdf->set_samples(num_samples);
+	this->specular_brdf->set_samples(num_samples);
+	this->reflected_brdf->set_samples(num_samples);
 }
 
 inline void
-GlossyReflector::set_kr(const double  k) {
-	glossy_specular_brdf->set_ks(k);
+GlossyReflector::set_ka(const double k) {
+	this->ambient_brdf->set_kd(k);
 }
 
 inline void
-GlossyReflector::set_cr(const double  c) {
-	glossy_specular_brdf->set_cs(c);
+GlossyReflector::set_ca(const double r, const double g, const double b) {
+	this->ambient_brdf->set_cd(r, g, b);
 }
 
 inline void
-GlossyReflector::set_cr(const double  r, const double  g, const double  b) {
-	glossy_specular_brdf->set_cs(r, g, b);
+GlossyReflector::set_kd(const double k) {
+	this->diffuse_brdf->set_kd(k);
 }
 
 inline void
-GlossyReflector::set_cr(const RGBColor& col) {
-	glossy_specular_brdf->set_cs(col);
+GlossyReflector::set_cd(const double r, const double g, const double b) {
+	this->diffuse_brdf->set_cd(r, g, b);
 }
 
 inline void
-GlossyReflector::set_exponent(const double  exp) {
-	glossy_specular_brdf->set_exponent(exp);
+GlossyReflector::set_ks(const double k) {
+	this->specular_brdf->set_ks(k);
+}
+
+inline void
+GlossyReflector::set_cs(const double r, const double g, const double b) {
+	this->specular_brdf->set_cs(r, g, b);
+}
+
+inline void
+GlossyReflector::set_exp_s(const double e) {
+	this->specular_brdf->set_exponent(e);
+}
+
+inline void
+GlossyReflector::set_kr(const double k) {
+	this->reflected_brdf->set_ks(k);
+}
+
+inline void
+GlossyReflector::set_cr(const double r, const double g, const double b) {
+	this->reflected_brdf->set_cs(r, g, b);
+}
+
+inline void
+GlossyReflector::set_exp_r(const double e) {
+	this->reflected_brdf->set_exponent(e);
 }

@@ -3,11 +3,11 @@
 #include <math.h>
 
 // default constructor
-Phong::Phong(void) 
+Phong::Phong(void)
 	: Material(),
-	ambient_brdf(new Lambertian()),
-	diffuse_brdf(new Lambertian()),
-	specular_brdf(new GlossySpecular())
+	ambient_brdf(new Lambertian),
+	diffuse_brdf(new Lambertian),
+	specular_brdf(new GlossySpecular)
 {}
 
 // copy constructor
@@ -15,19 +15,19 @@ Phong::Phong(const Phong& rhs)
 	: Material(rhs) {
 
 	if (rhs.ambient_brdf)
-		ambient_brdf = rhs.ambient_brdf->clone();
+		this->ambient_brdf = rhs.ambient_brdf->clone();
 	else
-		ambient_brdf = NULL;
+		this->ambient_brdf = nullptr;
 
 	if (rhs.diffuse_brdf)
-		diffuse_brdf = rhs.diffuse_brdf->clone();
+		this->diffuse_brdf = rhs.diffuse_brdf->clone();
 	else
-		diffuse_brdf = NULL;
+		this->diffuse_brdf = nullptr;
 
 	if (rhs.specular_brdf)
-		specular_brdf = rhs.specular_brdf->clone();
+		this->specular_brdf = rhs.specular_brdf->clone();
 	else
-		specular_brdf = NULL;
+		this->specular_brdf = nullptr;
 }
 
 // clone
@@ -38,85 +38,81 @@ Phong::clone(void) const {
 
 // destructor
 Phong::~Phong(void) {
-	
-	if (ambient_brdf) {
-		delete ambient_brdf;
-		ambient_brdf = NULL;
-	}
 
-	if (diffuse_brdf) {
-		delete diffuse_brdf;
-		diffuse_brdf = NULL;
-	}
+	if (this->ambient_brdf)
+		delete this->ambient_brdf;
 
-	if (specular_brdf) {
-		delete specular_brdf;
-		specular_brdf = NULL;
-	}
+	if (this->diffuse_brdf)
+		delete this->diffuse_brdf;
+
+	if (this->specular_brdf)
+		delete this->specular_brdf;
+
+	Material::~Material();
 }
 
 // assignmnet operator
 Phong&
 Phong::operator=(const Phong& rhs) {
-	
+
 	if (this == &rhs)
 		return *this;
 
 	Material::operator=(rhs);
 
-	if (ambient_brdf) {
-		delete ambient_brdf;
-		ambient_brdf = NULL;
+	if (this->ambient_brdf) {
+		delete this->ambient_brdf;
+		this->ambient_brdf = nullptr;
 	}
 
 	if (rhs.ambient_brdf)
-		ambient_brdf = rhs.ambient_brdf->clone();
+		this->ambient_brdf = rhs.ambient_brdf->clone();
 
-	if (diffuse_brdf) {
-		delete diffuse_brdf;
-		diffuse_brdf = NULL;
+	if (this->diffuse_brdf) {
+		delete this->diffuse_brdf;
+		this->diffuse_brdf = nullptr;
 	}
 
 	if (rhs.diffuse_brdf)
-		diffuse_brdf = rhs.diffuse_brdf->clone();
+		this->diffuse_brdf = rhs.diffuse_brdf->clone();
 
-	if (specular_brdf) {
-		delete specular_brdf;
-		specular_brdf = NULL;
+	if (this->specular_brdf) {
+		delete this->specular_brdf;
+		this->specular_brdf = nullptr;
 	}
 
 	if (rhs.specular_brdf)
-		specular_brdf = rhs.specular_brdf->clone();
+		this->specular_brdf = rhs.specular_brdf->clone();
 
 	return *this;
 }
 
 RGBColor
 Phong::shade(ShadeRec& sr) {
-	
+
 	Vector3D w_o(-sr.ray.d);
-	RGBColor L = ambient_brdf->rho(sr, w_o) * sr.w.ambient_ptr->L(sr);
+	RGBColor L = this->ambient_brdf->rho(sr, w_o) * sr.w.ambient_ptr->L(sr);
 	int num_lights = sr.w.lights.size();
 
 	for (int i = 0; i < num_lights; i++) {
-		
+
 		Vector3D w_i = sr.w.lights[i]->get_direction(sr);
 		double  n_dot_w_i = sr.normal * w_i;
 
 		if (n_dot_w_i > 0.0) {
-		
+
 			bool in_shadow = false;
 
 			if (sr.w.lights[i]->casts_shadows()) {
-				
+
 				Ray shadow_ray(sr.hit_point, w_i);
 				in_shadow = sr.w.lights[i]->in_shadow(shadow_ray, sr);
 			}
 
 			if (!in_shadow)
-				L += (diffuse_brdf->f(sr, w_o, w_i) + specular_brdf->f(sr, w_o, w_i)) 
-					* sr.w.lights[i]->L(sr) 
-					* n_dot_w_i;
+				L += (diffuse_brdf->f(sr, w_o, w_i) + specular_brdf->f(sr, w_o, w_i))
+				* sr.w.lights[i]->L(sr)
+				* n_dot_w_i;
 		}
 	}
 
@@ -127,7 +123,7 @@ RGBColor
 Phong::area_light_shade(ShadeRec& sr) {
 
 	Vector3D w_o(-sr.ray.d);
-	RGBColor L = ambient_brdf->rho(sr, w_o) * sr.w.ambient_ptr->L(sr);
+	RGBColor L = this->ambient_brdf->rho(sr, w_o) * sr.w.ambient_ptr->L(sr);
 
 	int num_lights = sr.w.lights.size();
 
@@ -162,20 +158,36 @@ Phong::area_light_shade(ShadeRec& sr) {
 RGBColor
 Phong::path_shade(ShadeRec& sr) {
 
-	Vector3D w_o = -sr.ray.d;
+	/*
+	notes:
+		-> outgoing direction w_o is the vector opposite to the cast ray (w_o = -sr.ray.d).
+		-> the reflected ray has the hit point as the origin and its direction is computed by the brdf in the sample_f function.
+		-> since there are multiple brdfs in this material, the outgoing direction will be selected randomly.
+		-> the intensities in brdfs will serve as the weights for the random selection.
+		-> if the sampled material color is black, there is no need to cast further rays, as they are multiplied.
+	*/
 
-	Vector3D w_i_d;
-	double pdf_d;
-	RGBColor f_d = this->diffuse_brdf->sample_f(sr, w_o, w_i_d, pdf_d);
-	RGBColor reflected_d = sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_d), sr.depth + 1);
+	// optimized code:
 
-	Vector3D w_i_s;
-	double pdf_s;
-	RGBColor f_s = this->specular_brdf->sample_f(sr, w_o, w_i_s, pdf_s);
-	RGBColor reflected_s = sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.depth + 1);
+	Vector3D w_i_d, w_i_s;
+	RGBColor f = this->diffuse_brdf->sample_f(sr, -sr.ray.d, w_i_d);
+	f += this->specular_brdf->sample_f(sr, -sr.ray.d, w_i_s);
 
-	return f_d * reflected_d * (sr.normal * w_i_d) / pdf_d
-		+ f_s * reflected_s * (sr.normal * w_i_s) / pdf_s;
+	if (f.r == 0.0 && f.g == 0.0 && f.b == 0.0)
+		return f;
+
+	double rand = rand_float(0, 1.0);
+	double running_threshold = this->diffuse_brdf->get_kd();
+
+	if (rand < running_threshold) // diffuse reflection
+		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_d), sr.depth + 1);
+	
+	running_threshold += this->specular_brdf->get_ks();
+
+	if (rand < running_threshold) // specular reflection
+		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.depth + 1);
+
+	return RGBColor(0, 0, 0); // light is absorbed (only happens when k_s + k_d < 1.0)
 }
 
 RGBColor

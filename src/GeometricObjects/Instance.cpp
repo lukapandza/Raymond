@@ -93,19 +93,14 @@ Instance::set_material(Material* materialPtr) {
 bool
 Instance::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
 	
-	Ray inv_ray(raymond);
-	inv_ray.o = inv_matrix * inv_ray.o;
-	inv_ray.d = inv_matrix * inv_ray.d;
+	// inverse ray is created by applying the inverse matrix to raymond. 
 
-	if (object_ptr->hit(inv_ray, tmin, sr)) {
-		sr.normal = inv_matrix * sr.normal;
+	if (object_ptr->hit(Ray(this->inv_matrix * raymond.o, this->inv_matrix * raymond.d), tmin, sr)) {
+		
+		sr.normal = this->inv_matrix * sr.normal;
 		sr.normal.normalize();
 
-		if (this->material_ptr)
-			sr.material_ptr = this->material_ptr;
-
-		else if (object_ptr->get_material())
-			sr.material_ptr = object_ptr->get_material();
+		sr.material_ptr = this->material_ptr;
 
 		if (!transform_the_texture)
 			sr.local_hit_point = raymond.o + tmin * raymond.d;
@@ -119,14 +114,9 @@ Instance::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
 bool
 Instance::shadow_hit(const Ray& raymond, double& tmin) const {
 
-	Ray inv_ray(raymond);
-	inv_ray.o = inv_matrix * inv_ray.o;
-	inv_ray.d = inv_matrix * inv_ray.d;
+	// inverse ray is created by applying the inverse matrix to raymond. 
 
-	if (object_ptr->shadow_hit(inv_ray, tmin))
-		return true;
-	else
-		return false;
+	return object_ptr->shadow_hit(Ray(this->inv_matrix * raymond.o, this->inv_matrix * raymond.d), tmin);
 }
 
 void
