@@ -116,11 +116,14 @@ public:
 
 	Normal
 		get_normal(const Point3D& p);
+
+	bool
+		hit(const Ray& ray, double& t, ShadeRec& s) const;
 };
 
 inline Normal
 ConcaveSphere::get_normal(const Point3D& p) {
-	Normal n = center - p;
+	Normal n = this->center - p;
 	n.normalize();
 	return n;
 }

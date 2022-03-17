@@ -9,7 +9,7 @@ const double Sphere::kEpsilon = 0.001;
 
 Sphere::Sphere(void)	
 	: 	GeometricObject(),
-		center(0.0),
+		center(Point3D(0, 0, 0)),
 		radius(1.0),
 		sampler_ptr(NULL),
 		inv_area(4 * PI)
@@ -140,6 +140,17 @@ Sphere::shadow_hit(const Ray& ray, double& tmin) const {
 	}
 
 	return false;
+}
+
+bool
+ConcaveSphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
+
+	bool did_hit = Sphere::hit(ray, tmin, sr);
+
+	if (did_hit)
+		sr.normal = -sr.normal;
+
+	return did_hit;
 }
 
 

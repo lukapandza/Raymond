@@ -100,7 +100,9 @@ Instance::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
 		sr.normal = this->inv_matrix * sr.normal;
 		sr.normal.normalize();
 
-		sr.material_ptr = this->material_ptr;
+		//sr.material_ptr = this->material_ptr;
+		if (this->object_ptr->get_material())
+			this->material_ptr = this->object_ptr->get_material();
 
 		if (!transform_the_texture)
 			sr.local_hit_point = raymond.o + tmin * raymond.d;

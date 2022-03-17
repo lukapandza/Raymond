@@ -1,7 +1,7 @@
 #include "BBox.h"
 #include "Constants.h"
 
-BBox::BBox(void)
+BBox::BBox()
 	: x0(-1), y0(-1), z0(-1),
 	x1(1), y1(1), z1(1)
 {}
@@ -27,13 +27,13 @@ BBox::operator= (const BBox& rhs) {
 	if (this == &rhs)
 		return *this;
 
-	x0 = rhs.x0;
-	y0 = rhs.y0;
-	z0 = rhs.z0;
+	this->x0 = rhs.x0;
+	this->y0 = rhs.y0;
+	this->z0 = rhs.z0;
 
-	x1 = rhs.x1;
-	y1 = rhs.y1;
-	z1 = rhs.z1;
+	this->x1 = rhs.x1;
+	this->y1 = rhs.y1;
+	this->z1 = rhs.z1;
 
 	return *this;
 }
@@ -41,8 +41,8 @@ BBox::operator= (const BBox& rhs) {
 BBox::~BBox(void) {}
 
 bool
-BBox::hit(const Ray& raymond) const {
-
+BBox::hit(const Ray& raymond) const 
+{
 	double o_x = raymond.o.x;
 	double o_y = raymond.o.y;
 	double o_z = raymond.o.z;
@@ -110,6 +110,10 @@ BBox::hit(const Ray& raymond) const {
 }
 
 bool
-BBox::inside(const Point3D& p) const {
-	return ((p.x > x0 && p.x < x1) && (p.y > y0 && p.y < y1) && (p.z > z0 && p.z < z1));
-};
+BBox::inside(const Point3D& p) const 
+{
+	return (
+		(p.x > this->x0 && p.x < this->x1) && 
+		(p.y > this->y0 && p.y < this->y1) && 
+		(p.z > this->z0 && p.z < this->z1));
+}
