@@ -9,37 +9,32 @@ class BRDF {
 
 public:
 
-	BRDF(void); // default constructor
+	// default constructor
+	BRDF(); 
 
-	BRDF(const BRDF& rhs); // copy constructor
+	// copy constructor
+	BRDF(const BRDF& rhs); 
 
-	virtual BRDF*
-		clone(void) const = 0;
+	// clone
+	virtual BRDF* clone() const = 0;
 
-	virtual // destructor
-		~BRDF(); 
+	// destructor
+	virtual ~BRDF(); 
 
-	BRDF& // assignment operator
-		operator= (const BRDF& rhs);
+	// assignment operator
+	BRDF& operator= (const BRDF& rhs);
 
-	// setters
+	// sampler assignment
+	void set_sampler(Sampler* sp);
 
-	void
-		set_sampler(Sampler* sp);
+	// Multijittered(n) sampler assignment
+	void set_samples(const int& n);
 
-	void
-		set_samples(const int& n);
+	virtual RGBColor f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
 
-	//functions
+	virtual RGBColor sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
 
-	virtual RGBColor
-		f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
-
-	virtual RGBColor
-		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
-
-	virtual RGBColor
-		rho(const ShadeRec& sr, const Vector3D& w_o) const;
+	virtual RGBColor rho(const ShadeRec& sr, const Vector3D& w_o) const;
 
 protected:
 

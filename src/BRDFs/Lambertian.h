@@ -6,79 +6,79 @@ class Lambertian : public BRDF {
 
 public:
 
-	Lambertian(void); // default constructor
+	// default constructor
+	Lambertian(); 
 
-	Lambertian(const Lambertian& rhs); // copy constructor
+	// copy constructor
+	Lambertian(const Lambertian& rhs); 
 
-	virtual Lambertian*
-		clone(void) const;
+	// clone
+	virtual Lambertian* clone() const;
 
-	virtual
-		~Lambertian(); // destructor
+	// destructor
+	virtual ~Lambertian(); 
 
-	Lambertian& //assignment operator
-		operator= (const Lambertian& rhs);
+	// assignment operator
+	Lambertian& operator= (const Lambertian& rhs);
 
-	double
-		get_kd();
+	// returns difusse intensity
+	double get_kd();
 
-	// setters
+	// set diffuse reflection coefficient
+	void set_kd(const double  c); 
 
-	void // set diffuse reflection coefficient
-		set_kd(const double  c); 
+	// set diffuse color
+	void set_cd(const double  c);
 
-	void // set diffuse color
-		set_cd(const double  c);
+	// set diffuse color
+	void set_cd(const double  r, const double  g, const double  b);
 
-	void // set diffuse color
-		set_cd(const double  r, const double  g, const double  b);
+	// set diffuse color
+	void set_cd(const RGBColor col);
 
-	void // set diffuse color
-		set_cd(const RGBColor col);
+	RGBColor f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
 
-	// functions
+	RGBColor sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
 
-	virtual RGBColor
-		f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
+	RGBColor sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double & pdf) const;
 
-	virtual RGBColor
-		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
-
-	virtual RGBColor
-		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double & pdf) const;
-
-	virtual RGBColor
-		rho(const ShadeRec& sr, const Vector3D& w_o) const;
+	RGBColor rho(const ShadeRec& sr, const Vector3D& w_o) const;
 
 private:
 
-	double  kd; // diffuse reflection coefficient
-	RGBColor cd; // diffuse color
+	// diffuse intensity
+	double  kd; 
+
+	// diffuse color
+	RGBColor cd; 
 };
 
-// inlined functions:
-
 inline void
-Lambertian::set_kd(const double  c) {
-	kd = c;
+Lambertian::set_kd(const double c) 
+{
+	this->kd = c;
 }
 
 inline void
-Lambertian::set_cd(const double  c) {
-	cd = RGBColor(c, c, c);
+Lambertian::set_cd(const double c) 
+{
+	this->cd = RGBColor(c);
 }
 
 inline void 
-Lambertian::set_cd(const double  r, const double  g, const double  b) {
-	cd = RGBColor(r, g, b);
+Lambertian::set_cd(const double r, const double g, const double b) 
+{
+	this->cd = RGBColor(r, g, b);
 }
 
 inline void
-Lambertian::set_cd(const RGBColor col) {
-	cd = col;
+Lambertian::set_cd(const RGBColor col) 
+{
+	this->cd = col;
 }
 
 inline double
-Lambertian::get_kd() {
+Lambertian::get_kd() 
+{
 	return this->kd;
 }

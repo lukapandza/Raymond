@@ -6,71 +6,70 @@ class PerfectSpecular : public BRDF {
 
 public:
 
-	PerfectSpecular(void); // default constructor
+	// default constructor
+	PerfectSpecular(); 
 
-	PerfectSpecular(const PerfectSpecular& rhs); // copy constructor
+	// copy constructor
+	PerfectSpecular(const PerfectSpecular& rhs); 
 
-	virtual PerfectSpecular*
-		clone(void) const; // clone
+	// clone
+	PerfectSpecular* clone() const; 
 
-	virtual
-		~PerfectSpecular(); // destructor
+	// destructor
+	~PerfectSpecular(); 
 
-	PerfectSpecular& //assignment operator
-		operator= (const PerfectSpecular& rhs);
+	//assignment operator
+	PerfectSpecular& operator= (const PerfectSpecular& rhs);
 
-	// setters
+	// set reflection intensity
+	void set_kr(const double  c);
 
-	void
-		set_kr(const double  c);
+	// set diffuse greyscale color
+	void set_cr(const double  c);
 
-	void // set diffuse color
-		set_cr(const double  c);
+	// set diffuse color
+	void set_cr(const double  r, const double  g, const double  b);
 
-	void // set diffuse color
-		set_cr(const double  r, const double  g, const double  b);
+	// set diffuse color
+	void set_cr(const RGBColor col);
 
-	void // set diffuse color
-		set_cr(const RGBColor col);
+	RGBColor f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
 
-	// functions
+	RGBColor sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
 
-	virtual RGBColor
-		f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const;
+	RGBColor sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double  pdf) const;
 
-	virtual RGBColor
-		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const;
-
-	virtual RGBColor
-		sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double  pdf) const;
-
-	virtual RGBColor
-		rho(const ShadeRec& sr, const Vector3D& w_o) const;
+	RGBColor rho(const ShadeRec& sr, const Vector3D& w_o) const;
 
 private:
 
+	// reflection intensity
 	double  kr;
+
+	// reflection color
 	RGBColor cr;
 };
 
-// inlined functions:
-
 inline void
-PerfectSpecular::set_kr(const double  c) {
-	kr = c;
+PerfectSpecular::set_kr(const double  c) 
+{
+	this->kr = c;
 }
 
 inline void
-PerfectSpecular::set_cr(const double  c) {
-	cr = RGBColor(c, c, c);
+PerfectSpecular::set_cr(const double  c) 
+{
+	this->cr = RGBColor(c, c, c);
 }
 
 inline void
-PerfectSpecular::set_cr(const double  r, const double  g, const double  b) {
-	cr = RGBColor(r, g, b);
+PerfectSpecular::set_cr(const double  r, const double  g, const double  b) 
+{
+	this->cr = RGBColor(r, g, b);
 }
 
 inline void
-PerfectSpecular::set_cr(const RGBColor col) {
-	cr = col;
+PerfectSpecular::set_cr(const RGBColor col) 
+{
+	this->cr = col;
 }

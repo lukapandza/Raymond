@@ -1,34 +1,31 @@
 #include "Lambertian.h"
 
-// default constructor
 Lambertian::Lambertian(void) 
 	: BRDF(),
 	kd(1.0),
 	cd(1.0)
 {}
 
-// copy constructor
 Lambertian::Lambertian(const Lambertian& rhs) 
 	: BRDF(rhs),
 	kd(rhs.kd),
 	cd(rhs.cd)
 {}
 
-// clone
 Lambertian*
-Lambertian::clone(void) const {
+Lambertian::clone() const 
+{
 	return new Lambertian(*this);
 }
 
-// destructor
-Lambertian::~Lambertian(void) {
+Lambertian::~Lambertian() 
+{
 	BRDF::~BRDF();
 }
 
-// assignmnet operator
 Lambertian&
-Lambertian::operator=(const Lambertian& rhs) {
-	
+Lambertian::operator=(const Lambertian& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -41,13 +38,14 @@ Lambertian::operator=(const Lambertian& rhs) {
 }
 
 RGBColor
-Lambertian::f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const {
-	return (kd * cd * invPI);
+Lambertian::f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const 
+{
+	return kd * cd * invPI;
 }
 
 RGBColor
-Lambertian::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const {
-	
+Lambertian::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const 
+{
 	Vector3D w(sr.normal);
 	Vector3D v = Vector3D(0.0034, 1.0, 0.0063) ^ w;
 	v.normalize();
@@ -61,8 +59,8 @@ Lambertian::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) con
 }
 
 RGBColor
-Lambertian::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double & pdf) const {
-	
+Lambertian::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double & pdf) const 
+{
 	Vector3D w(sr.normal);
 	Vector3D v = Vector3D(0.0034, 1.0, 0.0063) ^ w;
 	v.normalize();
@@ -76,8 +74,8 @@ Lambertian::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, dou
 	return kd * cd * invPI;
 }
 
-
 RGBColor
-Lambertian::rho(const ShadeRec& sr, const Vector3D& w_o) const {
-	return (kd * cd);
+Lambertian::rho(const ShadeRec& sr, const Vector3D& w_o) const 
+{
+	return kd * cd;
 }

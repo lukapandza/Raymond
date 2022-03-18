@@ -1,14 +1,12 @@
 #include "GlossySpecular.h"
 
-// default constructor
-GlossySpecular::GlossySpecular(void) 
+GlossySpecular::GlossySpecular() 
 	: BRDF(),
 	ks(1.0),
 	cs(1.0),
 	exp(16.0)
 {}
 
-//copy constructor
 GlossySpecular::GlossySpecular(const GlossySpecular& rhs) 
 	: BRDF(rhs),
 	ks(rhs.ks),
@@ -16,36 +14,33 @@ GlossySpecular::GlossySpecular(const GlossySpecular& rhs)
 	exp(rhs.exp)
 {}
 
-// clone
 GlossySpecular*
-GlossySpecular::clone(void) const {
+GlossySpecular::clone() const 
+{
 	return new GlossySpecular(*this);
 }
 
-// destructor
-GlossySpecular::~GlossySpecular(void) {
+GlossySpecular::~GlossySpecular() 
+{
 	BRDF::~BRDF();
 }
 
-// assignment operator
 GlossySpecular&
-GlossySpecular::operator= (const GlossySpecular& rhs) {
-
+GlossySpecular::operator= (const GlossySpecular& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
 	BRDF::operator=(rhs);
 
-	ks = rhs.ks;
-	cs = rhs.cs;
-	exp = rhs.exp;
+	ks = rhs.ks; cs = rhs.cs; exp = rhs.exp;
 
 	return *this;
 }
 
 RGBColor
-GlossySpecular::f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const {
-	
+GlossySpecular::f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) const 
+{
 	RGBColor L;
 	double  n_dot_w_i = sr.normal * w_i;
 	Vector3D r(-w_i + 2.0 * sr.normal * n_dot_w_i);
@@ -58,8 +53,8 @@ GlossySpecular::f(const ShadeRec& sr, const Vector3D& w_i, const Vector3D& w_o) 
 }
 
 RGBColor
-GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const {
-	
+GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i) const 
+{
 	double  n_dot_wo = sr.normal * w_o;
 
 	// reflection:
@@ -78,8 +73,8 @@ GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i)
 }
 
 RGBColor
-GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double& pdf) const {
-	
+GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, double& pdf) const 
+{
 	double  n_dot_wo = sr.normal * w_o;
 	Vector3D r = -w_o + 2.0 * sr.normal * n_dot_wo; // direction of mirror
 
