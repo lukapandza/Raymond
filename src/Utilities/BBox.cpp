@@ -22,34 +22,22 @@ BBox::BBox(const BBox& rhs)
 {}
 
 BBox&
-BBox::operator= (const BBox& rhs) {
-
+BBox::operator= (const BBox& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
-	this->x0 = rhs.x0;
-	this->y0 = rhs.y0;
-	this->z0 = rhs.z0;
-
-	this->x1 = rhs.x1;
-	this->y1 = rhs.y1;
-	this->z1 = rhs.z1;
+	this->x0 = rhs.x0; this->y0 = rhs.y0; this->z0 = rhs.z0;
+	this->x1 = rhs.x1; this->y1 = rhs.y1; this->z1 = rhs.z1;
 
 	return *this;
 }
 
-BBox::~BBox(void) {}
-
 bool
 BBox::hit(const Ray& raymond) const 
 {
-	double o_x = raymond.o.x;
-	double o_y = raymond.o.y;
-	double o_z = raymond.o.z;
-
-	double d_x = raymond.d.x;
-	double d_y = raymond.d.y;
-	double d_z = raymond.d.z;
+	double o_x = raymond.o.x; double o_y = raymond.o.y; double o_z = raymond.o.z;
+	double d_x = raymond.d.x; double d_y = raymond.d.y; double d_z = raymond.d.z;
 
 	double tx_min, ty_min, tz_min;
 	double tx_max, ty_max, tz_max;

@@ -54,24 +54,24 @@ int solve_cubic(double c[4], double s[3])
 	p = 1.0 / 3 * (-1.0 / 3 * sq_A + B);
 	q = 1.0 / 2 * (2.0 / 27 * A * sq_A - 1.0 / 3 * A * B + C);
 
-	/* use Cardano's formula */
+	// use Cardano's formula 
 
 	cb_p = p * p * p;
 	D = q * q + cb_p;
 
 	if (IsZero(D)) {
-		if (IsZero(q)) { /* one triple solution */
+		if (IsZero(q)) { // one triple solution
 			s[0] = 0;
 			num = 1;
 		}
-		else { /* one single and one double solution */
+		else { // one single and one double solution
 			double u = cbrt(-q);
 			s[0] = 2 * u;
 			s[1] = -u;
 			num = 2;
 		}
 	}
-	else if (D < 0) { /* Casus irreducibilis: three real solutions */
+	else if (D < 0) { // Casus irreducibilis: three real solutions
 		double phi = 1.0 / 3 * acos(-q / sqrt(-cb_p));
 		double t = 2 * sqrt(-p);
 
@@ -80,7 +80,7 @@ int solve_cubic(double c[4], double s[3])
 		s[2] = -t * cos(phi - PI / 3);
 		num = 3;
 	}
-	else { /* one real solution */
+	else { // one real solution
 		double sqrt_D = sqrt(D);
 		double u = cbrt(sqrt_D - q);
 		double v = -cbrt(sqrt_D + q);
@@ -89,7 +89,7 @@ int solve_cubic(double c[4], double s[3])
 		num = 1;
 	}
 
-	/* resubstitute */
+	// resubstitute
 
 	sub = 1.0 / 3 * A;
 
@@ -107,15 +107,15 @@ int solve_quartic(double c[5], double s[4])
 	double  sq_A, p, q, r;
 	int     i, num;
 
-	/* normal form: x^4 + Ax^3 + Bx^2 + Cx + D = 0 */
+	// normal form: x^4 + Ax^3 + Bx^2 + Cx + D = 0
 
 	A = c[3] / c[4];
 	B = c[2] / c[4];
 	C = c[1] / c[4];
 	D = c[0] / c[4];
 
-	/*  substitute x = y - A/4 to eliminate cubic term:
-	x^4 + px^2 + qx + r = 0 */
+	// substitute x = y - A/4 to eliminate cubic term:
+	// x^4 + px^2 + qx + r = 0
 
 	sq_A = A * A;
 	p = -3.0 / 8 * sq_A + B;
@@ -123,7 +123,7 @@ int solve_quartic(double c[5], double s[4])
 	r = -3.0 / 256 * sq_A * sq_A + 1.0 / 16 * sq_A * B - 1.0 / 4 * A * C + D;
 
 	if (IsZero(r)) {
-		/* no absolute term: y(y^3 + py + q) = 0 */
+		// no absolute term: y(y^3 + py + q) = 0
 
 		coeffs[0] = q;
 		coeffs[1] = p;
@@ -135,7 +135,7 @@ int solve_quartic(double c[5], double s[4])
 		s[num++] = 0;
 	}
 	else {
-		/* solve the resolvent cubic ... */
+		// solve the resolvent cubic ...
 
 		coeffs[0] = 1.0 / 2 * r * p - 1.0 / 8 * q * q;
 		coeffs[1] = -r;
@@ -144,11 +144,11 @@ int solve_quartic(double c[5], double s[4])
 
 		(void)solve_cubic(coeffs, s);
 
-		/* ... and take the one real solution ... */
+		// ... and take the one real solution ...
 
 		z = s[0];
 
-		/* ... to build two quadric equations */
+		// ... to build two quadric equations
 
 		u = z * z - r;
 		v = 2 * z - p;
@@ -180,7 +180,7 @@ int solve_quartic(double c[5], double s[4])
 		num += solve_quadric(coeffs, s + num);
 	}
 
-	/* resubstitute */
+	// resubstitute
 
 	sub = 1.0 / 4 * A;
 

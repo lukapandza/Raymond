@@ -7,24 +7,27 @@ class BBox {
 
 public:
 
-	// member variables:
+	// member variable
 	double x0, y0, z0, x1, y1, z1;
 
-	BBox(); // default constructor
+	// default constructor
+	BBox();
 
-	BBox(const double _x0, const double _y0, const double _z0, const double _x1, const double _y1, const double _z1); // raw constructor
+	// raw value constructor
+	BBox(const double _x0, const double _y0, const double _z0, const double _x1, const double _y1, const double _z1);
 
-	BBox(const Point3D _c0, const Point3D _c1); // points constructor
+	// points constructor
+	BBox(const Point3D _c0, const Point3D _c1);
 
-	BBox(const BBox& rhs); // copy constructor
+	// copy constructor
+	BBox(const BBox& rhs); 
 
-	BBox& operator=(const BBox& rhs); // assignment operator
+	// assignment operator
+	BBox& operator=(const BBox& rhs);
 
-	~BBox(); // destructor
-
-	// methods:
-
+	// intersect object with Ray
 	bool hit(const Ray& raymond) const;
 
+	// is a point inside the bounding box
 	bool inside(const Point3D& p) const;
 };

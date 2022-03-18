@@ -207,7 +207,7 @@ Box::shadow_hit(const Ray& raymond, double& t) const {
 		return false;
 }
 
-Normal
+inline Normal
 Box::get_normal(const int& face_hit) const {
 
 	switch (face_hit) {

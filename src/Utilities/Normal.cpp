@@ -1,47 +1,25 @@
-// This file contains the defintion of the class Normal
-
-#include <math.h>
-
 #include "Normal.h"
-
-
-// ---------------------------------------------------------- default constructor
+#include <math.h>
 
 Normal::Normal()
 	 : x(0.0), y(0.0), z(0.0)							
 {}
 
-
-// ---------------------------------------------------------- constructor
-
 Normal::Normal(double a)
 	 : x(a), y(a), z(a)							
 {}
-
-
-// ---------------------------------------------------------- constructor
 
 Normal::Normal(double _x, double _y, double _z)	 
 	: x(_x), y(_y), z(_z)
 {}
 
-
-// ---------------------------------------------------------- copy constructor
-
 Normal::Normal(const Normal& n)
 	: x(n.x), y(n.y), z(n.z)
 {}
 
-
-// ---------------------------------------------------------- constructor
-// construct a normal from a vector
-
 Normal::Normal(const Vector3D& v)	 
 	: x(v.x), y(v.y), z(v.z)  
 {}
-
-// ----------------------------------------------------------- operator=
-// assignment operator
 
 Normal& 
 Normal::operator= (const Normal& rhs) 
@@ -54,20 +32,12 @@ Normal::operator= (const Normal& rhs)
 	return *this;
 }
 
-
-// ------------------------------------------------------------ operator=
-// assignment of a vector to a normal
-
 Normal& 
 Normal::operator= (const Vector3D& rhs) 
 {
 	x = rhs.x; y = rhs.y; z = rhs.z;
 	return *this;
 }
-
-
-// ------------------------------------------------------------ operator=
-// assignment of a point to a normal
 
 Normal& 
 Normal::operator= (const Point3D& rhs) 
@@ -76,9 +46,6 @@ Normal::operator= (const Point3D& rhs)
 	return *this;
 }
 
-
-// ------------------------------------------------------------ normalize
-
 void 													
 Normal::normalize() 
 {	
@@ -86,15 +53,8 @@ Normal::normalize()
 	x *= inv_length; y *= inv_length; z *= inv_length;
 }
 
-
-// non-member function definition
-
-// ---------------------------------------------------------- operator*
-// multiplication by a matrix on the left
-
 // a normal is transformed by multiplying it on the left by the transpose of the upper left 3 x 3
 // partition of the inverse transformation matrix
-
 Normal 											
 operator* (const Matrix_4& mat, const Normal& n) 
 {
@@ -102,7 +62,3 @@ operator* (const Matrix_4& mat, const Normal& n)
 					mat.m[0][1] * n.x + mat.m[1][1] * n.y + mat.m[2][1] * n.z,
 					mat.m[0][2] * n.x + mat.m[1][2] * n.y + mat.m[2][2] * n.z);
 }
-
-
-
-

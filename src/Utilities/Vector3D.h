@@ -1,99 +1,101 @@
 #pragma once
 
-// This file contains the declaration of the class Vector3D
-
 #include "Matrix_4.h"
-
-class Normal;
-class Point3D;
-
-//----------------------------------------- class Vector3D
+class Normal; // forward decleration
+class Point3D; // forward decleration
+#include <math.h>
 
 class Vector3D {
 public:
 	
+	// component
 	double	x, y, z;
 	
-	Vector3D();											// default constructor
-	Vector3D(double a);										// constructor
-	Vector3D(double _x, double _y, double _z);				// constructor
-	Vector3D(const Vector3D& v);							// copy constructor
-	Vector3D(const Normal& n);								// constructs a vector from a Normal
-	Vector3D(const Point3D& p);								// constructs a vector from a point
+	// default constructor
+	Vector3D();
 
-	Vector3D& 												// assignment operator
-		operator= (const Vector3D& rhs);
+	// scalar constructor
+	Vector3D(double a);							
+
+	// component constructor
+	Vector3D(double _x, double _y, double _z);
+
+	// copy constructor
+	Vector3D(const Vector3D& v);
+
+	// constructs a vector from a Normal
+	Vector3D(const Normal& n);
+
+	// constructs a vector from a point
+	Vector3D(const Point3D& p);
+
+	// assignment operator
+	Vector3D& operator= (const Vector3D& rhs);
+	
+	// assign a Normal to a vector
+	Vector3D& operator= (const Normal& rhs); 
 		
-	Vector3D& 												// assign a Normal to a vector
-		operator= (const Normal& rhs); 
+	// assign a Point3D to a vector
+	Vector3D& operator= (const Point3D& rhs); 
 		
-	Vector3D& 												// assign a Point3D to a vector
-		operator= (const Point3D& rhs); 
+	// negation
+	Vector3D operator- () const;									
+	
+	// length of vector
+	double length();
+	
+	// square of the length
+	double len_squared();
+	
+	// multiplication by a double on the right
+	Vector3D operator* (const double a) const;
+
+	// in-place multiplication by a double on the right
+	Vector3D& operator*= (const double a);
+	
+	// division by a double
+	Vector3D operator/ (const double a) const;
 		
-	Vector3D												// unary minus
-		operator- () const;									
-				
-	double													// length
-		length();
+	// addition
+	Vector3D operator+ (const Vector3D& v) const;
+	
+	// in-place addition
+	Vector3D& operator+= (const Vector3D& v);					
+	
+	// subtraction
+	Vector3D operator- (const Vector3D& v) const;					
 		
-	double													// square of the length
-		len_squared();
+	// dot product
+	double operator* (const Vector3D& b) const;
 		
-	Vector3D												// multiplication by a double on the right
-		operator* (const double a) const;
-				
-	Vector3D												// division by a double
-		operator/ (const double a) const;
+	// cross product
+	Vector3D operator^ (const Vector3D& v) const;
 		
-	Vector3D												// addition
-		operator+ (const Vector3D& v) const;
-		
-	Vector3D& 												// compound addition
-		operator+= (const Vector3D& v);					
-		
-	Vector3D												// subtraction
-		operator- (const Vector3D& v) const;					
-		
-	double 													// dot product							
-		operator* (const Vector3D& b) const;
-		
-	Vector3D 												// cross product				
-		operator^ (const Vector3D& v) const;
-		
-	void 													// convert vector to a unit vector
-		normalize(); 
-		
-	Vector3D& 												// return a unit vector, and normalize the vector												
-		hat();
+	// convert vector to a unit vector
+	void normalize(); 
+	
+	// return a unit vector, and normalize the vector in place
+	Vector3D& hat();
 };
 
 
-// inlined member functions
-
-// ------------------------------------------------------------------------ unary minus
-// this does not change the current vector
-// this allows ShadeRec objects to be declared as constant arguments in many shading
-// functions that reverse the direction of a ray that's stored in the ShadeRec object
-
 inline Vector3D 
-Vector3D::operator- (void) const 
+Vector3D::operator- () const 
 {
 	return Vector3D(-x, -y, -z);    
 }
 
-
-// ---------------------------------------------------------------------  len_squared
-// the square of the length
+inline double
+Vector3D::length()
+{
+	return sqrt(x * x + y * y + z * z);
+}
 
 inline double													
-Vector3D::len_squared(void) 
+Vector3D::len_squared() 
 {	
 	return x * x + y * y + z * z;
 }
-
-
-// ----------------------------------------------------------------------- operator*
-// multiplication by a double on the right
 
 inline Vector3D
 Vector3D::operator* (const double a) const 
@@ -101,8 +103,12 @@ Vector3D::operator* (const double a) const
 	return Vector3D(x * a, y * a, z * a);	
 }
 
-// ----------------------------------------------------------------------- operator/
-// division by a double
+inline Vector3D&
+Vector3D::operator*= (const double a)
+{
+	x *= a; y *= a; z *= a;
+	return *this;
+}
 
 inline Vector3D
 Vector3D::operator/ (const double a) const 
@@ -111,19 +117,11 @@ Vector3D::operator/ (const double a) const
 	return Vector3D(x * inv_a, y * inv_a, z * inv_a);	
 }
 
-
-// ----------------------------------------------------------------------- operator+
-// addition
-
 inline Vector3D
 Vector3D::operator+ (const Vector3D& v) const 
 {
 	return Vector3D(x + v.x, y + v.y, z + v.z);
 }
-
-
-// ----------------------------------------------------------------------- operator-
-// subtraction
 
 inline Vector3D
 Vector3D::operator- (const Vector3D& v) const 
@@ -131,19 +129,11 @@ Vector3D::operator- (const Vector3D& v) const
 	return Vector3D(x - v.x, y - v.y, z - v.z);
 }
 
-
-// ----------------------------------------------------------------------- operator*
-// dot product
-
 inline double 
 Vector3D::operator* (const Vector3D& v) const 
 {
 	return x * v.x + y * v.y + z * v.z;
 } 
-
-
-// ----------------------------------------------------------------------- operator^
-// cross product
 
 inline Vector3D 									
 Vector3D::operator^ (const Vector3D& v) const 
@@ -151,9 +141,18 @@ Vector3D::operator^ (const Vector3D& v) const
 	return Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
 
+inline void
+Vector3D::normalize()
+{
+	*this *= 1.0 / this->length();
+}
 
-// ---------------------------------------------------------------------  operator+=
-// compound addition
+inline Vector3D&
+Vector3D::hat()
+{
+	*this *= 1.0 / this->length();
+	return *this;
+}
 
 inline Vector3D& 
 Vector3D::operator+= (const Vector3D& v) 
@@ -163,29 +162,14 @@ Vector3D::operator+= (const Vector3D& v)
 }
 
 
+// non-member functions: 
 
-
-// inlined non-member function
-
-// ----------------------------------------------------------------------- operator*
 // multiplication by a double on the left
-
-Vector3D 
-operator* (const double a, const Vector3D& v);
-
 inline Vector3D 
 operator* (const double a, const Vector3D& v) 
 {
 	return Vector3D(a * v.x, a * v.y, a * v.z);	
 }
 
-
-
-// non-inlined non-member function
-
-// ----------------------------------------------------------------------- operator* 
 // multiplication by a matrix on the left
-
-Vector3D 
-operator* (const Matrix_4& mat, const Vector3D& v);
-
+Vector3D operator* (const Matrix_4& mat, const Vector3D& v);

@@ -1,12 +1,8 @@
-// This file contains the definition of the class Matrix
-
 #include "Matrix_4.h"
-
-// ----------------------------------------------------------------------- default constructor
-// a default matrix is an identity matrix
 
 Matrix_4::Matrix_4() 
 {	
+	// by default we construct an identity matrix
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++) {
 			if (x == y)
@@ -16,25 +12,12 @@ Matrix_4::Matrix_4()
 		}
 }
 
-
-// ----------------------------------------------------------------------- copy constructor
-
 Matrix_4::Matrix_4 (const Matrix_4& mat) 
 {
 	for (int x = 0; x < 4; x++)				
 		for (int y = 0; y < 4; y++)			
 			m[x][y] = mat.m[x][y];	
 }
-
-
-// ----------------------------------------------------------------------- destructor
-
-Matrix_4::~Matrix_4 () {}   
-
-
-
-
-// ----------------------------------------------------------------------- assignment operator
 
 Matrix_4& 
 Matrix_4::operator= (const Matrix_4& rhs) 
@@ -49,14 +32,10 @@ Matrix_4::operator= (const Matrix_4& rhs)
 	return *this;
 }
 
-
-// ----------------------------------------------------------------------- operator*
-// multiplication of two matrices
-
 Matrix_4 
 Matrix_4::operator* (const Matrix_4& mat) const 
 {
-	Matrix_4 	product;
+	Matrix_4 product;
 	
 	for (int y = 0; y < 4; y++)
 		for (int x = 0; x < 4; x++) {
@@ -71,10 +50,6 @@ Matrix_4::operator* (const Matrix_4& mat) const
 	return product;
 }
 
-
-// ----------------------------------------------------------------------- operator/
-// division by a scalar
-
 Matrix_4 
 Matrix_4::operator/ (const double d) 
 {
@@ -84,11 +59,6 @@ Matrix_4::operator/ (const double d)
 
 	return *this;
 }
-
-
-
-// ----------------------------------------------------------------------- set_identity
-// set matrix to the identity matrix
 
 void											
 Matrix_4::set_identity() 
@@ -101,9 +71,3 @@ Matrix_4::set_identity()
 				m[x][y] = 0.0;
 		}
 }
-
-
-
-
-
-

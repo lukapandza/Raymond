@@ -4,52 +4,46 @@
 #include "Constants.h"
 #include "RGBColor.h"
 
-int rand_int(void);
-
-double rand_float(void);
-
-void set_rand_seed(const int seed);
-
-double rand_float(int low, double high);
-
-int rand_int(int low, int high);
-
-double clamp(const double num, const double min, const double max);
-
+// find roots of second order polynomial
 int solve_quadric(double c[3], double s[2]);
 
+// find roots of third order polynomial
 int solve_cubic(double c[4], double s[3]);
 
+// fond roots of fourth order polynomial
 int solve_quartic(double c[5], double s[4]);
 
-
-//inlined functions:
-
+// random int in [min_int, max_int]
 inline int rand_int() 
 {
 	return rand();
 }
 
+// random double in [0.0, 1.0]
 inline double rand_float() 
 {
 	return (double)rand_int() * invRAND_MAX;
 }
 
+// set seed for rand()
 inline void set_rand_seed(const int seed) 
 {
 	srand(seed);
 }
 
+// random double in [low, high]
 inline double rand_float(int low, double high) 
 {
 	return rand_float() * (high - low);
 }
 
+// random int in [low, high]
 inline int rand_int(int low, int high) 
 {
 	return (rand() % (high - low + 1)) + low;
 }
 
+// force scalar into range [min, max]
 inline double clamp(const double num, const double min, const double max) 
 {
 	return num < min ? min : (num > max ? max : num);

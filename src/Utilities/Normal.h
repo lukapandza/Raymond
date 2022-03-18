@@ -1,164 +1,120 @@
-
 #pragma once
-
-// This file contains the declaration of the class Normal
 
 #include "Matrix_4.h"
 #include "Vector3D.h"
 #include "Point3D.h"
 
-class Normal 
-{	
+class Normal {	
 public:
 	
+	// component
 	double	x, y, z;
 	
-	Normal();										    // default constructor
+	// default constructor
+	Normal();
 
-	Normal(double a);									// constructor
+	// scalar constructor
+	Normal(double a);
 
-	Normal(double _x, double _y, double _z);			// constructor
+	// component constructor
+	Normal(double _x, double _y, double _z);
 
-	Normal(const Normal& n); 							// copy constructor
+	// copy constructor
+	Normal(const Normal& n);
 
-	Normal(const Vector3D& v);							// constructs a normal from vector
+	// constructs a normal from vector
+	Normal(const Vector3D& v);
 
-	Normal& 											// assignment operator
-		operator= (const Normal& rhs); 	
+	// assignment operator
+	Normal& operator= (const Normal& rhs); 	
+	
+	// assignment of a vector to a normal
+	Normal& operator= (const Vector3D& rhs);
 		
-	Normal& 											// assignment of a vector to a normal
-		operator= (const Vector3D& rhs);
+	// assignment of a point to a normal
+	Normal& operator= (const Point3D& rhs);
 		
-	Normal& 											// assignment of a point to a normal
-		operator= (const Point3D& rhs);
+	// negation
+	Normal operator- () const;	
 		
-	Normal 												// unary minus
-		operator- () const;	
+	// addition
+	Normal operator+ (const Normal& n) const;
 		
-	Normal 												// addition
-		operator+ (const Normal& n) const;
-		
-	Normal& 											// compound addition
-		operator+= (const Normal& n);
-		
-	double
-		operator* (const Vector3D& v) const;			// dot product with a vector on the right
-		
-	Normal 												// multiplication by a double on the right
-		operator* (const double a) const;
-				
-	void 												// convert normal to a unit normal
-		normalize(); 									 		
+	// in-place addition
+	Normal& operator+= (const Normal& n);
+	
+	// dot product by vector on the right
+	double operator* (const Vector3D& v) const;
+	
+	// multiplication by a double on the right
+	Normal operator* (const double a) const;
+	
+	// set length to 1.0
+	void normalize(); 									 		
 };
 
 
-
-
-
-// inlined member functions
-
-// ----------------------------------------------------------------------- operator-
-// unary minus
-
 inline Normal 											
-Normal::operator- (void) const {
-	return (Normal(-x, -y, -z));
+Normal::operator- () const 
+{
+	return Normal(-x, -y, -z);
 }
 
-
-// ----------------------------------------------------------------------- operator+
-// addition of two normals
-
 inline Normal 											
-Normal::operator+ (const Normal& n) const {
-	return (Normal(x + n.x, y + n.y, z + n.z));
+Normal::operator+ (const Normal& n) const 
+{
+	return Normal(x + n.x, y + n.y, z + n.z);
 }
-
-
-// ----------------------------------------------------------------------- addition
-// compound addition of two normals
 
 inline Normal& 
-Normal::operator+= (const Normal& n) {
+Normal::operator+= (const Normal& n) 
+{
 	x += n.x; y += n.y; z += n.z;
-    return (*this);
+    return *this;
 }
-
-
-// ----------------------------------------------------------------------- operator*
-// dot product of a normal on the left and a vector on the right
 
 inline double
-Normal::operator* (const Vector3D& v) const {
-	return (x * v.x + y * v.y + z * v.z);
+Normal::operator* (const Vector3D& v) const 
+{
+	return x * v.x + y * v.y + z * v.z;
 }
-
-
-// ----------------------------------------------------------------------- operator*
-// multiplication by a double on the right
 
 inline Normal
-Normal::operator* (const double a) const {
-	return (Normal(x * a, y * a, z * a));
+Normal::operator* (const double a) const 
+{
+	return Normal(x * a, y * a, z * a);
 }
 
+// non member functions:
 
-
-// inlined non-member functions
-
-// ----------------------------------------------------------------------- operator*
-// multiplication by a double on the left
-
-Normal
-operator* (const double a, const Normal& n);
-
+// multiplication by double on the left
 inline Normal
-operator*(const double f, const Normal& n) {
-	return (Normal(f * n.x, f * n.y,f * n.z));
+operator*(const double f, const Normal& n) 
+{
+	return Normal(f * n.x, f * n.y,f * n.z);
 }
 
-
-// ----------------------------------------------------------------------- operator+
 // addition of a vector on the left to return a vector 
-
-Vector3D
-operator+ (const Vector3D& v, const Normal& n);
-
 inline Vector3D
-operator+ (const Vector3D& v, const Normal& n) {	
-	return (Vector3D(v.x + n.x, v.y + n.y, v.z + n.z));
+operator+ (const Vector3D& v, const Normal& n) 
+{	
+	return Vector3D(v.x + n.x, v.y + n.y, v.z + n.z);
 }	
 
-
-// ----------------------------------------------------------------------- operator-
 // subtraction of a normal from a vector to return a vector
-
-Vector3D
-operator- (const Vector3D&, const Normal& n);
-
 inline Vector3D
-operator- (const Vector3D& v, const Normal& n) {
-	return (Vector3D(v.x - n.x, v.y - n.y, v.z - n.z));
+operator- (const Vector3D& v, const Normal& n) 
+{
+	return Vector3D(v.x - n.x, v.y - n.y, v.z - n.z);
 }
 
-
-// ----------------------------------------------------------------------- operator*
 // dot product of a vector on the left and a normal on the right
-
-double
-operator* (const Vector3D& v, const Normal& n);
-
 inline double
-operator* (const Vector3D& v, const Normal& n) {
+operator* (const Vector3D& v, const Normal& n) 
+{
 	return (v.x * n.x + v.y * n.y + v.z * n.z);     
 }
 
-
-
-// non-inlined non-member function
-
-// ----------------------------------------------------------------------- operator*
 // multiplication by a matrix on the left
-
 Normal 											
 operator* (const Matrix_4& mat, const Normal& n);

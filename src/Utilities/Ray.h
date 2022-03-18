@@ -6,15 +6,21 @@
 class Ray {
 public:
 	
-	Point3D	o;  				// origin 
-	Vector3D d; 				// direction 
-		
+	// ray origin
+	Point3D	o;
+
+	// ray direction
+	Vector3D d;
+	
+	// default constructor
 	Ray();			
-		
+	
+	// point-vector constructor
 	Ray(const Point3D& origin, const Vector3D& dir);	
-		
+	
+	// copy constructor
 	Ray(const Ray& ray); 		
-		
-	Ray& 						
-		operator= (const Ray& rhs);
+	
+	// assignment operator
+	Ray& operator= (const Ray& rhs);
 };

@@ -9,7 +9,7 @@ const double 	PI_ON_180 	= 0.0174532925199432957;
 const double 	invPI 		= 0.3183098861837906715;
 const double 	invTWO_PI 	= 0.1591549430918953358;
 
-const double 	kEpsilon 	= 0.0001; 
+const double 	kEpsilon 	= 1.0E-6; 
 const double	kHugeValue	= 1.0E10;
 
 const RGBColor	black(0.0);
@@ -17,4 +17,3 @@ const RGBColor	white(1.0);
 const RGBColor	red(1.0, 0.0, 0.0);
 
 const double 	invRAND_MAX = 1.0 / (double)RAND_MAX;
-

@@ -1,9 +1,9 @@
 void
 World::build() {
 
-    int num_samples = 10000;
+    int num_samples = 400;
 
-    double scale_factor = 64;
+    double scale_factor = 16;
 
     vp.set_hres(16 * scale_factor);
     vp.set_vres(9 * scale_factor);
@@ -36,12 +36,12 @@ World::build() {
     emissive_ptr2->set_ls(16);
     emissive_ptr2->set_ce(.98, 0.83, 0.6);
 
-    /*
+    
     ConcaveSphere* sphere_ptr = new ConcaveSphere;
     sphere_ptr->set_radius(1000000.0);
     sphere_ptr->set_material(emissive_ptr1);
     add_object(sphere_ptr);
-    */
+    
 
 
     // Materials:

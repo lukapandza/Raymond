@@ -4,60 +4,68 @@ class RGBColor {
 	
 public:
 	
+	// member variable
 	double	r, g, b;
 	
-	RGBColor();											// default constructor
-	RGBColor(double c);									// constructor
-	RGBColor(double _r, double _g, double _b);			// constructor
-	RGBColor(const RGBColor& c); 						// copy constructor
-		
-	RGBColor& 											// assignment operator
-		operator= (const RGBColor& rhs); 
+	// default constructor
+	RGBColor();
 
-	RGBColor 											// addition
-		operator+ (const RGBColor& c) const;	
+	// greyscale constructor
+	RGBColor(double c);
 
-	RGBColor& 											// compound addition
-		operator+= (const RGBColor& c);
+	// component constructor
+	RGBColor(double _r, double _g, double _b);
+
+	// copy constructor
+	RGBColor(const RGBColor& c);
+	
+	// assignment operator
+	RGBColor& operator= (const RGBColor& rhs); 
+
+	// addition
+	RGBColor operator+ (const RGBColor& c) const;	
+
+	// in-place addition
+	RGBColor& operator+= (const RGBColor& c);
+	
+	// multiplication by scalar
+	RGBColor operator* (const double& a) const;
 		
-	RGBColor 											// multiplication by a double on the right
-		operator* (const double& a) const;
+	// in-place multiplication by scalar
+	RGBColor& operator*= (const double& a);					
+	
+	// division by scalar
+	RGBColor operator/ (const double& a) const;
 		
-	RGBColor& 											// compound multiplication by a double on the right
-		operator*= (const double& a);					
+	// in-place division by scalar
+	RGBColor& operator/= (const double& a); 
 				
-	RGBColor 											// division by a double
-		operator/ (const double& a) const;
+	// multiplication by color
+	RGBColor operator* (const RGBColor& c) const;
+
+	// in-place multiplication by color
+	RGBColor& operator*= (const RGBColor& c);
 		
-	RGBColor& 											// compound division by a double
-		operator/= (const double& a); 
-				
-	RGBColor 											// component-wise multiplication
-		operator* (const RGBColor& c) const;
+	// equality check
+	bool operator== (const RGBColor& c) const;				
 
-	RGBColor&
-		operator*= (const RGBColor& c);
+	// raise components to power of scalar
+	RGBColor powc(const double& p) const;
 		
-	bool												// are two RGBColours the same?
-		operator== (const RGBColor& c) const;				
+	// the average of components
+	double average() const;
 
-	RGBColor											// raise components to a power
-		powc(const double& p) const;
-		
-	double												// the average of the components
-		average() const;
+	// wavelength to RGB conversion
+    static RGBColor convert_wave_length_nm_to_rgb(const double wave_length_nm);
 
-       static RGBColor
-        convert_wave_length_nm_to_rgb(const double wave_length_nm);
+	// normalize out of bounds colors (ratio preserved)
+	RGBColor max_to_one() const;
 
-	RGBColor
-		max_to_one() const;
+	// set out of bounds colors to red
+	RGBColor clamp_to_red() const;
 
-	RGBColor
-		clamp_to_red() const;
-
-	RGBColor
-		gamma(double gamma) const;
+	// raise components to power of gamma
+	RGBColor gamma(double gamma) const;
 };
 
 
