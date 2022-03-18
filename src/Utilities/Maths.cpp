@@ -5,12 +5,11 @@
 #define EQN_EPS     1e-90
 #define	IsZero(x)	((x) > -EQN_EPS && (x) < EQN_EPS)
 
-int
-solve_quadric(double c[3], double s[2]) {
-
+int solve_quadric(double c[3], double s[2]) 
+{
 	double p, q, D;
 
-	/* normal form: x^2 + px + q = 0 */
+	// normal form: x^2 + px + q = 0
 
 	p = c[1] / (2 * c[2]);
 	q = c[0] / c[2];
@@ -19,36 +18,37 @@ solve_quadric(double c[3], double s[2]) {
 
 	if (IsZero(D)) {
 		s[0] = -p;
-		return 1;
+		return 1; // one solution
 	}
+
 	else if (D > 0) {
 		double sqrt_D = sqrt(D);
 
 		s[0] = sqrt_D - p;
 		s[1] = -sqrt_D - p;
-		return 2;
+		return 2; // two solutions
 	}
-	else /* if (D < 0) */
-		return 0;
+
+	else // if (D < 0)
+		return 0; // no solutions
 }
 
-int
-solve_cubic(double c[4], double s[3]) {
-	
-	int     i, num;
+int solve_cubic(double c[4], double s[3]) 
+{
+	int     num;
 	double  sub;
 	double  A, B, C;
 	double  sq_A, p, q;
 	double  cb_p, D;
 
-	/* normal form: x^3 + Ax^2 + Bx + C = 0 */
+	// normal form: x^3 + Ax^2 + Bx + C = 0
 
 	A = c[2] / c[3];
 	B = c[1] / c[3];
 	C = c[0] / c[3];
 
-	/*  substitute x = y - A/3 to eliminate quadric term:
-	x^3 +px + q = 0 */
+	// substitute x = y - A/3 to eliminate quadric term:
+	// x^3 +px + q = 0
 
 	sq_A = A * A;
 	p = 1.0 / 3 * (-1.0 / 3 * sq_A + B);
@@ -93,15 +93,14 @@ solve_cubic(double c[4], double s[3]) {
 
 	sub = 1.0 / 3 * A;
 
-	for (i = 0; i < num; ++i)
+	for (int i(0); i < num; i++)
 		s[i] -= sub;
 
 	return num;
 }
 
-int
-solve_quartic(double c[5], double s[4]) {
-	
+int solve_quartic(double c[5], double s[4]) 
+{	
 	double  coeffs[4];
 	double  z, u, v, sub;
 	double  A, B, C, D;
@@ -185,7 +184,7 @@ solve_quartic(double c[5], double s[4]) {
 
 	sub = 1.0 / 4 * A;
 
-	for (i = 0; i < num; ++i)
+	for (int i(0); i < num; i++)
 		s[i] -= sub;
 
 	return num;

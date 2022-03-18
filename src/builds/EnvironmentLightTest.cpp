@@ -1,9 +1,9 @@
 void
 World::build() {
 
-    int num_samples = 256;
+    int num_samples = 10000;
 
-    double scale_factor = 32;
+    double scale_factor = 64;
 
     vp.set_hres(16 * scale_factor);
     vp.set_vres(9 * scale_factor);

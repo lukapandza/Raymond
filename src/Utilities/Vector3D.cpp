@@ -8,7 +8,7 @@
 
 // ---------------------------------------------------------- default constructor
 
-Vector3D::Vector3D(void)
+Vector3D::Vector3D()
 	 : x(0.0), y(0.0), z(0.0)							
 {}
 
@@ -47,23 +47,17 @@ Vector3D::Vector3D(const Point3D& p)
 {}
 
 
-// ---------------------------------------------------------- destructor
-/*
-Vector3D::~Vector3D (void) 							
-{}
-*/
-
-
 // ---------------------------------------------------------- assignment operator
 
 Vector3D& 
-Vector3D::operator= (const Vector3D& rhs) {
+Vector3D::operator= (const Vector3D& rhs) 
+{
 	if (this == &rhs)
-		return (*this);
+		return *this;
 
 	x = rhs.x; y = rhs.y; z = rhs.z;
 
-	return (*this);
+	return *this;
 }
 
 
@@ -71,9 +65,10 @@ Vector3D::operator= (const Vector3D& rhs) {
 // assign a Normal to a vector
 
 Vector3D& 
-Vector3D::operator= (const Normal& rhs) {
+Vector3D::operator= (const Normal& rhs) 
+{
 	x = rhs.x; y = rhs.y; z = rhs.z;
-	return (*this);
+	return *this;
 }
 
 
@@ -81,9 +76,10 @@ Vector3D::operator= (const Normal& rhs) {
 // assign a point to a vector
 
 Vector3D& 												
-Vector3D::operator= (const Point3D& rhs) {
+Vector3D::operator= (const Point3D& rhs) 
+{
 	x = rhs.x; y = rhs.y; z = rhs.z;
-	return (*this);
+	return *this;
 }
 
 
@@ -91,8 +87,9 @@ Vector3D::operator= (const Point3D& rhs) {
 // length of the vector
 
 double													
-Vector3D::length(void) {
-	return (sqrt(x * x + y * y + z * z));
+Vector3D::length(void) 
+{
+	return sqrt(x * x + y * y + z * z);
 }
 
 
@@ -100,9 +97,10 @@ Vector3D::length(void) {
 // converts the vector to a unit vector
 
 void 													
-Vector3D::normalize(void) {
-	double length = sqrt(x * x + y * y + z * z);
-	x /= length; y /= length; z /= length;
+Vector3D::normalize(void) 
+{
+	double inv_length = 1.0 / sqrt(x * x + y * y + z * z);
+	x *= inv_length; y *= inv_length; z *= inv_length;
 }
 
 
@@ -110,10 +108,11 @@ Vector3D::normalize(void) {
 // converts the vector to a unit vector and returns the vector
 
 Vector3D& 													
-Vector3D::hat(void) {	
-	double length = sqrt(x * x + y * y + z * z);
-	x /= length; y /= length; z /= length;
-	return (*this);
+Vector3D::hat(void) 
+{	
+	double inv_length = 1.0 / sqrt(x * x + y * y + z * z);
+	x *= inv_length; y *= inv_length; z *= inv_length;
+	return *this;
 } 
 
 
@@ -123,8 +122,9 @@ Vector3D::hat(void) {
 // multiplication by a matrix on the left
 
 Vector3D 
-operator* (const Matrix_4& mat, const Vector3D& v) {
-	return (Point3D(mat.m[0][0] * v.x + mat.m[0][1] * v.y + mat.m[0][2] * v.z,
+operator* (const Matrix_4& mat, const Vector3D& v) 
+{
+	return Point3D(	mat.m[0][0] * v.x + mat.m[0][1] * v.y + mat.m[0][2] * v.z,
 					mat.m[1][0] * v.x + mat.m[1][1] * v.y + mat.m[1][2] * v.z,
-					mat.m[2][0] * v.x + mat.m[2][1] * v.y + mat.m[2][2] * v.z));
+					mat.m[2][0] * v.x + mat.m[2][1] * v.y + mat.m[2][2] * v.z);
 }

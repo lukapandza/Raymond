@@ -5,7 +5,8 @@
 // ----------------------------------------------------------------------- default constructor
 // a default matrix is an identity matrix
 
-Matrix_4::Matrix_4(void) {	
+Matrix_4::Matrix_4() 
+{	
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++) {
 			if (x == y)
@@ -18,7 +19,8 @@ Matrix_4::Matrix_4(void) {
 
 // ----------------------------------------------------------------------- copy constructor
 
-Matrix_4::Matrix_4 (const Matrix_4& mat) {
+Matrix_4::Matrix_4 (const Matrix_4& mat) 
+{
 	for (int x = 0; x < 4; x++)				
 		for (int y = 0; y < 4; y++)			
 			m[x][y] = mat.m[x][y];	
@@ -27,7 +29,7 @@ Matrix_4::Matrix_4 (const Matrix_4& mat) {
 
 // ----------------------------------------------------------------------- destructor
 
-Matrix_4::~Matrix_4 (void) {}   
+Matrix_4::~Matrix_4 () {}   
 
 
 
@@ -35,15 +37,16 @@ Matrix_4::~Matrix_4 (void) {}
 // ----------------------------------------------------------------------- assignment operator
 
 Matrix_4& 
-Matrix_4::operator= (const Matrix_4& rhs) {
+Matrix_4::operator= (const Matrix_4& rhs) 
+{
 	if (this == &rhs)
-		return (*this);
+		return *this;
 
 	for (int x = 0; x < 4; x++)				
 		for (int y = 0; y < 4; y++)			
 			m[x][y] = rhs.m[x][y];	
 
-	return (*this);
+	return *this;
 }
 
 
@@ -51,7 +54,8 @@ Matrix_4::operator= (const Matrix_4& rhs) {
 // multiplication of two matrices
 
 Matrix_4 
-Matrix_4::operator* (const Matrix_4& mat) const {
+Matrix_4::operator* (const Matrix_4& mat) const 
+{
 	Matrix_4 	product;
 	
 	for (int y = 0; y < 4; y++)
@@ -64,7 +68,7 @@ Matrix_4::operator* (const Matrix_4& mat) const {
 			product.m[x][y] = sum;			
 		}
 	
-	return (product);
+	return product;
 }
 
 
@@ -72,12 +76,13 @@ Matrix_4::operator* (const Matrix_4& mat) const {
 // division by a scalar
 
 Matrix_4 
-Matrix_4::operator/ (const double d) {
+Matrix_4::operator/ (const double d) 
+{
 	for (int x = 0; x < 4; x++)				
 		for (int y = 0; y < 4; y++)			
 			m[x][y] = m[x][y] / d;	
 
-	return (*this);
+	return *this;
 }
 
 
@@ -86,7 +91,8 @@ Matrix_4::operator/ (const double d) {
 // set matrix to the identity matrix
 
 void											
-Matrix_4::set_identity(void) {
+Matrix_4::set_identity() 
+{
     for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++) {
 			if (x == y)

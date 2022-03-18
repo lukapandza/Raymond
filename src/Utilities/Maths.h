@@ -4,82 +4,53 @@
 #include "Constants.h"
 #include "RGBColor.h"
 
-/*
-double
-min(double num1, double num2);
+int rand_int(void);
 
-double
-max(double num1, double num2);
-*/
+double rand_float(void);
 
-int
-rand_int(void);
+void set_rand_seed(const int seed);
 
-double
-rand_float(void);
+double rand_float(int low, double high);
 
-void
-set_rand_seed(const int seed);
+int rand_int(int low, int high);
 
-double
-rand_float(int low, double high);
+double clamp(const double num, const double min, const double max);
 
-int
-rand_int(int low, int high);
+int solve_quadric(double c[3], double s[2]);
 
-double
-clamp(const double num, const double min, const double max);
+int solve_cubic(double c[4], double s[3]);
 
-int
-solve_quadric(double c[3], double s[2]);
-
-int
-solve_cubic(double c[4], double s[3]);
-
-int
-solve_quartic(double c[5], double s[4]);
+int solve_quartic(double c[5], double s[4]);
 
 
 //inlined functions:
 
-/*
-inline double
-min(double num1, double num2) {
-	return ((num1 < num2) ? num1 : num2);
-}
-
-inline double
-max(double num1, double num2) {
-	return((num1 > num2) ? num1 : num2);
-}
-*/
-
-inline int
-rand_int(void) {
+inline int rand_int() 
+{
 	return rand();
 }
 
-inline double
-rand_float(void) {
+inline double rand_float() 
+{
 	return (double)rand_int() * invRAND_MAX;
 }
 
-inline void
-set_rand_seed(const int seed) {
+inline void set_rand_seed(const int seed) 
+{
 	srand(seed);
 }
 
-inline double
-rand_float(int low, double high) {
-	return (rand_float() * (high - low));
+inline double rand_float(int low, double high) 
+{
+	return rand_float() * (high - low);
 }
 
-inline int
-rand_int(int low, int high) {
+inline int rand_int(int low, int high) 
+{
 	return (rand() % (high - low + 1)) + low;
 }
 
-inline double
-clamp(const double num, const double min, const double max) {
+inline double clamp(const double num, const double min, const double max) 
+{
 	return num < min ? min : (num > max ? max : num);
 }

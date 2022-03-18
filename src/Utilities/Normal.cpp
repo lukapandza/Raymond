@@ -7,7 +7,7 @@
 
 // ---------------------------------------------------------- default constructor
 
-Normal::Normal(void)
+Normal::Normal()
 	 : x(0.0), y(0.0), z(0.0)							
 {}
 
@@ -40,24 +40,18 @@ Normal::Normal(const Vector3D& v)
 	: x(v.x), y(v.y), z(v.z)  
 {}
 
-
-// ---------------------------------------------------------- destructor
-/*
-Normal::~Normal (void) 							
-{}
-*/
-
 // ----------------------------------------------------------- operator=
 // assignment operator
 
 Normal& 
-Normal::operator= (const Normal& rhs) {
+Normal::operator= (const Normal& rhs) 
+{
 	if (this == &rhs)
-		return (*this);
+		return *this;
 
 	x = rhs.x; y = rhs.y; z = rhs.z;
 
-	return (*this);
+	return *this;
 }
 
 
@@ -65,9 +59,10 @@ Normal::operator= (const Normal& rhs) {
 // assignment of a vector to a normal
 
 Normal& 
-Normal::operator= (const Vector3D& rhs) {
+Normal::operator= (const Vector3D& rhs) 
+{
 	x = rhs.x; y = rhs.y; z = rhs.z;
-	return (*this);
+	return *this;
 }
 
 
@@ -75,18 +70,20 @@ Normal::operator= (const Vector3D& rhs) {
 // assignment of a point to a normal
 
 Normal& 
-Normal::operator= (const Point3D& rhs) {		
+Normal::operator= (const Point3D& rhs) 
+{		
 	x = rhs.x; y = rhs.y; z = rhs.z;
-	return (*this);
+	return *this;
 }
 
 
 // ------------------------------------------------------------ normalize
 
 void 													
-Normal::normalize(void) {	
-	double length = sqrt(x * x + y * y + z * z);
-	x /= length; y /= length; z /= length;
+Normal::normalize() 
+{	
+	double inv_length = 1.0 / sqrt(x * x + y * y + z * z);
+	x *= inv_length; y *= inv_length; z *= inv_length;
 }
 
 
@@ -99,10 +96,11 @@ Normal::normalize(void) {
 // partition of the inverse transformation matrix
 
 Normal 											
-operator* (const Matrix_4& mat, const Normal& n) {
-	return (Normal(	mat.m[0][0] * n.x + mat.m[1][0] * n.y + mat.m[2][0] * n.z,
+operator* (const Matrix_4& mat, const Normal& n) 
+{
+	return Normal(	mat.m[0][0] * n.x + mat.m[1][0] * n.y + mat.m[2][0] * n.z,
 					mat.m[0][1] * n.x + mat.m[1][1] * n.y + mat.m[2][1] * n.z,
-					mat.m[0][2] * n.x + mat.m[1][2] * n.y + mat.m[2][2] * n.z));
+					mat.m[0][2] * n.x + mat.m[1][2] * n.y + mat.m[2][2] * n.z);
 }
 
 

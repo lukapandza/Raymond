@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 400;
+    int num_samples = 256;
 
     vp.set_hres(256);
     vp.set_vres(256);
@@ -14,7 +14,7 @@ World::build() {
     //vp.set_max_depth(12);     // 00:00:12.178
     //vp.set_max_depth(14);     // 00:00:13.020
     //vp.set_max_depth(16);     // 00:00:14.625
-    vp.set_max_depth(16);
+    vp.set_max_depth(8);
 
     background_color = black;
 

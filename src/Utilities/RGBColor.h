@@ -1,182 +1,140 @@
 #pragma once
 
-// This file contains the declaration of the class RGBColor
-
-//------------------------------------------------------------ class RGBColor
-
 class RGBColor {
 	
-	public:
+public:
 	
-		double	r, g, b;									
-				
-	public:
+	double	r, g, b;
 	
-		RGBColor(void);										// default constructor
-		RGBColor(double c);									// constructor
-		RGBColor(double _r, double _g, double _b);				// constructor
-		RGBColor(const RGBColor& c); 						// copy constructor
+	RGBColor();											// default constructor
+	RGBColor(double c);									// constructor
+	RGBColor(double _r, double _g, double _b);			// constructor
+	RGBColor(const RGBColor& c); 						// copy constructor
 		
-		~RGBColor(void);									// destructor
-		
-		RGBColor& 											// assignment operator
+	RGBColor& 											// assignment operator
 		operator= (const RGBColor& rhs); 
 
-		RGBColor 											// addition
+	RGBColor 											// addition
 		operator+ (const RGBColor& c) const;	
 
-		RGBColor& 											// compound addition
+	RGBColor& 											// compound addition
 		operator+= (const RGBColor& c);
 		
-		RGBColor 											// multiplication by a double on the right
+	RGBColor 											// multiplication by a double on the right
 		operator* (const double& a) const;
 		
-		RGBColor& 											// compound multiplication by a double on the right
+	RGBColor& 											// compound multiplication by a double on the right
 		operator*= (const double& a);					
 				
-		RGBColor 											// division by a double
+	RGBColor 											// division by a double
 		operator/ (const double& a) const;
 		
-		RGBColor& 											// compound division by a double
+	RGBColor& 											// compound division by a double
 		operator/= (const double& a); 
 				
-		RGBColor 											// component-wise multiplication
+	RGBColor 											// component-wise multiplication
 		operator* (const RGBColor& c) const;
 
-		RGBColor&
+	RGBColor&
 		operator*= (const RGBColor& c);
 		
-		bool												// are two RGBColours the same?
+	bool												// are two RGBColours the same?
 		operator== (const RGBColor& c) const;				
 
-		RGBColor											// raise components to a power
+	RGBColor											// raise components to a power
 		powc(const double& p) const;
 		
-		double												// the average of the components
-		average(void) const;
+	double												// the average of the components
+		average() const;
 
-        static RGBColor
+       static RGBColor
         convert_wave_length_nm_to_rgb(const double wave_length_nm);
 
-		RGBColor
-			max_to_one() const;
+	RGBColor
+		max_to_one() const;
 
-		RGBColor
-			clamp_to_red() const;
+	RGBColor
+		clamp_to_red() const;
 
-		RGBColor
-			gamma(double gamma) const;
+	RGBColor
+		gamma(double gamma) const;
 };
 
 
 
-// inlined member functions
-
-// ----------------------------------------------------------------------- operator+
-// addition of two colors
+// inlined functions:
 
 inline RGBColor 
-RGBColor::operator+ (const RGBColor& c) const {
-	return (RGBColor(r + c.r, g + c.g, b + c.b));
+RGBColor::operator+ (const RGBColor& c) const 
+{
+	return RGBColor(this->r + c.r, this->g + c.g, this->b + c.b);
 }
-
-
-// ----------------------------------------------------------------------- operator+=
-// compound addition of two colors
 
 inline RGBColor& 
-RGBColor::operator+= (const RGBColor& c) {
-	r += c.r; g += c.g; b += c.b;
-    return (*this);
+RGBColor::operator+= (const RGBColor& c) 
+{
+	this->r += c.r; this->g += c.g; this->b += c.b;
+    return *this;
 }
-
-
-// ----------------------------------------------------------------------- operator*
-// multiplication by a double on the right
 
 inline RGBColor 
-RGBColor::operator* (const double& a) const {
-	return (RGBColor (r * a, g * a, b * a));	
+RGBColor::operator* (const double& a) const 
+{
+	return RGBColor(this->r * a, this->g * a, this->b * a);	
 }
-
-
-// ----------------------------------------------------------------------- operator*=
-// compound multiplication by a double on the right
 
 inline RGBColor& 
-RGBColor::operator*= (const double& a) {
-	r *= a; g *= a; b *= a;
-	return (*this);
-}
-
-
-// ----------------------------------------------------------------------- operator/
-// division by double
-
-inline RGBColor 
-RGBColor::operator/ (const double& a) const {
-	return (RGBColor (r / a, g / a, b / a));
-}
-
-
-// ----------------------------------------------------------------------- operator/=
-// compound division by double
-
-inline RGBColor& 
-RGBColor::operator/= (const double& a) {	
-	double inv_a = 1.0 / a;
-	r *= inv_a; g *= inv_a; b *= inv_a;
-	return (*this);
-}
-
-
-
-// ----------------------------------------------------------------------- operator*
-// component-wise multiplication of two colors
-
-inline RGBColor 
-RGBColor::operator* (const RGBColor& c) const {
-	return (RGBColor (r * c.r, g * c.g, b * c.b));
-} 
-
-inline RGBColor&
-RGBColor::operator*= (const RGBColor& c) {
-	r *= c.r; g *= c.g; b *= c.b;
+RGBColor::operator*= (const double& a) 
+{
+	this->r *= a; this->g *= a; this->b *= a;
 	return *this;
 }
 
+inline RGBColor 
+RGBColor::operator/ (const double& a) const 
+{
+	return RGBColor (this->r / a, this->g / a, this->b / a);
+}
 
-// ----------------------------------------------------------------------- operator==
-// are two RGBColors the same?
+inline RGBColor& 
+RGBColor::operator/= (const double& a) 
+{	
+	double inv_a = 1.0 / a;
+	this->r *= inv_a; this->g *= inv_a; this->b *= inv_a;
+	return *this;
+}
+
+inline RGBColor 
+RGBColor::operator* (const RGBColor& c) const 
+{
+	return RGBColor (this->r * c.r, this->g * c.g, this->b * c.b);
+} 
+
+inline RGBColor&
+RGBColor::operator*= (const RGBColor& c) 
+{
+	this->r *= c.r; this->g *= c.g; this->b *= c.b;
+	return *this;
+}
 
 inline bool
 RGBColor::operator== (const RGBColor& c) const {
-	return (r == c.r && g == c.g && b == c.b);
+	return (this->r == c.r && this->g == c.g && this->b == c.b);
 }
-
-
-// ----------------------------------------------------------------------- average
-// the average of the three components
 
 inline double											
-RGBColor::average(void) const {
-	return (0.333333333333 * (r + g + b));
+RGBColor::average() const 
+{
+	return 0.333333333333 * (this->r + this->g + this->b);
 }
-
-
-
-
-// inlined non-member function
-
-// ----------------------------------------------------------------------- operator*
-// multiplication by a double on the left
 
 RGBColor 
 operator* (const double a, const RGBColor& c);
 
 inline RGBColor 
-operator* (const double a, const RGBColor& c) {
-	return (RGBColor (a * c.r, a * c.g, a * c.b));	
+operator* (const double a, const RGBColor& c) 
+{
+	return RGBColor (a * c.r, a * c.g, a * c.b);
 }
 
 inline RGBColor
@@ -237,8 +195,8 @@ RGBColor::convert_wave_length_nm_to_rgb(const double wave_length_nm) {
 }
 
 inline RGBColor
-RGBColor::max_to_one() const {
-
+RGBColor::max_to_one() const 
+{
 	double g_or_b = this->g > this->b ? this->g : this->b;
 	double max_value = this->r > g_or_b ? this->r : g_or_b;
 
@@ -246,8 +204,8 @@ RGBColor::max_to_one() const {
 }
 
 inline RGBColor
-RGBColor::clamp_to_red() const {
-	
+RGBColor::clamp_to_red() const 
+{
 	if (this->r > 1.0 || this->g > 1.0 || this->b > 1.0)
 		return RGBColor(1.0, 0.0, 0.0);
 	else
@@ -255,7 +213,7 @@ RGBColor::clamp_to_red() const {
 }
 
 inline RGBColor
-RGBColor::gamma(double gamma) const {
-
+RGBColor::gamma(double gamma) const 
+{
 	return this->powc(gamma);
 }
