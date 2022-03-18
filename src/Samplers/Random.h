@@ -21,10 +21,10 @@ public:
 	Random& operator= (const Random& rhs);
 
 	// clone
-	virtual Random* clone() const;
+	Random* clone() const;
 
 private:
 
 	// sample distribution function
-	virtual void generate_samples();
+	void generate_samples();
 };

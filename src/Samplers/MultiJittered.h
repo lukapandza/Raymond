@@ -21,11 +21,11 @@ public:
 	MultiJittered& operator= (const MultiJittered& rhs);
 
 	// clone
-	virtual MultiJittered* clone() const;
+	MultiJittered* clone() const;
 
 private:
 
-	virtual void generate_samples(void);
+	void generate_samples();
 
 	void shuffle_x_coordinates(int& n);
 

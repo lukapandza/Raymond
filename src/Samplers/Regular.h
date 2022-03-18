@@ -21,10 +21,10 @@ public:
 	Regular& operator= (const Regular& rhs);
 
 	// clone
-	virtual Regular* clone() const;
+	Regular* clone() const;
 
 private:
 
 	// sample distribution function
-	virtual void generate_samples();
+	void generate_samples();
 };

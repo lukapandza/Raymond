@@ -21,9 +21,9 @@ public:
 	Jittered& operator= (const Jittered& rhs);
 
 	// clone
-	virtual Jittered* clone() const;
+	Jittered* clone() const;
 
 private:
 
-	virtual void generate_samples();
+	void generate_samples();
 };

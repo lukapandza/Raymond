@@ -21,11 +21,11 @@ public:
 	NRooks& operator= (const NRooks& rhs);
 
 	// clone
-	virtual NRooks* clone() const;
+	NRooks* clone() const;
 
 private:
 
-	virtual void generate_samples();
+	void generate_samples();
 
 	void shuffle_x_coordinates();
 

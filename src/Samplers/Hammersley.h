@@ -21,11 +21,11 @@ public:
 	Hammersley& operator= (const Hammersley& rhs);
 
 	// clone
-	virtual Hammersley* clone() const;
+	Hammersley* clone() const;
 
 private:
 
-	virtual void generate_samples(void);
+	void generate_samples();
 
 	double phi(int j);
 };
