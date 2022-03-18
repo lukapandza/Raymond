@@ -1,31 +1,30 @@
 #include "Hammersley.h"
 
-//default constructor:
-Hammersley::Hammersley(void)
+Hammersley::Hammersley()
 	: Sampler()
 {}
 
-//constructor 1:
 Hammersley::Hammersley(const int num_samples)
-	: Sampler(num_samples) {
+	: Sampler(num_samples) 
+{
 	generate_samples();
 }
 
-//constructor 2:
 Hammersley::Hammersley(const int num_samples, const int num_sets)
-	: Sampler(num_samples, num_sets) {
+	: Sampler(num_samples, num_sets) 
+{
 	generate_samples();
 }
 
-//copy constructor:
 Hammersley::Hammersley(const Hammersley& rhs)
-	: Sampler(rhs) {
+	: Sampler(rhs) 
+{
 	generate_samples();
 }
 
-//assignment operator:
 Hammersley&
-Hammersley::operator=(const Hammersley& rhs) {
+Hammersley::operator=(const Hammersley& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -34,16 +33,11 @@ Hammersley::operator=(const Hammersley& rhs) {
 	return *this;
 }
 
-//clone:
 Hammersley*
-Hammersley::clone(void) const {
-	return (new Hammersley(*this));
+Hammersley::clone(void) const
+{
+	return new Hammersley(*this);
 }
-
-//destructor:
-Hammersley::~Hammersley(void) {}
-
-//generate_samples implementation:
 
 void
 Hammersley::generate_samples(void) {
@@ -55,7 +49,6 @@ Hammersley::generate_samples(void) {
 	}
 }
 
-//phi:
 double
 Hammersley::phi(int i) {
 	double x = 0.0;

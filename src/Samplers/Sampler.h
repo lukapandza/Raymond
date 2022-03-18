@@ -11,63 +11,58 @@ class Sampler {
 
 public:
 
-	//constructors:
-	Sampler(void);
+	// default constructor
+	Sampler();
 
+	// samples constructor
 	Sampler(const int num);
 
+	// samples, sets constructor
 	Sampler(const int num, const int num_sets);
 
+	// copy constructor
 	Sampler(const Sampler& s);
 
-	Sampler&
-		operator= (const Sampler& rhs);
+	// assignment operator
+	Sampler& operator= (const Sampler& rhs);
 
-	virtual Sampler*
-		clone(void) const = 0;
+	// clone
+	virtual Sampler* clone() const = 0;
 
-	virtual
-		~Sampler(void);
+	// set the number of sample sets
+	void set_num_sets(const int np);
 
-	//getters and setters:
-	void
-		set_num_sets(const int np);
+	// get the number of samples
+	int get_num_samples();
 
-	int
-		get_num_samples(void);
+	// generate sample patterns in a unit square
+	virtual void generate_samples() = 0;
 
-	virtual void //generate sample patterns in a unit square
-		generate_samples(void) = 0;
+	// set up the randomly shuffled indices
+	void setup_shuffled_indices(); 
 
-	void
-		setup_shuffled_indices(void); //set up the randomly shuffled indices
+	// get next sample on unit square
+	Point2D sample_unit_square();
 
-	Point2D //get next sample on unit square
-		sample_unit_square(void);
+	// get next sample on unit disc
+	Point2D sample_unit_disk();
 
-	Point2D //get next sample on unit disc
-		sample_unit_disk(void);
+	// get next sample on unit hemisphere
+	Point3D sample_hemisphere();
 
-	Point3D //get next sample on unit hemisphere
-		sample_hemisphere(void);
+	// get next sample on (a, b) torus
+	Point3D sample_torus();
 
-	Point3D
-		sample_torus(void);
+	// get next sample on unit sphere
+	Point3D sample_unit_sphere();
 
-	Point3D
-		sample_unit_sphere(void);
+	void map_samples_to_unit_disk();
 
-	void
-		map_samples_to_unit_disk(void);
+	void map_samples_to_hemisphere(const double e);
 
-	void 
-		map_samples_to_hemisphere(const double e);
+	void map_samples_to_torus(double a, double b);
 
-	void
-		map_samples_to_torus(double a, double b);
-
-	void
-		map_samples_to_unit_sphere(void);
+	void map_samples_to_unit_sphere();
 
 protected:
 
@@ -81,6 +76,44 @@ protected:
 	std::vector<int> shuffled_indices;
 	unsigned long count;
 	int jump;
-
 };
 
+inline Point2D
+Sampler::sample_unit_square()
+{
+	if (count % num_samples == 0) // start of a new pixel
+		jump = (rand_int() % num_sets) * num_samples;
+	return samples[jump + shuffled_indices[jump + count++ % num_samples]];
+}
+
+inline Point2D
+Sampler::sample_unit_disk()
+{
+	if (count % num_samples == 0)
+		jump = (rand_int() % num_sets) * num_samples;
+	return disk_samples[jump + shuffled_indices[jump + count++ % num_samples]];
+}
+
+inline Point3D
+Sampler::sample_hemisphere()
+{
+	if (count % num_samples == 0)
+		jump = (rand_int() % num_sets) * num_samples;
+	return hemisphere_samples[jump + shuffled_indices[jump + count++ % num_samples]];
+}
+
+inline Point3D
+Sampler::sample_torus()
+{
+	if (count % num_samples == 0)
+		jump = (rand_int() % num_sets) * num_samples;
+	return torus_samples[jump + shuffled_indices[jump + count++ % num_samples]];
+}
+
+inline Point3D
+Sampler::sample_unit_sphere()
+{
+	if (count % num_samples == 0)
+		jump = (rand_int() % num_sets) * num_samples;
+	return sphere_samples[jump + shuffled_indices[jump + count++ % num_samples]];
+}

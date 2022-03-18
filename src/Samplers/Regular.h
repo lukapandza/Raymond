@@ -5,25 +5,26 @@
 class Regular : public Sampler {
 public:
 
-	Regular(void);
+	// default constructor
+	Regular();
 
+	// samples constructor
 	Regular(const int num_samples);
 
+	// samples, sets constructor
 	Regular(const int num_samples, const int num_sets);
 
+	// copy constructor
 	Regular(const Regular& in);
 
-	Regular&
-		operator= (const Regular& rhs);
+	// assignment operator
+	Regular& operator= (const Regular& rhs);
 
-	virtual Regular*
-		clone(void) const;
-
-	virtual
-		~Regular(void);
+	// clone
+	virtual Regular* clone() const;
 
 private:
 
-	virtual void
-		generate_samples(void);
+	// sample distribution function
+	virtual void generate_samples();
 };

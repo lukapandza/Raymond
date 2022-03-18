@@ -1,31 +1,30 @@
 #include "Jittered.h"
 
-//default constructor:
-Jittered::Jittered(void)
+Jittered::Jittered()
 	: Sampler()
 {}
 
-//constructor 1:
 Jittered::Jittered(const int num_samples)
-	: Sampler(num_samples) {
+	: Sampler(num_samples) 
+{
 	generate_samples();
 }
 
-//constructor 2:
 Jittered::Jittered(const int num_samples, const int num_sets)
-	: Sampler(num_samples, num_sets) {
+	: Sampler(num_samples, num_sets) 
+{
 	generate_samples();
 }
 
-//copy constructor:
 Jittered::Jittered(const Jittered& rhs)
-	: Sampler(rhs) {
+	: Sampler(rhs) 
+{
 	generate_samples();
 }
 
-//assignment operator:
 Jittered&
-Jittered::operator=(const Jittered& rhs) {
+Jittered::operator=(const Jittered& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -34,20 +33,15 @@ Jittered::operator=(const Jittered& rhs) {
 	return *this;
 }
 
-//clone:
 Jittered*
-Jittered::clone(void) const {
-	return (new Jittered(*this));
+Jittered::clone() const 
+{
+	return new Jittered(*this);
 }
 
-//destructor:
-Jittered::~Jittered(void) {}
-
-//generate_samples implementation:
-
 void 
-Jittered::generate_samples(void) {
-
+Jittered::generate_samples() 
+{
 	// set rand seed:
 	set_rand_seed(num_samples);
 

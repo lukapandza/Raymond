@@ -5,25 +5,25 @@
 class Jittered : public Sampler {
 public:
 	
-	Jittered(void);
+	// default constructor
+	Jittered();
 
+	// samples constructor
 	Jittered(const int num_samples);
 
+	// samples, sets constructor
 	Jittered(const int num_samples, const int num_sets);
 
+	// copy constructor
 	Jittered(const Jittered& in);
 
-	Jittered&
-	operator= (const Jittered& rhs);
+	// assignment operator
+	Jittered& operator= (const Jittered& rhs);
 
-	virtual Jittered*
-	clone(void) const;
-
-	virtual
-	~Jittered(void);
+	// clone
+	virtual Jittered* clone() const;
 
 private:
 
-	virtual void
-	generate_samples(void);
+	virtual void generate_samples();
 };

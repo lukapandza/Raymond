@@ -5,31 +5,29 @@
 class NRooks : public Sampler {
 public:
 
-	NRooks(void);
+	// default constructor
+	NRooks();
 
+	// samples constructor
 	NRooks(const int num_samples);
 
+	// samples, sets constructor
 	NRooks(const int num_samples, const int num_sets);
 
+	// copy constructor
 	NRooks(const NRooks& in);
 
-	NRooks&
-		operator= (const NRooks& rhs);
+	// assignment operator
+	NRooks& operator= (const NRooks& rhs);
 
-	virtual NRooks*
-		clone(void) const;
-
-	virtual
-		~NRooks(void);
+	// clone
+	virtual NRooks* clone() const;
 
 private:
 
-	virtual void
-		generate_samples(void);
+	virtual void generate_samples();
 
-	void
-		shuffle_x_coordinates(void);
+	void shuffle_x_coordinates();
 
-	void
-		shuffle_y_coordinates(void);
+	void shuffle_y_coordinates();
 };

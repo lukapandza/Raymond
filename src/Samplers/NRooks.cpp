@@ -1,31 +1,30 @@
 #include "NRooks.h"
 
-//default constructor:
-NRooks::NRooks(void)
+NRooks::NRooks()
 	: Sampler()
 {}
 
-//constructor 1:
 NRooks::NRooks(const int num_samples)
-	: Sampler(num_samples) {
+	: Sampler(num_samples) 
+{
 	generate_samples();
 }
 
-//constructor 2:
 NRooks::NRooks(const int num_samples, const int num_sets)
-	: Sampler(num_samples, num_sets) {
+	: Sampler(num_samples, num_sets) 
+{
 	generate_samples();
 }
 
-//copy constructor:
 NRooks::NRooks(const NRooks& rhs)
-	: Sampler(rhs) {
+	: Sampler(rhs) 
+{
 	generate_samples();
 }
 
-//assignment operator:
 NRooks&
-NRooks::operator=(const NRooks& rhs) {
+NRooks::operator=(const NRooks& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -34,20 +33,15 @@ NRooks::operator=(const NRooks& rhs) {
 	return *this;
 }
 
-//clone:
 NRooks*
-NRooks::clone(void) const {
-	return (new NRooks(*this));
+NRooks::clone() const 
+{
+	return new NRooks(*this);
 }
 
-//destructor:
-NRooks::~NRooks(void) {}
-
-//generate_samples implementation:
-
 void 
-NRooks::generate_samples(void) {
-
+NRooks::generate_samples() 
+{
 	// set rand seed:
 	set_rand_seed(num_samples);
 
@@ -66,7 +60,8 @@ NRooks::generate_samples(void) {
 }
 
 void
-NRooks::shuffle_x_coordinates(void) {
+NRooks::shuffle_x_coordinates() 
+{
 	for (int i = 0; i < num_sets; i++) {
 		for (int ii = 0; ii < num_samples - 1; ii++) {
 			int target = rand_int() % num_samples + i * num_samples;
@@ -78,7 +73,7 @@ NRooks::shuffle_x_coordinates(void) {
 }
 
 void
-NRooks::shuffle_y_coordinates(void) {
+NRooks::shuffle_y_coordinates() {
 	for (int i = 0; i < num_sets; i++) {
 		for (int ii = 0; ii < num_samples - 1; ii++) {
 			int target = rand_int() % num_samples + i * num_samples;

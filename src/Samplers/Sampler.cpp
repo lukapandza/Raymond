@@ -2,37 +2,36 @@
 #include "Sampler.h"
 #include <algorithm>   // for random_shuffle in Sampler::setup_shuffled_indices
 
-//default constructor:
-Sampler::Sampler(void)
+Sampler::Sampler()
 	: num_samples(1),
 	num_sets(23),
 	count(0),
-	jump(0) {
+	jump(0) 
+{
 	samples.reserve(num_samples * num_sets);
 	setup_shuffled_indices();
 }
 
-//constructor 1:
 Sampler::Sampler(const int num)
 	: num_samples(num),
 	num_sets(23),
 	count(0),
-	jump(0) {
+	jump(0) 
+{
 	samples.reserve(num_samples * num_sets);
 	setup_shuffled_indices();
 }
 
-//constructor 2:
 Sampler::Sampler(const int num, const int num_sets)
 	: num_samples(num),
 	num_sets(num_sets),
 	count(0),
-	jump(0) {
+	jump(0) 
+{
 	samples.reserve(num_samples * num_sets);
 	setup_shuffled_indices();
 }
 
-//copy constructor:
 Sampler::Sampler(const Sampler& s)
 	: num_samples(s.num_samples),
 	num_sets(s.num_sets),
@@ -44,7 +43,6 @@ Sampler::Sampler(const Sampler& s)
 	jump(s.jump)
 {}
 
-//assignment operator:
 Sampler&
 Sampler::operator= (const Sampler& rhs) {
 
@@ -62,21 +60,21 @@ Sampler::operator= (const Sampler& rhs) {
 	return *this;
 }
 
-//destructor:
-Sampler::~Sampler(void) {}
-
 void
-Sampler::set_num_sets(const int np) {
+Sampler::set_num_sets(const int np) 
+{
 	num_sets = np;
 }
 
 int
-Sampler::get_num_samples(void) {
+Sampler::get_num_samples() 
+{
 	return num_samples;
 }
 
-void // sets up randomly shuffled indices for the samples array
-Sampler::setup_shuffled_indices(void) {
+void
+Sampler::setup_shuffled_indices() 
+{
 	shuffled_indices.reserve(num_samples * num_sets);
 	std::vector<int> indices;
 
@@ -91,44 +89,9 @@ Sampler::setup_shuffled_indices(void) {
 	}
 }
 
-Point2D //get next sample of unit square
-Sampler::sample_unit_square(void) {
-	if (count % num_samples == 0) // start of a new pixel
-		jump = (rand_int() % num_sets) * num_samples;
-	return samples[jump + shuffled_indices[jump + count++ % num_samples]];
-}
-
-Point2D //get next sample of unit disc
-Sampler::sample_unit_disk(void) {
-	if (count % num_samples == 0)
-		jump = (rand_int() % num_sets) * num_samples;
-	return disk_samples[jump + shuffled_indices[jump + count++ % num_samples]];
-}
-
-Point3D //get next sample of hemisphere
-Sampler::sample_hemisphere(void) {
-	if (count % num_samples == 0)
-		jump = (rand_int() % num_sets) * num_samples;
-	return hemisphere_samples[jump + shuffled_indices[jump + count++ % num_samples]];
-}
-
-Point3D
-Sampler::sample_torus(void) {
-	if (count % num_samples == 0)
-		jump = (rand_int() % num_sets) * num_samples;
-	return torus_samples[jump + shuffled_indices[jump + count++ % num_samples]];
-}
-
-Point3D
-Sampler::sample_unit_sphere(void) {
-	if (count % num_samples == 0)
-		jump = (rand_int() % num_sets) * num_samples;
-	return sphere_samples[jump + shuffled_indices[jump + count++ % num_samples]];
-}
-
 void
-Sampler::map_samples_to_unit_disk(void) {
-	
+Sampler::map_samples_to_unit_disk() 
+{
 	int size = samples.size();
 
 	double r, phi;
@@ -174,7 +137,8 @@ Sampler::map_samples_to_unit_disk(void) {
 }
 
 void
-Sampler::map_samples_to_hemisphere(const double e) {
+Sampler::map_samples_to_hemisphere(const double e) 
+{
 	int size = samples.size();
 	hemisphere_samples.clear();
 	hemisphere_samples.reserve(num_samples * num_sets);
@@ -195,8 +159,8 @@ Sampler::map_samples_to_hemisphere(const double e) {
 }
 
 void
-Sampler::map_samples_to_torus(double a, double b) {
-
+Sampler::map_samples_to_torus(double a, double b) 
+{
 	int size = samples.size();
 	torus_samples.reserve(size);
 
@@ -218,8 +182,8 @@ Sampler::map_samples_to_torus(double a, double b) {
 }
 
 void
-Sampler::map_samples_to_unit_sphere(void) {
-	
+Sampler::map_samples_to_unit_sphere() 
+{
 	int size = samples.size();
 	sphere_samples.reserve(size);
 

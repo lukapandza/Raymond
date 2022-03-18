@@ -5,25 +5,26 @@
 class Random : public Sampler {
 public:
 
-	Random(void);
+	// default constructor
+	Random();
 
+	// samples constructor
 	Random(const int num_samples);
 
+	// samples, sets constructor
 	Random(const int num_samples, const int num_sets);
 
+	// copy constructor
 	Random(const Random& in);
 
-	Random&
-		operator= (const Random& rhs);
+	// assignment operator
+	Random& operator= (const Random& rhs);
 
-	virtual Random*
-		clone(void) const;
-
-	virtual
-		~Random(void);
+	// clone
+	virtual Random* clone() const;
 
 private:
 
-	virtual void
-		generate_samples(void);
+	// sample distribution function
+	virtual void generate_samples();
 };

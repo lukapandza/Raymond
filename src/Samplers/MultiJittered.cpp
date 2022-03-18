@@ -1,31 +1,30 @@
 #include "MultiJittered.h"
 
-//default constructor:
-MultiJittered::MultiJittered(void)
+MultiJittered::MultiJittered()
 	: Sampler()
 {}
 
-//constructor 1:
 MultiJittered::MultiJittered(const int num_samples)
-	: Sampler(num_samples) {
+	: Sampler(num_samples) 
+{
 	generate_samples();
 }
 
-//constructor 2:
 MultiJittered::MultiJittered(const int num_samples, const int num_sets)
-	: Sampler(num_samples, num_sets) {
+	: Sampler(num_samples, num_sets) 
+{
 	generate_samples();
 }
 
-//copy constructor:
 MultiJittered::MultiJittered(const MultiJittered& rhs)
-	: Sampler(rhs) {
+	: Sampler(rhs) 
+{
 	generate_samples();
 }
 
-//assignment operator:
 MultiJittered&
-MultiJittered::operator=(const MultiJittered& rhs) {
+MultiJittered::operator=(const MultiJittered& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -34,20 +33,15 @@ MultiJittered::operator=(const MultiJittered& rhs) {
 	return *this;
 }
 
-//clone:
 MultiJittered*
-MultiJittered::clone(void) const {
-	return (new MultiJittered(*this));
+MultiJittered::clone() const 
+{
+	return new MultiJittered(*this);
 }
 
-//destructor:
-MultiJittered::~MultiJittered(void) {}
-
-//generate_samples implementation:
-
 void
-MultiJittered::generate_samples(void) {
-
+MultiJittered::generate_samples() 
+{
 	// set rand seed:
 	set_rand_seed(num_samples);
 
@@ -57,9 +51,8 @@ MultiJittered::generate_samples(void) {
 
 	//initialize samples with empty points:
 	Point2D def;
-	for (int i = 0; i < num_sets * num_samples; i++) {
+	for (int i = 0; i < num_sets * num_samples; i++)
 		samples.push_back(def);
-	}
 
 	//distribution in the initial pattern (see Figure 5.11b):
 	for (int set = 0; set < num_sets; set++) {
@@ -76,7 +69,8 @@ MultiJittered::generate_samples(void) {
 }
 
 void
-MultiJittered::shuffle_x_coordinates(int& n) {
+MultiJittered::shuffle_x_coordinates(int& n) 
+{
 	for (int set = 0; set < num_sets; set++) {
 		for (int i = 0; i < n; i++) {
 			for (int ii = 0; ii < n; ii++) {
@@ -90,7 +84,8 @@ MultiJittered::shuffle_x_coordinates(int& n) {
 }
 
 void
-MultiJittered::shuffle_y_coordinates(int& n) {
+MultiJittered::shuffle_y_coordinates(int& n) 
+{
 	for (int set = 0; set < num_sets; set++) {
 		for (int i = 0; i < n; i++) {
 			for (int ii = 0; ii < n; ii++) {
