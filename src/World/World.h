@@ -58,8 +58,7 @@ public:
 	void 					
 		build(void);
 
-	ShadeRec									
-		hit_bare_bones_objects(const Ray& ray);
+	//ShadeRec hit_bare_bones_objects(const Ray& ray);
 
 	ShadeRec
 		hit_objects(const Ray& raymond) const;

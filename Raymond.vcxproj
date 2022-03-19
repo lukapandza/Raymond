@@ -154,7 +154,6 @@
     <ClInclude Include="src\Samplers\Sampler.h" />
     <ClInclude Include="src\Tracers\AreaLighting.h" />
     <ClInclude Include="src\Tracers\GlobalTrace.h" />
-    <ClInclude Include="src\Tracers\MultipleObjects.h" />
     <ClInclude Include="src\Tracers\PathTrace.h" />
     <ClInclude Include="src\Tracers\RayCast.h" />
     <ClInclude Include="src\Tracers\SingleSphere.h" />
@@ -212,7 +211,6 @@
     <ClCompile Include="src\Samplers\Sampler.cpp" />
     <ClCompile Include="src\Tracers\AreaLighting.cpp" />
     <ClCompile Include="src\Tracers\GlobalTrace.cpp" />
-    <ClCompile Include="src\Tracers\MultipleObjects.cpp" />
     <ClCompile Include="src\Tracers\PathTrace.cpp" />
     <ClCompile Include="src\Tracers\RayCast.cpp" />
     <ClCompile Include="src\Tracers\SingleSphere.cpp" />

@@ -1,6 +1,6 @@
 #include "Box.h"
 
-Box::Box(void)
+Box::Box()
 	: x0(-1), y0(-1), z0(-1),
 	x1(1), y1(1), z1(1)
 {}
@@ -21,32 +21,26 @@ Box::Box(const Box& rhs)
 {}
 
 Box*
-Box::clone(void) const {
+Box::clone() const 
+{
 	return new Box(*this);
 }
 
 Box&
-Box::operator= (const Box& rhs) {
-
+Box::operator= (const Box& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
-	x0 = rhs.x0;
-	y0 = rhs.y0;
-	z0 = rhs.z0;
-
-	x1 = rhs.x1;
-	y1 = rhs.y1;
-	z1 = rhs.z1;
+	x0 = rhs.x0; y0 = rhs.y0; z0 = rhs.z0;
+	x1 = rhs.x1; y1 = rhs.y1; z1 = rhs.z1;
 
 	return *this;
 }
 
-Box::~Box(void) {}
-
 bool
-Box::hit(const Ray& raymond, double& t, ShadeRec& s) const {
-
+Box::hit(const Ray& raymond, double& t, ShadeRec& s) const 
+{
 	double a = 1.0 / raymond.d.x;
 	double b = 1.0 / raymond.d.y;
 	double c = 1.0 / raymond.d.z;
@@ -134,8 +128,8 @@ Box::hit(const Ray& raymond, double& t, ShadeRec& s) const {
 }
 
 bool
-Box::shadow_hit(const Ray& raymond, double& t) const {
-	
+Box::shadow_hit(const Ray& raymond, double& t) const 
+{
 	double a = 1.0 / raymond.d.x;
 	double b = 1.0 / raymond.d.y;
 	double c = 1.0 / raymond.d.z;
@@ -208,14 +202,14 @@ Box::shadow_hit(const Ray& raymond, double& t) const {
 }
 
 inline Normal
-Box::get_normal(const int& face_hit) const {
-
+Box::get_normal(const int& face_hit) const 
+{
 	switch (face_hit) {
-		case 0: return (Normal(-1, 0, 0)); // -x face
-		case 1: return (Normal(0, -1, 0)); // -y face
-		case 2: return (Normal(0, 0, -1)); // -z face
-		case 3: return (Normal(1, 0, 0)); // +x face
-		case 4: return (Normal(0, 1, 0)); // +y face
-		case 5: return (Normal(0, 0, 1)); // +z face
+		case 0: return (Normal(-1, 0, 0));	// -x face
+		case 1: return (Normal(0, -1, 0));	// -y face
+		case 2: return (Normal(0, 0, -1));	// -z face
+		case 3: return (Normal(1, 0, 0));	// +x face
+		case 4: return (Normal(0, 1, 0));	// +y face
+		default: return (Normal(0, 0, 1));	// +z face
 	}
 }

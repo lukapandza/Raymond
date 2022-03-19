@@ -19,7 +19,6 @@
 // tracers
 
 #include "Tracers/SingleSphere.h"
-#include "Tracers/MultipleObjects.h"
 #include "Tracers/RayCast.h"
 #include "Tracers/AreaLighting.h"
 #include "Tracers/Whitted.h"
@@ -130,6 +129,7 @@ World::~World(void) {
 
 // ----------------------------------------------------------------------------- hit_bare_bones_objects
 
+/*
 ShadeRec									
 World::hit_bare_bones_objects(const Ray& ray) {
 	ShadeRec	sr(*this); 
@@ -146,7 +146,7 @@ World::hit_bare_bones_objects(const Ray& ray) {
 		
 	return (sr);   
 }
-
+*/
 ShadeRec
 World::hit_objects(const Ray& raymond) const {
 	

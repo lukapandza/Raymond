@@ -10,8 +10,8 @@ Triangle::Triangle(void)
 Triangle::Triangle(const Point3D& _v0, const Point3D& _v1, const Point3D& _v2) 
 	: v0(_v0),
 	v1(_v1),
-	v2(_v2) {
-	
+	v2(_v2) 
+{
 	normal = (v1 - v0) ^ (v2 - v0);
 	normal.normalize();
 }
@@ -19,8 +19,8 @@ Triangle::Triangle(const Point3D& _v0, const Point3D& _v1, const Point3D& _v2)
 Triangle::Triangle(const double v0_x, const double v0_y, const double v0_z, const double v1_x, const double v1_y, const double v1_z, const double v2_x, const double v2_y, const double v2_z) 
 	: v0(v0_x, v0_y, v0_z),
 	v1(v1_x, v1_y, v1_z),
-	v2(v2_x, v2_y, v2_z) {
-
+	v2(v2_x, v2_y, v2_z) 
+{
 	normal = (v1 - v0) ^ (v2 - v0);
 	normal.normalize();
 }
@@ -33,13 +33,14 @@ Triangle::Triangle(const Triangle& rhs)
 {}
 
 Triangle*
-Triangle::clone(void) const {
+Triangle::clone() const 
+{
 	return new Triangle(*this);
 }
 
 Triangle&
-Triangle::operator=(const Triangle& rhs) {
-		
+Triangle::operator=(const Triangle& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -51,11 +52,9 @@ Triangle::operator=(const Triangle& rhs) {
 	return *this;
 }
 
-Triangle::~Triangle(void) {}
-
 bool
-Triangle::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
-
+Triangle::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const 
+{
 	double a = v0.x - v1.x;
 	double b = v0.x - v2.x;
 	double c = raymond.d.x;
@@ -109,8 +108,8 @@ Triangle::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
 }
 
 bool
-Triangle::shadow_hit(const Ray& raymond, double& tmin) const {
-
+Triangle::shadow_hit(const Ray& raymond, double& tmin) const 
+{
 	double a = v0.x - v1.x;
 	double b = v0.x - v2.x;
 	double c = raymond.d.x;

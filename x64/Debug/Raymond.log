@@ -1,13 +1,17 @@
 ﻿  Reading Qt configuration (F:/Qt/5.12.12/msvc2017_64/bin/qmake)
-  moc raymond.h
-  main.cpp
   raymond.cpp
   Camera.cpp
   Pinhole.cpp
   Box.cpp
+  Disk.cpp
+  GeometricObject.cpp
   Instance.cpp
-F:\Spring 22\Plan Project\Raymond\src\GeometricObjects\Box.cpp(221): warning C4715: 'Box::get_normal': not all control paths return a value
+  Plane.cpp
+  RectangleObject.cpp
+F:\Spring 22\Plan Project\Raymond\src\GeometricObjects\RectangleObject.cpp(55): warning C4715: 'RectangleObject::operator=': not all control paths return a value
   Sphere.cpp
+  Torus.cpp
+  Triangle.cpp
   AmbientOccluder.cpp
   AreaLight.cpp
   EnvironmentLight.cpp
@@ -26,5 +30,5 @@ F:\Spring 22\Plan Project\Raymond\src\GeometricObjects\Box.cpp(221): warning C47
   Whitted.cpp
   ShadeRec.cpp
   World.cpp
-  moc_raymond.cpp
-  Raymond.vcxproj -> F:\Spring 22\Plan Project\Raymond\x64\Debug\Raymond.exe
+F:\Spring 22\Plan Project\Raymond\src\World\World.cpp(144,29): error C2039: 'get_color': is not a member of 'GeometricObject'
+F:\Spring 22\Plan Project\Raymond\src\GeometricObjects\GeometricObject.h(12): message : see declaration of 'GeometricObject'

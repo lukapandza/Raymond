@@ -1,14 +1,16 @@
 ﻿  Reading Qt configuration (F:/Qt/5.12.12/msvc2017_64/bin/qmake)
   raymond.cpp
-  BRDF.cpp
-  GlossySpecular.cpp
-  Lambertian.cpp
-  PerfectSpecular.cpp
   Camera.cpp
   Pinhole.cpp
+  Box.cpp
+  Disk.cpp
+  GeometricObject.cpp
+  Instance.cpp
+  Plane.cpp
   RectangleObject.cpp
   Sphere.cpp
   Torus.cpp
+  Triangle.cpp
   AmbientOccluder.cpp
   AreaLight.cpp
   EnvironmentLight.cpp
@@ -17,26 +19,16 @@
   Matte.cpp
   Phong.cpp
   Reflective.cpp
-  Hammersley.cpp
-  Jittered.cpp
-  MultiJittered.cpp
-  NRooks.cpp
-  Random.cpp
-  Regular.cpp
-  Sampler.cpp
   AreaLighting.cpp
   GlobalTrace.cpp
-  MultipleObjects.cpp
   PathTrace.cpp
   RayCast.cpp
   SingleSphere.cpp
   Tracer.cpp
   Whitted.cpp
   ShadeRec.cpp
-  ViewPlane.cpp
   World.cpp
   raymond.obj : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
   Generating code
-F:\Spring 22\Plan Project\Raymond\src\GeometricObjects\Box.cpp(221): warning C4715: 'Box::get_normal': not all control paths return a value
   Finished generating code
   Raymond.vcxproj -> F:\Spring 22\Plan Project\Raymond\x64\Release\Raymond.exe

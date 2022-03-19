@@ -1,49 +1,36 @@
-// this file contains the definition of the class GeometricObject 
-
 #include "../Utilities/Constants.h"
 #include "GeometricObject.h"
 
-
-// ---------------------------------------------------------------------- default constructor
-
-GeometricObject::GeometricObject(void)
-	: 	color(black),
-	material_ptr(nullptr)
+GeometricObject::GeometricObject()
+	: material_ptr(nullptr)
 {}
 
-
-// ---------------------------------------------------------------------- copy constructor
-
 GeometricObject::GeometricObject (const GeometricObject& object)
-	: 	color(object.color),
-	material_ptr(object.material_ptr)
+	: material_ptr(object.material_ptr)
 {}	
 
-
-// ---------------------------------------------------------------------- assignment operator
-
 GeometricObject&														
-GeometricObject::operator= (const GeometricObject& rhs) {
-	
+GeometricObject::operator= (const GeometricObject& rhs) 
+{
 	if (this == &rhs)
-		return (*this);
-		
-	color = rhs.color;
+		return *this;
 
-	return (*this);
+	if (rhs.material_ptr)
+		this->material_ptr = rhs.material_ptr->clone();
+	else
+		this->material_ptr = nullptr;
+
+	return *this;
 }
 
-
-// ---------------------------------------------------------------------- destructor
-
-GeometricObject::~GeometricObject (void) {}
+GeometricObject::~GeometricObject () 
+{
+	if (this->material_ptr)
+		delete this->material_ptr;
+}
 
 void
-GeometricObject::set_material(Material* mat_ptr) {
+GeometricObject::set_material(Material* mat_ptr) 
+{
 	material_ptr = mat_ptr;
-}
-
-Material*
-GeometricObject::get_material(void) const {
-	return material_ptr;
 }

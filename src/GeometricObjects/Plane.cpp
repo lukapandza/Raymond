@@ -1,71 +1,48 @@
 #include "Plane.h"
+#include "../Utilities/Constants.h" // kEpsilon
 
-const double Plane::kEpsilon = 0.001;
-
-// ----------------------------------------------------------------------  default constructor
-
-Plane::Plane(void)	
-	: 	GeometricObject(),
-		a(0.0),
-		n(0, 1, 0)						
+Plane::Plane()	
+	: GeometricObject(),
+	a(0.0),
+	n(0, 1, 0)						
 {}
-
-
-// ----------------------------------------------------------------------  constructor
 
 Plane::Plane(const Point3D& point, const Normal& normal)
-	:	GeometricObject(),
-		a(point),
-		n(normal)
+	: GeometricObject(),
+	a(point),
+	n(normal)
 {
-		n.normalize();
+	n.normalize();
 }
-
-
-// ---------------------------------------------------------------- copy constructor
 
 Plane::Plane(const Plane& plane) 
-	:	GeometricObject(plane),
-		a(plane.a),
-		n(plane.n) 				
+	:GeometricObject(plane),
+	a(plane.a),
+	n(plane.n) 				
 {}
 
-
-// ---------------------------------------------------------------- clone
-
 Plane* 
-Plane::clone(void) const {
-	return (new Plane(*this));
+Plane::clone() const 
+{
+	return new Plane(*this);
 }
 
-
-// ---------------------------------------------------------------- assignment operator
-
 Plane& 
-Plane::operator= (const Plane& rhs)	{
-	
+Plane::operator= (const Plane& rhs)	
+{
 	if (this == &rhs)
-		return (*this);
+		return *this;
 
 	GeometricObject::operator= (rhs);
 
-	a = rhs.a;
-	n = rhs.n;
+	a = rhs.a; n = rhs.n;
 
-	return (*this);
+	return *this;
 }
 
-
-// ---------------------------------------------------------------- destructor
-
-Plane::~Plane(void)				
-{}
-
-
-// ----------------------------------------------------------------- hit
-
 bool 															 
-Plane::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {	
+Plane::hit(const Ray& ray, double& tmin, ShadeRec& sr) const 
+{	
 	double t = (a - ray.o) * n / (ray.d * n); 
 														
 	if (t > kEpsilon) {
@@ -73,15 +50,15 @@ Plane::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
 		sr.normal = n;
 		sr.local_hit_point = ray.o + t * ray.d;
 		
-		return (true);	
+		return true;	
 	}
 
-	return(false);
+	return false;
 }
 
 bool
-Plane::shadow_hit(const Ray& raymond, double& tmin) const {
-	
+Plane::shadow_hit(const Ray& raymond, double& tmin) const
+{
 	double t = (a - raymond.o) * n / (raymond.d * n);
 
 	if (t > kEpsilon) {
@@ -91,4 +68,3 @@ Plane::shadow_hit(const Ray& raymond, double& tmin) const {
 	else
 		return false;
 }
-

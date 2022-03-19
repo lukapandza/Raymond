@@ -7,62 +7,71 @@ class RectangleObject : public GeometricObject {
 
 public:
 
-	RectangleObject(void);
+	// default constructor
+	RectangleObject();
 
+	// component constructor
 	RectangleObject(const double c_x, const double c_y, const double c_z, const double a_x, const double a_y, const double a_z, const double b_x, const double b_y, const double b_z, const double n_x, const double n_y, const double n_z);
 
+	// copy constructor
 	RectangleObject(const RectangleObject& rhs);
 
-	RectangleObject*
-		clone(void) const;
+	// clone
+	RectangleObject* clone() const;
 
-	RectangleObject&
-		operator=(const RectangleObject& rhs);
+	// assignment operator
+	RectangleObject& operator=(const RectangleObject& rhs);
 
-	~RectangleObject(void);
+	// destructor
+	~RectangleObject();
 
-	bool
-		hit(const Ray& raymond, double& tmin, ShadeRec& s) const;
+	// intersect ray with rectangle
+	bool hit(const Ray& raymond, double& tmin, ShadeRec& s) const;
 
-	bool
-		shadow_hit(const Ray& raymond, double& tmin) const;
+	// intersect shadow ray with rectangle
+	bool shadow_hit(const Ray& raymond, double& tmin) const;
 
-	void
-		set_sampler(Sampler* sampler);
+	// set sampler pointer
+	void set_sampler(Sampler* sampler);
 
-	Point3D 
-		sample(void);
+	Point3D sample();
 
-	double
-		pdf(ShadeRec& sr);
+	double pdf(ShadeRec& sr);
 
-	Normal
-		get_normal(const Point3D& p);
+	Normal get_normal(const Point3D& p);
 
 private:
 
-	Point3D 		corner;   		// corner vertex 
-	Vector3D		a;				// side
-	Vector3D		b;				// side
-	double			a_len_squared;	// square of the length of side a
-	double			b_len_squared;	// square of the length of side b
-	Normal			normal;
+	// corner vertex
+	Point3D corner;
+	
+	// side
+	Vector3D a, b;
 
-	Sampler*		sampler_ptr;
-	double			inv_area;
+	// square of the length of side
+	double a_len_squared, b_len_squared;
+
+	// rect normal
+	Normal normal;
+
+	Sampler* sampler_ptr;
+	double inv_area;
 };
 
 inline void
-RectangleObject::set_sampler(Sampler* sampler) {
+RectangleObject::set_sampler(Sampler* sampler) 
+{
 	sampler_ptr = sampler;
 }
 
 inline double
-RectangleObject::pdf(ShadeRec& sr) {
+RectangleObject::pdf(ShadeRec& sr) 
+{
 	return inv_area;
 }
 
 inline Normal
-RectangleObject::get_normal(const Point3D& p) {
+RectangleObject::get_normal(const Point3D& p) 
+{
 	return normal;
 }

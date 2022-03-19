@@ -247,9 +247,6 @@
     <ClCompile Include="src\Tracers\GlobalTrace.cpp">
       <Filter>Source Files\Tracers</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tracers\MultipleObjects.cpp">
-      <Filter>Source Files\Tracers</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tracers\PathTrace.cpp">
       <Filter>Source Files\Tracers</Filter>
     </ClCompile>
@@ -426,9 +423,6 @@
       <Filter>Header Files\Tracers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tracers\GlobalTrace.h">
-      <Filter>Header Files\Tracers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tracers\MultipleObjects.h">
       <Filter>Header Files\Tracers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tracers\PathTrace.h">

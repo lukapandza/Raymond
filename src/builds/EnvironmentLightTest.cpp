@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 400;
+    int num_samples = 256;
 
     double scale_factor = 16;
 
@@ -13,6 +13,11 @@ World::build() {
     background_color = black;
 
     tracer_ptr = new PathTrace(this);
+    //tracer_ptr = new AreaLighting(this);
+
+    Ambient* ambient_ptr = new Ambient();
+    ambient_ptr->set_intensity(0.0);
+    set_ambient_light(ambient_ptr);
 
 
     //camera:
@@ -35,13 +40,19 @@ World::build() {
     Emissive* emissive_ptr2 = new Emissive;
     emissive_ptr2->set_ls(16);
     emissive_ptr2->set_ce(.98, 0.83, 0.6);
-
     
     ConcaveSphere* sphere_ptr = new ConcaveSphere;
     sphere_ptr->set_radius(1000000.0);
     sphere_ptr->set_material(emissive_ptr1);
     add_object(sphere_ptr);
     
+    /*
+    EnvironmentLight* light_ptr = new EnvironmentLight;
+    light_ptr->set_material(emissive_ptr1);
+    light_ptr->set_sampler(new MultiJittered(num_samples));
+    light_ptr->set_shadows(true);
+    add_light(light_ptr);
+    */
 
 
     // Materials:
@@ -224,7 +235,7 @@ World::build() {
     blu->set_exp(pow(3, 5));
     add_object(ball);
 
-
+    /*
     // area lights:
     Box* arm = new Box(-.25, -.0625, -.25, .25, .0625, 2);
     arm->set_material(iron);
@@ -312,6 +323,7 @@ World::build() {
     //light3_e->rotate_y(e_y);
     light3_e->rotate_x(e_x);
     light3_e->translate(e_t_x, e_t_y, e_t_z);
+    */
 
 }
 

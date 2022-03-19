@@ -8,101 +8,134 @@ class Instance : public GeometricObject {
 	
 public:
 
-	Instance(void);
+	// default constructor
+	Instance();
 
+	// object constructor
 	Instance(GeometricObject* obj_ptr);
 
+	// copy constructor
 	Instance(const Instance& rhs);
 
-	Instance*
-		clone(void) const;
+	// clone
+	Instance* clone() const;
 
-	~Instance(void);
+	// destructor
+	~Instance();
 
-	Instance&
-		operator= (const Instance& rhs);
+	// assignment operator
+	Instance& operator= (const Instance& rhs);
 
-	void
-		set_object(GeometricObject* obj_ptr);
+	// object pointer setter
+	void set_object(GeometricObject* obj_ptr);
 
-	void
-		transform_texture(const bool transform);
+	// set texture transform bool
+	void transform_texture(const bool transform);
 
-	BBox
-		get_bounding_box(void);
+	// returns transformed objects bounding box
+	BBox get_bounding_box() const;
 
-	Material*
-		get_material(void) const;
+	// return material pointer
+	Material* get_material() const;
 
-	void
-		set_material(Material* materialPtr);
+	// set instance material
+	void set_material(Material* materialPtr);
 
-	bool
-		hit(const Ray& raymond, double& tmin, ShadeRec& sr) const;
+	// intersect ray with instance
+	bool hit(const Ray& raymond, double& tmin, ShadeRec& sr) const;
 
-	bool
-		shadow_hit(const Ray& raymond, double& tmin) const;
+	// intersect shadow ray with instance
+	bool shadow_hit(const Ray& raymond, double& tmin) const;
 
-	virtual Point3D
-		sample(void);
+	Point3D sample();
 
-	virtual double
-		pdf(ShadeRec& sr);
+	double pdf(ShadeRec& sr);
 
-	virtual Normal
-		get_normal(const Point3D& p);
+	Normal get_normal(const Point3D& p);
 
-	// affine tranformation functions
+	// affine tranformation functions:
 
-	void
-		translate(const Vector3D& trans);
+	void translate(const Vector3D& trans);
 
-	void
-		translate(const double dx, const double dy, const double dz);
+	void translate(const double dx, const double dy, const double dz);
 
-	void
-		scale(const Vector3D& s);
+	void scale(const Vector3D& s);
 
-	void
-		scale(const double a, const double b, const double c);
+	void scale(const double a, const double b, const double c);
 
-	virtual void
-		rotate_x(const double r);
+	// rotation argument in degrees
+	void rotate_x(const double r);
 
-	virtual void
-		rotate_y(const double r);
+	// rotation argument in degrees
+	void rotate_y(const double r);
 
-	virtual void
-		rotate_z(const double r);
+	// rotation argument in degrees
+	void rotate_z(const double r);
 
-	void
-		shear(const Matrix_4& m);
+	void shear(const Matrix_4& m);
 
 private:
 
-	GeometricObject* object_ptr; // object to be transformed
-	Matrix_4 inv_matrix; // inverse transformation matrix
-	static 	Matrix_4 forward_matrix; // transformation matrix
-	BBox bbox; // transformed object's bounding box
-	bool transform_the_texture;	// do we transform the texture?
+	// object to be transformed
+	GeometricObject* object_ptr; 
+
+	// inverse transformation matrix
+	Matrix_4 inv_matrix; 
+
+	// transformation matrix
+	static Matrix_4 forward_matrix; 
+
+	// transformed object's bounding box
+	BBox bbox; 
+
+	// do we transform the texture?
+	bool transform_the_texture;	
 };
 
 inline void
-Instance::transform_texture(const bool transform) {
+Instance::set_object(GeometricObject* obj_ptr)
+{
+	object_ptr = obj_ptr;
+}
+
+inline void
+Instance::transform_texture(const bool transform) 
+{
 	transform_the_texture = transform;
 }
 
+inline BBox
+Instance::get_bounding_box() const
+{
+	return bbox;
+}
+
+inline Material*
+Instance::get_material() const
+{
+	return material_ptr;
+}
+
+inline void
+Instance::set_material(Material* materialPtr)
+{
+	material_ptr = materialPtr;
+}
+
 inline Point3D
-Instance::sample(void) {
+Instance::sample() 
+{
 	return object_ptr->sample();
 }
 
 inline double
-Instance::pdf(ShadeRec& sr) {
+Instance::pdf(ShadeRec& sr) 
+{
 	return object_ptr->pdf(sr);
 }
 
 inline Normal
-Instance::get_normal(const Point3D& p) {
+Instance::get_normal(const Point3D& p) 
+{
 	return object_ptr->get_normal(p);
 }

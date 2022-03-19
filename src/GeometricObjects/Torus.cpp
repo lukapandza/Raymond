@@ -1,12 +1,12 @@
 #include "Torus.h"
 #include "../Utilities/Maths.h"
 
-Torus::Torus(void) 
+Torus::Torus() 
 	: a(2),
 	b(0.5),
 	box(-a - b, -b, -a - b, a + b, b, a + b),
 	inv_area(1.0 / 4.0 * PI * PI * a * b),
-	sampler_ptr(NULL)
+	sampler_ptr(nullptr)
 {}
 
 Torus::Torus(const double _a, const double _b) 
@@ -14,7 +14,7 @@ Torus::Torus(const double _a, const double _b)
 	b(_b),
 	box(-a - b, -b, -a - b, a + b, b, a + b),
 	inv_area(1.0 / 4.0 * PI * PI * a * b),
-	sampler_ptr(NULL)
+	sampler_ptr(nullptr)
 {}
 
 Torus::Torus(const Torus& rhs) 
@@ -26,13 +26,14 @@ Torus::Torus(const Torus& rhs)
 {}
 
 Torus*
-Torus::clone(void) const {
+Torus::clone() const 
+{
 	return new Torus(*this);
 }
 
 Torus&
-Torus::operator=(const Torus& rhs) {
-	
+Torus::operator=(const Torus& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -45,11 +46,14 @@ Torus::operator=(const Torus& rhs) {
 	return *this;
 }
 
-Torus::~Torus(void) {}
+Torus::~Torus() 
+{
+	delete sampler_ptr;
+}
 
 Normal
-Torus::compute_normal(const Point3D& p) const {
-
+Torus::compute_normal(const Point3D& p) const 
+{
 	Normal normal;
 	double param_squared = a * a + b * b;
 
@@ -63,12 +67,12 @@ Torus::compute_normal(const Point3D& p) const {
 	normal.z = 4.0 * z * (sum_squared - param_squared);
 	normal.normalize();
 
-	return (normal);
+	return normal;
 }
 
 bool
-Torus::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
-
+Torus::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const 
+{
 	if (!box.hit(raymond))
 		return false;
 
@@ -121,8 +125,8 @@ Torus::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
 }
 
 bool
-Torus::shadow_hit(const Ray& raymond, double& tmin) const {
-	
+Torus::shadow_hit(const Ray& raymond, double& tmin) const 
+{
 	if (!box.hit(raymond))
 		return false;
 

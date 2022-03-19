@@ -1,128 +1,122 @@
 #pragma once
 
-// This file contains the declaration of the class Sphere
-
 #include "GeometricObject.h"
 #include "../Samplers/Sampler.h"
 
-//-------------------------------------------------------------------------------- class Sphere
-
 class Sphere: public GeometricObject {	
 								  	
-	public:
+public:
 		
-		Sphere(void);   									// Default constructor
+	// default constructor
+	Sphere();
 				
-		Sphere(Point3D center, double r);					// Constructor 
+	// constructor
+	Sphere(Point3D center, double r);
 					
-		Sphere(const Sphere& sphere); 						// Copy constructor
+	// copy constructor
+	Sphere(const Sphere& sphere);
 		
-		virtual Sphere* 									// Virtual copy constructor
-		clone(void) const;
+	// clone
+	virtual Sphere* clone() const;
 
-		virtual												// Destructor
-		~Sphere(void);   									
+	// destructor
+	virtual ~Sphere();   									
 
-		Sphere& 											// assignment operator
-		operator= (const Sphere& sphere);				
+	// assignment operator
+	Sphere& operator= (const Sphere& sphere);				
 																					
-		void
-		set_center(const Point3D& c);
+	void set_center(const Point3D& c);
 		
-		void
-		set_center(const double x, const double y, const double z);
+	void set_center(const double x, const double y, const double z);
 		
-		void
-		set_radius(const double r);
+	void set_radius(const double r);
 						
-		virtual bool 												 
-		hit(const Ray& ray, double& t, ShadeRec& s) const;	
+	virtual bool hit(const Ray& ray, double& t, ShadeRec& s) const;	
 
-		virtual bool
-			shadow_hit(const Ray& ray, double& tmin) const;
+	virtual bool shadow_hit(const Ray& ray, double& tmin) const;
 
-		void
-			set_sampler(Sampler* sampler);
+	void set_sampler(Sampler* sampler);
 
-		Point3D
-			sample(void);
+	Point3D sample();
 
-		double
-			pdf(ShadeRec& sr);
+	double pdf(ShadeRec& sr);
 
-		virtual Normal
-			get_normal(const Point3D& p);
+	virtual Normal get_normal(const Point3D& p);
 		
-	protected:
+protected:
 	
-		Point3D 	center;   			// center coordinates as a point  
-		double 		radius;				// the radius 
-		
-		static const double kEpsilon;   // for shadows and secondary rays
+	Point3D center;
+	double radius;
 
-		Sampler* sampler_ptr;
-		double inv_area;
+	Sampler* sampler_ptr;
+	double inv_area;
 };
 
-
-
 inline void
-Sphere::set_center(const Point3D& c) {
+Sphere::set_center(const Point3D& c) 
+{
 	center = c;
 }
 		
 inline void
-Sphere::set_center(const double x, const double y, const double z) {
-	center.x = x;
-	center.y = y;
-	center.z = z;
+Sphere::set_center(const double x, const double y, const double z) 
+{
+	center.x = x; center.y = y; center.z = z;
 }
 		
 inline void
-Sphere::set_radius(const double r) {
+Sphere::set_radius(const double r) 
+{
 	radius = r;
 }
 
 inline void
-Sphere::set_sampler(Sampler* sampler) {
+Sphere::set_sampler(Sampler* sampler) 
+{
 	sampler_ptr = sampler;
 	sampler_ptr->map_samples_to_unit_sphere();
 }
 
 inline Point3D
-Sphere::sample(void) {
+Sphere::sample() 
+{
 	Point3D sp = sampler_ptr->sample_unit_sphere();
 	return (center + radius * sp);
 }
 
 inline double
-Sphere::pdf(ShadeRec& sr) {
+Sphere::pdf(ShadeRec& sr) 
+{
 	return inv_area;
 }
 
 inline Normal
-Sphere::get_normal(const Point3D& p) {
+Sphere::get_normal(const Point3D& p)
+{
 	Normal n = p - center;
 	n.normalize();
 	return n;
 }
 
-class ConcaveSphere : public Sphere {
+class ConcaveSphere : public Sphere 
+{
 	
 public:
+
+	// default constructor
 	ConcaveSphere() : Sphere() {}
 
+	// destructor
 	~ConcaveSphere() { Sphere::~Sphere(); }
 
-	Normal
-		get_normal(const Point3D& p);
+	Normal get_normal(const Point3D& p);
 
-	bool
-		hit(const Ray& ray, double& t, ShadeRec& s) const;
+	bool hit(const Ray& ray, double& t, ShadeRec& s) const;
 };
 
 inline Normal
-ConcaveSphere::get_normal(const Point3D& p) {
+ConcaveSphere::get_normal(const Point3D& p)
+{
 	Normal n = this->center - p;
 	n.normalize();
 	return n;

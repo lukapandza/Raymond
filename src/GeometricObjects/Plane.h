@@ -2,37 +2,36 @@
 
 #include "GeometricObject.h"
 
-//-------------------------------------------------------------------- class Plane
-
 class Plane: public GeometricObject {
 	
-	public:
+public:
 	
-		Plane(void);   												// default constructor
-		
-		Plane(const Point3D& point, const Normal& normal);			// constructor	
+	// default constructor
+	Plane();   												
 	
-		Plane(const Plane& plane); 									// copy constructor
-		
-		virtual Plane* 												// virtual copy constructor
-		clone(void) const;
+	// point, normal constructor	
+	Plane(const Point3D& point, const Normal& normal);			
+	
+	// copy constructor
+	Plane(const Plane& plane); 									
+	
+	// clone
+	Plane* clone() const;
 
-		Plane& 														// assignment operator
-		operator= (const Plane& rhs);	
-		
-		virtual														// destructor
-		~Plane(void);   											
-					
-		virtual bool 																								 
-		hit(const Ray& ray, double& tmin, ShadeRec& sr) const;
-		
-		virtual bool
-			shadow_hit(const Ray& raymond, double& tmin) const;
-
-	private:
+	// assignment operator
+	Plane& operator= (const Plane& rhs);							
 	
-		Point3D 	a;   				// point through which plane passes 
-		Normal 		n;					// normal to the plane
-				
-		static const double kEpsilon;   // for shadows and secondary rays
+	// intersect ray with plane
+	bool hit(const Ray& ray, double& tmin, ShadeRec& sr) const;
+		
+	// intersect shadow ray with plane
+	bool shadow_hit(const Ray& raymond, double& tmin) const;
+
+private:
+
+	// point through which plane passes 
+	Point3D a;
+
+	// normal to the plane
+	Normal n;
 };

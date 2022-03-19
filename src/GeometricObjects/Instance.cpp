@@ -4,12 +4,13 @@
 Matrix_4
 Instance::forward_matrix;
 
-Instance::Instance(void) 
+Instance::Instance() 
 	: GeometricObject(),
-	object_ptr(NULL),
+	object_ptr(nullptr),
 	inv_matrix(),
 	bbox(),
-	transform_the_texture(true) {
+	transform_the_texture(true) 
+{
 	forward_matrix.set_identity();
 }
 
@@ -18,7 +19,8 @@ Instance::Instance(GeometricObject* obj_ptr)
 	object_ptr(obj_ptr),
 	inv_matrix(),
 	bbox(),
-	transform_the_texture(true) {
+	transform_the_texture(true) 
+{
 	forward_matrix.set_identity();
 	if (obj_ptr->get_material())
 		this->material_ptr = obj_ptr->get_material();
@@ -27,27 +29,35 @@ Instance::Instance(GeometricObject* obj_ptr)
 Instance::Instance(const Instance& rhs) 
 	: GeometricObject(rhs),
 	inv_matrix(rhs.inv_matrix),
-	transform_the_texture(rhs.transform_the_texture) {
+	transform_the_texture(rhs.transform_the_texture) 
+{
 	if (rhs.object_ptr)
 		object_ptr = rhs.object_ptr->clone();
-	else  object_ptr = NULL;
+	else  object_ptr = nullptr;
+
+	if (rhs.material_ptr)
+		material_ptr = rhs.material_ptr->clone();
+	else  material_ptr = nullptr;
 }
 
 Instance*
-Instance::clone(void) const {
+Instance::clone() const
+{
 	return new Instance(*this);
 }
 
-Instance::~Instance(void) {
-	if (object_ptr) {
+Instance::~Instance() 
+{
+	if (object_ptr)
 		delete object_ptr;
-		object_ptr = NULL;
-	}
+
+	if (material_ptr)
+		delete material_ptr;
 }
 
 Instance&
-Instance::operator=(const Instance& rhs) {
-	
+Instance::operator=(const Instance& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -55,13 +65,19 @@ Instance::operator=(const Instance& rhs) {
 
 	if (object_ptr) {
 		delete object_ptr;
-		object_ptr = NULL;
+		object_ptr = nullptr;
 	}
 
 	if (rhs.object_ptr)
 		object_ptr = rhs.object_ptr->clone();
-	else
-		object_ptr = NULL;
+
+	if (material_ptr) {
+		delete material_ptr;
+		material_ptr = nullptr;
+	}
+
+	if (rhs.material_ptr)
+		material_ptr = rhs.material_ptr->clone();
 
 	inv_matrix = rhs.inv_matrix;
 	bbox = rhs.bbox;
@@ -70,31 +86,10 @@ Instance::operator=(const Instance& rhs) {
 	return *this;
 }
 
-void
-Instance::set_object(GeometricObject* obj_ptr) {
-	object_ptr = obj_ptr;
-}
-
-BBox
-Instance::get_bounding_box(void) {
-	return bbox;
-}
-
-Material*
-Instance::get_material(void) const {
-	return material_ptr;
-}
-
-void
-Instance::set_material(Material* materialPtr) {
-	material_ptr = materialPtr;
-}
-
 bool
-Instance::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
-	
+Instance::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const 
+{
 	// inverse ray is created by applying the inverse matrix to raymond. 
-
 	if (object_ptr->hit(Ray(this->inv_matrix * raymond.o, this->inv_matrix * raymond.d), tmin, sr)) {
 		
 		sr.normal = this->inv_matrix * sr.normal;
@@ -114,31 +109,16 @@ Instance::hit(const Ray& raymond, double& tmin, ShadeRec& sr) const {
 }
 
 bool
-Instance::shadow_hit(const Ray& raymond, double& tmin) const {
-
+Instance::shadow_hit(const Ray& raymond, double& tmin) const 
+{
 	// inverse ray is created by applying the inverse matrix to raymond. 
-
 	return object_ptr->shadow_hit(Ray(this->inv_matrix * raymond.o, this->inv_matrix * raymond.d), tmin);
 }
 
 void
-Instance::translate(const Vector3D& trans) {
-
-	Matrix_4 inv_translation_matrix;				// temporary inverse translation matrix	
-
-	inv_translation_matrix.m[0][3] = -trans.x;
-	inv_translation_matrix.m[1][3] = -trans.y;
-	inv_translation_matrix.m[2][3] = -trans.z;
-
-	inv_matrix = inv_matrix * inv_translation_matrix;
-
-	Matrix_4 translation_matrix;					// temporary translation matrix	
-
-	translation_matrix.m[0][3] = trans.x;
-	translation_matrix.m[1][3] = trans.y;
-	translation_matrix.m[2][3] = trans.z;
-
-	forward_matrix = translation_matrix * forward_matrix;
+Instance::translate(const Vector3D& trans) 
+{
+	this->translate(trans.x, trans.y, trans.z);
 }
 
 void
@@ -162,23 +142,9 @@ Instance::translate(const double dx, const double dy, const double dz) {
 }
 
 void
-Instance::scale(const Vector3D& s) {
-
-	Matrix_4	inv_scaling_matrix;			// temporary inverse scaling matrix
-
-	inv_scaling_matrix.m[0][0] = 1.0 / s.x;
-	inv_scaling_matrix.m[1][1] = 1.0 / s.y;
-	inv_scaling_matrix.m[2][2] = 1.0 / s.z;
-
-	inv_matrix = inv_matrix * inv_scaling_matrix;
-
-	Matrix_4	scaling_matrix;				// temporary scaling matrix
-
-	scaling_matrix.m[0][0] = s.x;
-	scaling_matrix.m[1][1] = s.y;
-	scaling_matrix.m[2][2] = s.z;
-
-	forward_matrix = scaling_matrix * forward_matrix;
+Instance::scale(const Vector3D& s) 
+{
+	this->scale(s.x, s.y, s.z);
 }
 
 void
@@ -312,6 +278,5 @@ Instance::shear(const Matrix_4& s) {
 	inverse_shearing_matrix = inverse_shearing_matrix / d;
 
 	inv_matrix = inv_matrix * inverse_shearing_matrix;
-
 	forward_matrix = s * forward_matrix;
 }

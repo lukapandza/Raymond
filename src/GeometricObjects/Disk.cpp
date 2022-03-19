@@ -22,13 +22,14 @@ Disk::Disk(const Disk& rhs)
 {}
 
 Disk*
-Disk::clone(void) const {
+Disk::clone() const 
+{
 	return new Disk(*this);
 }
 
 Disk&
-Disk::operator=(const Disk& rhs) {
-	
+Disk::operator=(const Disk& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -40,11 +41,9 @@ Disk::operator=(const Disk& rhs) {
 	return *this;
 }
 
-Disk::~Disk(void) {}
-
 bool
-Disk::hit(const Ray& raymond, double& t_min, ShadeRec& s) const {
-
+Disk::hit(const Ray& raymond, double& t_min, ShadeRec& s) const 
+{
 	double t = (center - raymond.o) * normal / (raymond.d * normal);
 
 	if (t <= kEpsilon)
@@ -63,8 +62,8 @@ Disk::hit(const Ray& raymond, double& t_min, ShadeRec& s) const {
 }
 
 bool
-Disk::shadow_hit(const Ray& raymond, double& t_min) const {
-	
+Disk::shadow_hit(const Ray& raymond, double& t_min) const 
+{
 	double t = (center - raymond.o) * normal / (raymond.d * normal);
 
 	if (t <= kEpsilon)
