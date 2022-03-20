@@ -48,7 +48,7 @@ World::build() {
     Phong* phong_ptr1 = new Phong();
     phong_ptr1->set_ka(0.0);
     phong_ptr1->set_kd(0.4);
-    phong_ptr1->set_cd(1); // white
+    phong_ptr1->set_cd(1, 1, 1); // white
     phong_ptr1->set_ks(0.0);
 
     //sphere 1:

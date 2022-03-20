@@ -15,6 +15,7 @@
 #include "GeometricObjects/Triangle.h"
 #include "GeometricObjects/Torus.h"
 #include "GeometricObjects/Instance.h"
+#include "GeometricObjects/Cylinder.h"
 
 // tracers
 
@@ -95,10 +96,12 @@
 //#include "../builds/GlossTest.cpp"
 //#include "../builds/PurePathTrace.cpp"
 //#include "../builds/GlobalTraceTest.cpp"
-#include "../builds/EnvironmentLightTest.cpp"
+//#include "../builds/EnvironmentLightTest.cpp"
 //#include "../builds/Phong2Test.cpp"
 //#include "../builds/OldAllMaterialsTest.cpp"
 //#include "../builds/AllMaterialsTest.cpp"
+#include "../builds/CylinderTest.cpp"
+
 
 //#include "../builds/PerformanceTest.cpp"
 

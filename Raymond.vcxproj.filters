@@ -295,6 +295,9 @@
     <ClCompile Include="src\Materials\GlossyReflector.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
+    <ClCompile Include="src\GeometricObjects\Cylinder.cpp">
+      <Filter>Source Files\GeometricObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="raymond.h">
@@ -472,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="src\Materials\GlossyReflector.h">
       <Filter>Header Files\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GeometricObjects\Cylinder.h">
+      <Filter>Header Files\GeometricObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

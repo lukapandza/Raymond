@@ -32,7 +32,7 @@ public:
     std::vector<Thread*> threads;
 
     QTimer* timer;
-    int repaint_frequency = 1000; // 60 fps = 16.66 ms.
+    int repaint_frequency = 16; // 60 fps = 16.66 ms.
     std::mutex mtx;
 
     QImage canvas;

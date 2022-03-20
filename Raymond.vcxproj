@@ -124,6 +124,7 @@
     <ClInclude Include="src\Cameras\Orthographic.h" />
     <ClInclude Include="src\Cameras\Pinhole.h" />
     <ClInclude Include="src\GeometricObjects\Box.h" />
+    <ClInclude Include="src\GeometricObjects\Cylinder.h" />
     <ClInclude Include="src\GeometricObjects\Disk.h" />
     <ClInclude Include="src\GeometricObjects\GeometricObject.h" />
     <ClInclude Include="src\GeometricObjects\Instance.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="src\Cameras\Orthographic.cpp" />
     <ClCompile Include="src\Cameras\Pinhole.cpp" />
     <ClCompile Include="src\GeometricObjects\Box.cpp" />
+    <ClCompile Include="src\GeometricObjects\Cylinder.cpp" />
     <ClCompile Include="src\GeometricObjects\Disk.cpp" />
     <ClCompile Include="src\GeometricObjects\GeometricObject.cpp" />
     <ClCompile Include="src\GeometricObjects\Instance.cpp" />
