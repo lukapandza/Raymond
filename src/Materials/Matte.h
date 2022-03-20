@@ -7,52 +7,47 @@ class Matte : public Material {
 
 public:
 
-	Matte(); // default constructor
+	// default constructor
+	Matte(); 
 
-	Matte(const Matte& rhs); // copy constructor
+	// copy constructor
+	Matte(const Matte& rhs); 
 
-	virtual Matte*
-		clone() const;
+	virtual Matte* clone() const;
 
-	virtual // destructor
-		~Matte();
+	// destructor
+	virtual ~Matte();
 
-	Matte& // assignment operator
-		operator= (const Matte& rhs);
+	// assignment operator
+	Matte& operator= (const Matte& rhs);
 
-	// setters
+	// set ambient intensity
+	void set_ka(const double k);
 
-	void
-		set_ka(const double  k);
+	// set diffuse intensity
+	void set_kd(const double k);
 
-	void
-		set_kd(const double  k);
+	// set diffuse greyscale color
+	void set_cd(const double c);
 
-	void
-		set_cd(const double  c);
+	// set diffuse color by component
+	void set_cd(const double r, const double g, const double b);
 
-	void
-		set_cd(const double  r, const double  g, const double  b);
+	// set diffuse color by reference
+	void set_cd(const RGBColor& col);
 
-	void
-		set_cd(const RGBColor& col);
-
-	void
-		set_samples(const int& n);
+	// set number of samples for Lambertian brdf
+	void set_samples(const int& n);
 
 	// functions
 
-	RGBColor
-		shade(ShadeRec& sr);
+	RGBColor shade(ShadeRec& sr) const;
 
-	RGBColor
-		area_light_shade(ShadeRec& sr);
+	RGBColor area_light_shade(ShadeRec& sr) const;
 
-	RGBColor
-		path_shade(ShadeRec& sr);
+	RGBColor path_shade(ShadeRec& sr) const;
 
-	RGBColor
-		global_shade(ShadeRec& sr);
+	RGBColor global_shade(ShadeRec& sr) const;
 
 private:
 
@@ -60,37 +55,42 @@ private:
 	Lambertian* diffuse_brdf;
 };
 
-// inlined functions
 
 inline void
-Matte::set_ka(const double  c) {
+Matte::set_ka(const double c) 
+{
 	ambient_brdf->set_kd(c);
 }
 
 inline void
-Matte::set_kd(const double  c) {
+Matte::set_kd(const double c) 
+{
 	diffuse_brdf->set_kd(c);
 }
 
 inline void
-Matte::set_cd(const double  c) {
+Matte::set_cd(const double c) 
+{
 	ambient_brdf->set_cd(c);
 	diffuse_brdf->set_cd(c);
 }
 
 inline void
-Matte::set_cd(const double  r, const double  g, const double  b) {
+Matte::set_cd(const double  r, const double  g, const double  b) 
+{
 	ambient_brdf->set_cd(r, g, b);
 	diffuse_brdf->set_cd(r, g, b);
 }
 
 inline void
-Matte::set_cd(const RGBColor& col) {
+Matte::set_cd(const RGBColor& col) 
+{
 	ambient_brdf->set_cd(col);
 	diffuse_brdf->set_cd(col);
 }
 
 inline void
-Matte::set_samples(const int& n) {
+Matte::set_samples(const int& n) 
+{
 	diffuse_brdf->set_samples(n);
 }

@@ -1,17 +1,15 @@
 #include "Matte.h"
 #include "../World/World.h"
 
-// default constructor
 Matte::Matte()
 	: Material(),
 	ambient_brdf(new Lambertian),
 	diffuse_brdf(new Lambertian)
 {}
 
-// copy constructor
 Matte::Matte(const Matte& rhs)
-	: Material(rhs) {
-
+	: Material(rhs) 
+{
 	if (rhs.ambient_brdf)
 		ambient_brdf = rhs.ambient_brdf->clone();
 	else
@@ -23,30 +21,24 @@ Matte::Matte(const Matte& rhs)
 		diffuse_brdf = nullptr;
 }
 
-// clone
 Matte*
-Matte::clone() const {
+Matte::clone() const 
+{
 	return new Matte(*this);
 }
 
-// destructor
-Matte::~Matte() {
-
-	if (ambient_brdf) {
+Matte::~Matte() 
+{
+	if (ambient_brdf)
 		delete ambient_brdf;
-		ambient_brdf = nullptr;
-	}
 
-	if (diffuse_brdf) {
+	if (diffuse_brdf)
 		delete diffuse_brdf;
-		diffuse_brdf = nullptr;
-	}
 }
 
-// assignment operator
 Matte&
-Matte::operator=(const Matte& rhs) {
-
+Matte::operator=(const Matte& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -72,8 +64,8 @@ Matte::operator=(const Matte& rhs) {
 }
 
 RGBColor
-Matte::shade(ShadeRec& sr) {
-
+Matte::shade(ShadeRec& sr) const 
+{
 	Vector3D w_o = -sr.ray.d;
 	RGBColor L = ambient_brdf->rho(sr, w_o) * sr.w.ambient_ptr->L(sr);
 	int num_lights = sr.w.lights.size();
@@ -104,8 +96,8 @@ Matte::shade(ShadeRec& sr) {
 }
 
 RGBColor
-Matte::area_light_shade(ShadeRec& sr) {
-
+Matte::area_light_shade(ShadeRec& sr) const
+{
 	Vector3D w_o = -sr.ray.d;
 	RGBColor L = ambient_brdf->rho(sr, w_o) * sr.w.ambient_ptr->L(sr);
 	int num_lights = sr.w.lights.size();
@@ -138,29 +130,24 @@ Matte::area_light_shade(ShadeRec& sr) {
 }
 
 RGBColor
-Matte::path_shade(ShadeRec& sr) {
-
+Matte::path_shade(ShadeRec& sr) const
+{
 	/*
 	notes:
 		-> outgoing direction w_o is the vector opposite to the cast ray (w_o = -sr.ray.d).
 		-> the reflected ray has the hit point as the origin and its direction is computed by the brdf in the sample_f function.
-		-> if the sampled material color is black, there is no need to cast further rays, as they are multiplied.
 	*/
 
 	// optimized code:
 	Vector3D w_i;
-	RGBColor f = diffuse_brdf->sample_f(sr, -sr.ray.d, w_i);
+	RGBColor f(diffuse_brdf->sample_f(sr, -sr.ray.d, w_i));
 
-	if (f.r == 0.0 && f.g == 0.0 && f.b == 0.0) // faster than invoking == operator on RGBColor(0, 0, 0)
-		return f;
-
-	else
-		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1);
+	return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1);
 }
 
 RGBColor
-Matte::global_shade(ShadeRec& sr) {
-
+Matte::global_shade(ShadeRec& sr) const 
+{
 	RGBColor L(0);
 	if (sr.depth == 0)
 		L = this->area_light_shade(sr);

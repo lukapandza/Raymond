@@ -200,7 +200,6 @@
     <ClCompile Include="src\Lights\PointLight.cpp" />
     <ClCompile Include="src\Materials\Emissive.cpp" />
     <ClCompile Include="src\Materials\GlossyReflector.cpp" />
-    <ClCompile Include="src\Materials\Material.cpp" />
     <ClCompile Include="src\Materials\Matte.cpp" />
     <ClCompile Include="src\Materials\Phong.cpp" />
     <ClCompile Include="src\Materials\Reflective.cpp" />

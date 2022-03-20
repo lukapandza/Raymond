@@ -193,9 +193,6 @@
     <ClCompile Include="src\Materials\Emissive.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="src\Materials\Material.cpp">
-      <Filter>Source Files\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="src\Materials\Reflective.cpp">
       <Filter>Source Files\Materials</Filter>
     </ClCompile>

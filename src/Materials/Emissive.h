@@ -6,79 +6,75 @@ class Emissive : public Material {
 
 public:
 
-	Emissive(void); // default constructor
+	// default constructor
+	Emissive(); 
 
-	Emissive(const Emissive& rhs); // copy constructor
+	// copy constructor
+	Emissive(const Emissive& rhs); 
 
-	virtual Emissive*
-		clone(void) const;
+	// clone
+	virtual Emissive* clone() const;
 
-	virtual // destructor
-		~Emissive();
+	// assignment operator
+	Emissive& operator= (const Emissive& rhs);
 
-	Emissive& // assignment operator
-		operator= (const Emissive& rhs);
+	// set light intensity
+	void set_ls(const double c);
 
-	// setters:
+	// set light greyscale color
+	void set_ce(const double c);
 
-	void
-		set_ls(const double  c);
+	// set light color by component
+	void set_ce(const double r, const double g, const double b);
 
-	void
-		set_ce(const double  c);
+	// set light color by reference
+	void set_ce(const RGBColor col);
 
-	void
-		set_ce(const double  r, const double  g, const double  b);
+	RGBColor get_Le(ShadeRec& sr) const;
 
-	void
-		set_ce(const RGBColor col);
+	RGBColor shade(ShadeRec& sr) const;
 
-	// functions:
+	RGBColor area_light_shade(ShadeRec& sr) const;
 
-	virtual RGBColor
-		get_Le(ShadeRec& sr) const;
+	RGBColor path_shade(ShadeRec& sr) const;
 
-	virtual RGBColor
-		shade(ShadeRec& sr);
-
-	virtual RGBColor
-		area_light_shade(ShadeRec& sr);
-
-	virtual RGBColor
-		path_shade(ShadeRec& sr);
-
-	virtual RGBColor
-		global_shade(ShadeRec& sr);
+	RGBColor global_shade(ShadeRec& sr) const;
 
 private:
 
-	double  ls; // radiance scaling factor
-	RGBColor ce; // color
+	// light intensity
+	double ls; 
+
+	// light color
+	RGBColor ce; 
 };
 
-// inlined functions:
-
 inline void
-Emissive::set_ls(const double  c) {
+Emissive::set_ls(const double c) 
+{
 	ls = c;
 }
 
 inline void
-Emissive::set_ce(const double  c) {
+Emissive::set_ce(const double c) 
+{
 	ce = RGBColor(c);
 }
 
 inline void
-Emissive::set_ce(const double  r, const double  g, const double  b) {
+Emissive::set_ce(const double r, const double g, const double b) 
+{
 	ce = RGBColor(r, g, b);
 }
 
 inline void
-Emissive::set_ce(const RGBColor col) {
+Emissive::set_ce(const RGBColor col) 
+{
 	ce = col;
 }
 
 inline RGBColor
-Emissive::get_Le(ShadeRec& sr) const {
+Emissive::get_Le(ShadeRec& sr) const 
+{
 	return ls * ce;
 }

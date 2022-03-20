@@ -1,40 +1,40 @@
 #pragma once
 
 #include "../Utilities/RGBColor.h"
-class ShadeRec;
+#include "../Utilities/Constants.h"
+class ShadeRec; // forward decleration
 
 class Material {
 
 public:
 
-	Material(void); // defualt constructor
+	// defualt constructor
+	Material() {}
 
-	Material(const Material& rhs); // copy constructor
+	// copy constructor
+	Material(const Material& rhs) {}
 
-	virtual Material*
-		clone(void) const = 0;
+	// clone
+	virtual Material* clone() const = 0;
 
-	virtual
-		~Material(); // destructor
-
-	Material& // assignment operator
-		operator= (const Material& rhs);
+	// assignment operator
+	virtual Material& operator= (const Material& rhs) { return *this; }
 
 	// functions:
 
-	virtual RGBColor
-		shade(ShadeRec& sr);
+	// RayCast shading
+	virtual RGBColor shade(ShadeRec& sr) const { return black; }
 
-	virtual RGBColor
-		area_light_shade(ShadeRec& sr);
+	// AreaLighting shading
+	virtual RGBColor area_light_shade(ShadeRec& sr) const { return black; }
 
-	virtual RGBColor
-		path_shade(ShadeRec& sr);
+	// PathTrace shading
+	virtual RGBColor path_shade(ShadeRec& sr) const { return black; }
 
-	virtual RGBColor
-		global_shade(ShadeRec& sr);
+	// GlobalTrace shading
+	virtual RGBColor global_shade(ShadeRec& sr) const { return black; }
 
-	virtual RGBColor
-		get_Le(ShadeRec& sr) const;
+	// for emissive materials
+	virtual RGBColor get_Le(ShadeRec& sr) const { return black; }
 
 };

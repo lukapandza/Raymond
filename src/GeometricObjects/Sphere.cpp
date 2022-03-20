@@ -56,72 +56,68 @@ Sphere::~Sphere()
 bool
 Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const 
 {
-	double 		t;
 	Vector3D	temp 	= ray.o - center;
 	double 		a 		= ray.d * ray.d;
 	double 		b 		= 2.0 * temp * ray.d;
 	double 		c 		= temp * temp - radius * radius;
 	double 		disc	= b * b - 4.0 * a * c;
 	
-	if (disc < 0.0)
+	if (disc < 0.0) // no real solutions
 		return false;
 
 	else {	
 		double e = sqrt(disc);
-		double denom = 2.0 * a;
-		t = (-b - e) / denom;    // smaller root
+		double inv_denom = 1.0 / (2.0 * a);
+		double t = (-b - e) * inv_denom;    // smaller root
 	
 		if (t > kEpsilon) {
 			tmin = t;
-			sr.normal 	 = (temp + t * ray.d) / radius;
+			sr.normal = (temp + t * ray.d) / radius;
 			sr.local_hit_point = ray.o + t * ray.d;
 			return true;
 		} 
 	
-		t = (-b + e) / denom;    // larger root
+		t = (-b + e) * inv_denom;    // larger root
 	
 		if (t > kEpsilon) {
 			tmin = t;
-			sr.normal   = (temp + t * ray.d) / radius;
+			sr.normal = (temp + t * ray.d) / radius;
 			sr.local_hit_point = ray.o + t * ray.d;
 			return true;
 		} 
 	}
-	
 	return false;
 }
 
 bool
 Sphere::shadow_hit(const Ray& ray, double& tmin) const 
 {
-	double 		t;
 	Vector3D	temp = ray.o - center;
 	double 		a = ray.d * ray.d;
 	double 		b = 2.0 * temp * ray.d;
 	double 		c = temp * temp - radius * radius;
 	double 		disc = b * b - 4.0 * a * c;
 
-	if (disc < 0.0)
+	if (disc < 0.0) // no real solutions
 		return false;
 
 	else {
 		double e = sqrt(disc);
-		double denom = 2.0 * a;
-		t = (-b - e) / denom;    // smaller root
+		double inv_denom = 1.0 / (2.0 * a);
+		double t = (-b - e) * inv_denom;    // smaller root
 
 		if (t > kEpsilon) {
 			tmin = t;
 			return true;
 		}
 
-		t = (-b + e) / denom;    // larger root
+		t = (-b + e) * inv_denom;    // larger root
 
 		if (t > kEpsilon) {
 			tmin = t;
 			return true;
 		}
 	}
-
 	return false;
 }
 

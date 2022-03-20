@@ -94,7 +94,7 @@ GlossyReflector::operator=(const GlossyReflector& rhs)
 }
 
 RGBColor
-GlossyReflector::area_light_shade(ShadeRec& sr)
+GlossyReflector::area_light_shade(ShadeRec& sr) const
 {
 	Vector3D w_o(-sr.ray.d);
 	RGBColor L = ambient_brdf->rho(sr, w_o) * sr.w.ambient_ptr->L(sr);
@@ -137,7 +137,7 @@ GlossyReflector::area_light_shade(ShadeRec& sr)
 }
 
 RGBColor
-GlossyReflector::path_shade(ShadeRec& sr)
+GlossyReflector::path_shade(ShadeRec& sr) const
 {
 	/*
 	notes:
@@ -179,7 +179,7 @@ GlossyReflector::path_shade(ShadeRec& sr)
 }
 
 RGBColor
-GlossyReflector::global_shade(ShadeRec& sr)
+GlossyReflector::global_shade(ShadeRec& sr) const
 {
 	RGBColor L(0);
 	if (sr.depth == 0)

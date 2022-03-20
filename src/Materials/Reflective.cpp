@@ -1,37 +1,38 @@
 #include "Reflective.h"
 #include "../World/World.h"
 
-Reflective::Reflective(void)
+Reflective::Reflective()
 	: Phong(),
 	reflective_brdf(new PerfectSpecular)
 {}
 
 Reflective::Reflective(const Reflective& rhs) 
-	: Phong(rhs) {
+	: Phong(rhs) 
+{
 	if (rhs.reflective_brdf)
 		reflective_brdf = rhs.reflective_brdf->clone();
 	else
-		reflective_brdf = NULL;
+		reflective_brdf = nullptr;
 }
 
 Reflective*
-Reflective::clone(void) const {
+Reflective::clone() const {
 	return new Reflective(*this);
 }
 
-Reflective::~Reflective(void) {
-	
-	Phong::~Phong();
-
+Reflective::~Reflective() 
+{
 	if (reflective_brdf) {
 		delete reflective_brdf;
-		reflective_brdf = NULL;
+		reflective_brdf = nullptr;
 	}
+
+	Phong::~Phong();
 }
 
 Reflective&
-Reflective::operator=(const Reflective& rhs) {
-	
+Reflective::operator=(const Reflective& rhs) 
+{
 	if (this == &rhs)
 		return *this;
 
@@ -39,7 +40,7 @@ Reflective::operator=(const Reflective& rhs) {
 
 	if (reflective_brdf) {
 		delete reflective_brdf;
-		reflective_brdf = NULL;
+		reflective_brdf = nullptr;
 	}
 
 	if (rhs.reflective_brdf)
@@ -49,8 +50,8 @@ Reflective::operator=(const Reflective& rhs) {
 }
 
 RGBColor
-Reflective::shade(ShadeRec& sr) {
-
+Reflective::shade(ShadeRec& sr) const
+{
 	RGBColor L(Phong::shade(sr)); // direct illumination
 	Vector3D w_o = -sr.ray.d;
 	Vector3D w_i;
@@ -64,8 +65,8 @@ Reflective::shade(ShadeRec& sr) {
 }
 
 RGBColor
-Reflective::area_light_shade(ShadeRec& sr) {
-	
+Reflective::area_light_shade(ShadeRec& sr) const 
+{
 	RGBColor L(Phong::area_light_shade(sr));
 	Vector3D w_o = -sr.ray.d;
 	Vector3D w_i;
@@ -79,8 +80,8 @@ Reflective::area_light_shade(ShadeRec& sr) {
 }
 
 RGBColor
-Reflective::path_shade(ShadeRec& sr) {
-	
+Reflective::path_shade(ShadeRec& sr) const 
+{
 	//Vector3D w_o = -sr.ray.d;
 	Vector3D w_i;
 	RGBColor fr = reflective_brdf->sample_f(sr, -sr.ray.d, w_i);
@@ -89,8 +90,8 @@ Reflective::path_shade(ShadeRec& sr) {
 }
 
 RGBColor
-Reflective::global_shade(ShadeRec& sr) {
-
+Reflective::global_shade(ShadeRec& sr) const 
+{
 	RGBColor L(0);
 	if (sr.depth == 0)
 		L = this->area_light_shade(sr);
