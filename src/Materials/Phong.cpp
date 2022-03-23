@@ -159,12 +159,12 @@ Phong::path_shade(ShadeRec& sr) const
 	*/
 
 	// optimized code:
-
+	
 	Vector3D w_i_d, w_i_s;
 	RGBColor f(this->diffuse_brdf->sample_f(sr, -sr.ray.d, w_i_d));
 	f += this->specular_brdf->sample_f(sr, -sr.ray.d, w_i_s);
 
-	double rand = rand_float(0, 1.0);
+	double rand = rand_float(0, max(1.0, this->diffuse_brdf->get_kd() + specular_brdf->get_ks()));
 	double running_threshold = this->diffuse_brdf->get_kd();
 
 	if (rand < running_threshold) // diffuse reflection
@@ -173,9 +173,10 @@ Phong::path_shade(ShadeRec& sr) const
 	running_threshold += this->specular_brdf->get_ks();
 
 	if (rand < running_threshold) // specular reflection
-		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.depth + 1);
+		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.w.vp.max_depth);
 
 	return RGBColor(0, 0, 0); // light is absorbed (only happens when k_s + k_d < 1.0)
+	
 }
 
 RGBColor

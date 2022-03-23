@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 256;
+    int num_samples = 900;
 
     vp.set_hres(256);
     vp.set_vres(256);

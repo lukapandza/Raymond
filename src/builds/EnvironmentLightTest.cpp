@@ -1,9 +1,9 @@
 void
 World::build() {
 
-    int num_samples = 256;
+    int num_samples = 900;
 
-    double scale_factor = 16;
+    double scale_factor = 32;
 
     vp.set_hres(16 * scale_factor);
     vp.set_vres(9 * scale_factor);
@@ -23,9 +23,9 @@ World::build() {
     //camera:
     Pinhole* pinhole_ptr = new Pinhole();
     pinhole_ptr->set_eye(5.5, 1, 9);
-    pinhole_ptr->set_lookat(5.5, 2, 1);
+    pinhole_ptr->set_lookat(5.5, 1, 1);
     pinhole_ptr->set_view_distance(3.0);
-    pinhole_ptr->set_zoom(4 * scale_factor);
+    pinhole_ptr->set_zoom(6 * scale_factor);
     pinhole_ptr->compute_uvw();
     camera_ptr = pinhole_ptr;
 
@@ -34,8 +34,9 @@ World::build() {
 
     //light: 
     Emissive* emissive_ptr1 = new Emissive;
-    emissive_ptr1->set_ls(1.6);
-    emissive_ptr1->set_ce(.77, 0.73, 0.94);
+    emissive_ptr1->set_ls(1);
+    //emissive_ptr1->set_ce(.77, 0.73, 0.94);
+    emissive_ptr1->set_ce(1, 1, 1);
 
     Emissive* emissive_ptr2 = new Emissive;
     emissive_ptr2->set_ls(16);
@@ -71,11 +72,18 @@ World::build() {
     Matte* mat_blue = new Matte(*mat);
     mat_blue->set_cd(.21, .12, .6);
 
+    Phong* p_white = new Phong;
+    p_white->set_samples(num_samples);
+    p_white->set_exp(10000);
+    p_white->set_kd(1);
+    p_white->set_ks(1);
+    p_white->set_c(1, 1, 1);
+
     Phong* p = new Phong;
     p->set_samples(num_samples);
     p->set_exp(10000);
-    p->set_kd(.2);
-    p->set_ks(.75);
+    p->set_kd(1);
+    p->set_ks(1);
     p->set_c(1, 1, 1);
 
     Phong* iron = new Phong(*p);
@@ -146,46 +154,46 @@ World::build() {
     double shelf_thickness = .125;
     // shelves:
     Box* bronze_leg_w = new Box(4 - leg_thickness / 2, 0, 2.5, 4 + leg_thickness / 2, .5 - shelf_thickness, 3);
-    bronze_leg_w->set_material(p);
+    bronze_leg_w->set_material(p_white);
     add_object(bronze_leg_w);
 
     Box* bronze_leg_e = new Box(7 - leg_thickness / 2, 0, 2.5, 7 + leg_thickness / 2, .5 - shelf_thickness, 3);
-    bronze_leg_e->set_material(p);
+    bronze_leg_e->set_material(p_white);
     add_object(bronze_leg_e);
 
     Box* bronze_shelf = new Box(3.5, .5 - shelf_thickness, 2.5, 7.5, .5, 3);
-    bronze_shelf->set_material(p);
+    bronze_shelf->set_material(p_white);
     add_object(bronze_shelf);
 
 
     Box* silver_leg_w = new Box(4.5 - leg_thickness / 2, 0, 2, 4.5 + leg_thickness / 2, 1 - shelf_thickness, 2.5);
-    silver_leg_w->set_material(p);
+    silver_leg_w->set_material(p_white);
     add_object(silver_leg_w);
 
     Box* silver_leg_e = new Box(6.5 - leg_thickness / 2, 0, 2, 6.5 + leg_thickness / 2, 1 - shelf_thickness, 2.5);
-    silver_leg_e->set_material(p);
+    silver_leg_e->set_material(p_white);
     add_object(silver_leg_e);
 
     Box* silver_shelf = new Box(4, 1 - shelf_thickness, 2, 7, 1, 2.5);
-    silver_shelf->set_material(p);
+    silver_shelf->set_material(p_white);
     add_object(silver_shelf);
 
 
     Box* gold_leg_w = new Box(5 - leg_thickness / 2, 0, 1.5, 5 + leg_thickness / 2, 1.5 - shelf_thickness, 2);
-    gold_leg_w->set_material(p);
+    gold_leg_w->set_material(p_white);
     add_object(gold_leg_w);
 
     Box* gold_leg_e = new Box(6 - leg_thickness / 2, 0, 1.5, 6 + leg_thickness / 2, 1.5 - shelf_thickness, 2);
-    gold_leg_e->set_material(p);
+    gold_leg_e->set_material(p_white);
     add_object(gold_leg_e);
 
     Box* gold_shelf = new Box(4.5, 1.5 - shelf_thickness, 1.5, 6.5, 1.5, 2);
-    gold_shelf->set_material(p);
+    gold_shelf->set_material(p_white);
     add_object(gold_shelf);
 
 
     Box* last_shelf = new Box(5, 2 - shelf_thickness, 1, 6, 2, 1.5);
-    last_shelf->set_material(p);
+    last_shelf->set_material(p_white);
     add_object(last_shelf);
 
     

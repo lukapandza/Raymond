@@ -100,7 +100,9 @@
 //#include "../builds/Phong2Test.cpp"
 //#include "../builds/OldAllMaterialsTest.cpp"
 //#include "../builds/AllMaterialsTest.cpp"
-#include "../builds/CylinderTest.cpp"
+//#include "../builds/CylinderTest.cpp"
+//#include "../builds/PhongParamTest.cpp"
+#include "../builds/ReflectiveParamTest.cpp"
 
 
 //#include "../builds/PerformanceTest.cpp"

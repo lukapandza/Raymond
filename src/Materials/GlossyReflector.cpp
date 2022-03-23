@@ -168,7 +168,7 @@ GlossyReflector::path_shade(ShadeRec& sr) const
 	running_threshold += this->specular_brdf->get_ks();
 
 	if (rand < running_threshold) // specular reflection
-		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.depth + 1);
+		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.w.vp.max_depth);
 
 	running_threshold += this->reflected_brdf->get_ks();
 

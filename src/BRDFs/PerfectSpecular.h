@@ -24,6 +24,9 @@ public:
 	// set reflection intensity
 	void set_kr(const double  c);
 
+	// get reflection intensity
+	double get_kr();
+
 	// set diffuse greyscale color
 	void set_cr(const double  c);
 
@@ -54,6 +57,12 @@ inline void
 PerfectSpecular::set_kr(const double  c) 
 {
 	this->kr = c;
+}
+
+inline double
+PerfectSpecular::get_kr()
+{
+	return this->kr;
 }
 
 inline void
