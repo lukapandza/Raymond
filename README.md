@@ -28,4 +28,16 @@ Some things to keep in mind when looking over the code:
 
 ## Which Code to review
 
+### If you like geometry
+
+Each class that inherits from `GeometricObject` implements a `hit()` function that takes in a ray and the current minimum scalar `t` and detemrines if the ray intersects the object in question. These range from very simple ones like the plane to complex ones like the Torus. Any feedback on the understandability / corectness / efficiency of these is appreciated. 
+
+### If you like obscure ways of optimizing C++
+
+The classes in `Utilities/` do the bulk of the work when rednering an image. As a consequence these are meant to be lightweight and fast. Shaving off nanoseconds here makes all the difference for execution speed. Any feedback to make these run faster or eliminate unnecessery steps is appreciated.
+
+### If you like OOP
+
+The project's architecture is pretty complex but it was also built piece by piece over a longer time period. Any feedback on better ways of designing the architecture or simplifying the inheritance scheme is appreciated. 
+
 
