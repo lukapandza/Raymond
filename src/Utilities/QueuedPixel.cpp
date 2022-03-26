@@ -30,6 +30,7 @@ QueuedPixel::add_sample(const RGBColor& sample)
 		else {
 			// update M and S
 			//this->M_curr = (this->M_prev * (num_hits - 1) + sample) / num_hits;
+			this->M_curr = (this->M_prev * (num_hits - 1) + sample) / num_hits;
 			this->S_curr = this->S_prev + (sample.difference(this->M_prev)) * (sample.difference(this->M_curr));
 
 			// set up for next iteration
