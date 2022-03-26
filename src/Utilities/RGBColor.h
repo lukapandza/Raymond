@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 class RGBColor {
 	
 public:
@@ -23,7 +25,10 @@ public:
 	RGBColor& operator= (const RGBColor& rhs); 
 
 	// addition
-	RGBColor operator+ (const RGBColor& c) const;	
+	RGBColor operator+ (const RGBColor& c) const;
+
+	// subtraction
+	RGBColor operator- (const RGBColor& c) const;
 
 	// in-place addition
 	RGBColor& operator+= (const RGBColor& c);
@@ -47,13 +52,19 @@ public:
 	RGBColor& operator*= (const RGBColor& c);
 		
 	// equality check
-	bool operator== (const RGBColor& c) const;				
+	bool operator== (const RGBColor& c) const;	
+
+	// inequality check
+	bool operator!= (const RGBColor& c) const;
 
 	// raise components to power of scalar
 	RGBColor powc(const double& p) const;
 		
 	// the average of components
 	double average() const;
+
+	// euclidean distance between colors in rgb space
+	double difference(const RGBColor& rhs) const;
 
 	// wavelength to RGB conversion
     static RGBColor convert_wave_length_nm_to_rgb(const double wave_length_nm);
@@ -76,6 +87,12 @@ inline RGBColor
 RGBColor::operator+ (const RGBColor& c) const 
 {
 	return RGBColor(this->r + c.r, this->g + c.g, this->b + c.b);
+}
+
+inline RGBColor
+RGBColor::operator- (const RGBColor& c) const
+{
+	return RGBColor(this->r - c.r, this->g - c.g, this->b - c.b);
 }
 
 inline RGBColor& 
@@ -130,10 +147,23 @@ RGBColor::operator== (const RGBColor& c) const {
 	return (this->r == c.r && this->g == c.g && this->b == c.b);
 }
 
+inline bool
+RGBColor::operator!= (const RGBColor& c) const {
+	return (this->r != c.r || this->g != c.g || this->b != c.b);
+}
+
 inline double											
 RGBColor::average() const 
 {
 	return 0.333333333333 * (this->r + this->g + this->b);
+}
+
+inline double 
+RGBColor::difference(const RGBColor& rhs) const
+{
+	return sqrt((rhs.r - r) * (rhs.r - r)
+		+ (rhs.g - g) * (rhs.g - g)
+		+ (rhs.b - b) * (rhs.b - b));
 }
 
 RGBColor 

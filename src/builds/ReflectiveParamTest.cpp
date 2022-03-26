@@ -1,12 +1,20 @@
 void
 World::build() {
 
-    int num_samples = 2500;
+    int num_samples = 1024;
+
+    this->max_samples = num_samples;
+    this->variance_tolerance = 0.25;
+    //this->variance_tolerance = 0.1;
+    //this->variance_tolerance = 1;
+    //this->variance_tolerance = 10;
+    //this->variance_tolerance = 100;
+    this->sample_batch_size = 16;
 
     double scale_factor = 16;
 
     vp.set_hres(16 * scale_factor);
-    vp.set_vres(16 * scale_factor);
+    vp.set_vres(9 * scale_factor);
     vp.set_samples(num_samples);
     vp.set_max_depth(6);
 
@@ -22,10 +30,10 @@ World::build() {
 
     //camera:
     Pinhole* pinhole_ptr = new Pinhole();
-    pinhole_ptr->set_eye(0, 4, 29.9);
-    pinhole_ptr->set_lookat(0, 4, 0);
+    pinhole_ptr->set_eye(0, 2, 5.5);
+    pinhole_ptr->set_lookat(-2, 1.1, 0);
     pinhole_ptr->set_view_distance(3.0);
-    pinhole_ptr->set_zoom(12 * scale_factor);
+    pinhole_ptr->set_zoom(8 * scale_factor);
     pinhole_ptr->compute_uvw();
     camera_ptr = pinhole_ptr;
 
@@ -46,6 +54,7 @@ World::build() {
     light_sphere1->translate(0, 12, 0);
     add_object(light_sphere1);
 
+    /*
     Instance* light_sphere2 = new Instance(sphere);
     light_sphere2->scale(2, .25, 2);
     light_sphere2->translate(0, 12, 12);
@@ -55,6 +64,7 @@ World::build() {
     light_sphere3->scale(2, .25, 2);
     light_sphere3->translate(0, 12, 24);
     add_object(light_sphere3);
+    */
 
     /*
     ConcaveSphere* sphere_ptr = new ConcaveSphere;
@@ -127,7 +137,7 @@ World::build() {
     north->set_material(mat);
     add_object(north);
 
-    Plane* south = new Plane(Point3D(0, 0, 30), Normal(0, 0, -1));
+    Plane* south = new Plane(Point3D(0, 0, 6), Normal(0, 0, -1));
     south->set_material(mat);
     add_object(south);
 
@@ -155,7 +165,7 @@ World::build() {
     }
 
     double tile_gap = .2;
-    double z = -6 + gap + box_height;
+    double z = 6 -gap - box_height;
 
     std::vector<Point3D> points = {
         Point3D(0, 4, z), 

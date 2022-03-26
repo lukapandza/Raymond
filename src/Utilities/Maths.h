@@ -1,6 +1,8 @@
 #pragma once
 
 #include <stdlib.h>
+#include <cstdint>
+#include <math.h>
 #include "Constants.h"
 #include "RGBColor.h"
 
@@ -47,4 +49,17 @@ inline int rand_int(int low, int high)
 inline double clamp(const double num, const double min, const double max) 
 {
 	return num < min ? min : (num > max ? max : num);
+}
+
+// fast inverse square root
+inline double fast_inv_sqrt(double num)
+{
+    double y = num;
+    double x2 = y * .5;
+    std::int64_t i = *(std::int64_t*)&y;
+    // The magic number is for doubles is from https://cs.uwaterloo.ca/~m32rober/rsqrt.pdf
+    i = 0x5fe6eb50c7b537a9 - (i >> 1);
+    y = *(double*)&i;
+    y = y * (1.5 - (x2 * y * y));   // 1 iteration
+    return y;
 }

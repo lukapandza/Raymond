@@ -46,13 +46,6 @@ Normal::operator= (const Point3D& rhs)
 	return *this;
 }
 
-void 													
-Normal::normalize() 
-{	
-	double inv_length = 1.0 / sqrt(x * x + y * y + z * z);
-	x *= inv_length; y *= inv_length; z *= inv_length;
-}
-
 // a normal is transformed by multiplying it on the left by the transpose of the upper left 3 x 3
 // partition of the inverse transformation matrix
 Normal 											

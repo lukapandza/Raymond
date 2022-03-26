@@ -85,6 +85,14 @@ Normal::operator* (const double a) const
 	return Normal(x * a, y * a, z * a);
 }
 
+inline void
+Normal::normalize()
+{
+	double inv_length = 1.0 / sqrt(x * x + y * y + z * z);
+	//double inv_length = fast_inv_sqrt(x * x + y * y + z * z);
+	x *= inv_length; y *= inv_length; z *= inv_length;
+}
+
 // non member functions:
 
 // multiplication by double on the left

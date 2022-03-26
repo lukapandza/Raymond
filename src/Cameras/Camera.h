@@ -61,6 +61,9 @@ public:
 	virtual void
 		render_scene(const World& w, std::vector<pix_coord>& batch, Thread*& paintArea) = 0;
 
+	virtual RGBColor
+		sample_pixel(World* w, int h, int v) = 0;
+
 	void
 		display_pixel(const int row, const int column, const RGBColor& raw_color, const World& w, Thread*& paintArea) const;
 

@@ -38,6 +38,9 @@ public:
 
 	Light*							ambient_ptr;
 	std::vector<Light*>				lights;
+
+	int max_samples, sample_batch_size;
+	double variance_tolerance;
 	
 	World(void);
 		

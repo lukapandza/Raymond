@@ -10,6 +10,9 @@
 #include <chrono>
 #include <mutex>
 #include <qprogressbar.h>
+#include "src/Utilities/QueuedPixel.h"
+#include "src/Utilities/AdaptiveThread.h"
+#include <queue>
 
 // forward declerations:
 class World;
@@ -35,6 +38,9 @@ public:
     int repaint_frequency = 16; // 60 fps = 16.66 ms.
     std::mutex mtx;
 
+    std::priority_queue<QueuedPixel*, std::vector<QueuedPixel*>, ComparePointers> queue;
+    bool adaptive = false;
+
     QImage canvas;
     QLabel* image_label;
     double scale_factor = 1.0;
@@ -42,9 +48,10 @@ public:
     QAction* save_as_action;
     QAction* exit_action;
     QAction* render_start_action;
+    QAction* adaptive_render_start_action;
 
-    int pixels_to_render;
-    int pixels_rendered = 0;
+    unsigned long pixels_to_render;
+    unsigned long pixels_rendered = 0;
 
     std::chrono::time_point<std::chrono::steady_clock> start_time;
 
@@ -59,6 +66,7 @@ private slots:
     void save_as();
     void exit();
     void render_start();
+    void adaptive_render_start();
     void update_image();
     void update_status_message();
     void render_end();

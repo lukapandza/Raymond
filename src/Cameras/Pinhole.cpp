@@ -83,3 +83,15 @@ Pinhole::render_scene(const World& world, std::vector<pix_coord>& batch, Thread*
 		display_pixel(i, ii, color, world, paintArea);
 	}
 }
+
+RGBColor
+Pinhole::sample_pixel(World* w, int h, int v)
+{
+	double s = w->vp.s / zoom;
+	Point2D sp(w->vp.sampler_ptr->sample_unit_square());
+	Point2D pp(s * (h - w->vp.half_hres + sp.x), s * (v - w->vp.half_vres + sp.y));
+
+	Ray raymond(this->eye, this->ray_direction(pp));
+
+	return w->tracer_ptr->trace_ray(raymond, 0);
+}

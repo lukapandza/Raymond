@@ -38,6 +38,9 @@ public:
 	virtual void
 		render_scene(const World& world, std::vector<pix_coord>& batch, Thread*& paintArea);
 
+	RGBColor
+		sample_pixel(World* w, int h, int v);
+
 private:
 
 	double d; // view plane to eye distance

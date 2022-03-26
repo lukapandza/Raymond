@@ -160,6 +160,7 @@
     <ClInclude Include="src\Tracers\SingleSphere.h" />
     <ClInclude Include="src\Tracers\Tracer.h" />
     <ClInclude Include="src\Tracers\Whitted.h" />
+    <ClInclude Include="src\Utilities\AdaptiveThread.h" />
     <ClInclude Include="src\Utilities\BBox.h" />
     <ClInclude Include="src\Utilities\Constants.h" />
     <ClInclude Include="src\Utilities\Maths.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="src\Utilities\Normal.h" />
     <ClInclude Include="src\Utilities\Point2D.h" />
     <ClInclude Include="src\Utilities\Point3D.h" />
+    <ClInclude Include="src\Utilities\QueuedPixel.h" />
     <ClInclude Include="src\Utilities\Ray.h" />
     <ClInclude Include="src\Utilities\RGBColor.h" />
     <ClInclude Include="src\Utilities\ShadeRec.h" />
@@ -217,12 +219,14 @@
     <ClCompile Include="src\Tracers\SingleSphere.cpp" />
     <ClCompile Include="src\Tracers\Tracer.cpp" />
     <ClCompile Include="src\Tracers\Whitted.cpp" />
+    <ClCompile Include="src\Utilities\AdaptiveThread.cpp" />
     <ClCompile Include="src\Utilities\BBox.cpp" />
     <ClCompile Include="src\Utilities\Maths.cpp" />
     <ClCompile Include="src\Utilities\Matrix_4.cpp" />
     <ClCompile Include="src\Utilities\Normal.cpp" />
     <ClCompile Include="src\Utilities\Point2D.cpp" />
     <ClCompile Include="src\Utilities\Point3D.cpp" />
+    <ClCompile Include="src\Utilities\QueuedPixel.cpp" />
     <ClCompile Include="src\Utilities\Ray.cpp" />
     <ClCompile Include="src\Utilities\RGBColor.cpp" />
     <ClCompile Include="src\Utilities\ShadeRec.cpp" />

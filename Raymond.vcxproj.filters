@@ -295,6 +295,12 @@
     <ClCompile Include="src\GeometricObjects\Cylinder.cpp">
       <Filter>Source Files\GeometricObjects</Filter>
     </ClCompile>
+    <ClCompile Include="src\Utilities\QueuedPixel.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utilities\AdaptiveThread.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="raymond.h">
@@ -475,6 +481,12 @@
     </ClInclude>
     <ClInclude Include="src\GeometricObjects\Cylinder.h">
       <Filter>Header Files\GeometricObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utilities\QueuedPixel.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utilities\AdaptiveThread.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -186,6 +186,9 @@ void Raymond::create_actions()
 
     this->render_start_action = new QAction("Start", this);
     connect(this->render_start_action, &QAction::triggered, this, &Raymond::render_start);
+
+    this->adaptive_render_start_action = new QAction("Start (Adaptive Sampling)", this);
+    connect(this->adaptive_render_start_action, &QAction::triggered, this, &Raymond::adaptive_render_start);
 }
 
 void Raymond::create_menus()
@@ -200,6 +203,7 @@ void Raymond::create_menus()
     QMenu* render_menu = new QMenu("Render");
     menu_bar->addMenu(render_menu);
     render_menu->addAction(this->render_start_action);
+    render_menu->addAction(this->adaptive_render_start_action);
 
     this->layout()->setMenuBar(menu_bar);
 }
@@ -257,6 +261,53 @@ void Raymond::render_start()
     }
 }
 
+void Raymond::adaptive_render_start()
+{
+    this->world = new World();
+    this->world->build();
+
+    this->adaptive = true;
+
+    this->pixels_to_render = this->world->vp.hres * this->world->vp.vres * this->world->max_samples;
+
+    this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
+    this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+    this->image_label->adjustSize();
+    this->image_label->setVisible(true);
+    this->image_label->repaint();
+    this->image_label->show();
+    this->resize(this->world->vp.hres + 75, this->world->vp.vres + 75);
+
+    for (int i(0); i < this->world->vp.vres; i++)
+        for (int ii(0); ii < this->world->vp.hres; ii++)
+            this->queue.push(new QueuedPixel(ii, i));
+
+    this->timer = new QTimer(this);
+    connect(this->timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_image));
+    this->timer->start(this->repaint_frequency); // update displayed image every time interval
+
+    this->status_timer = new QTimer(this);
+    connect(this->status_timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_status_message));
+    this->status_timer->start(400); // update message every .4 second
+
+    this->start_time = std::chrono::steady_clock::now();
+    this->progress_bar->setVisible(true);
+
+    const int num_threads = std::max(std::thread::hardware_concurrency(), uint(1));
+    //const int num_threads = 1;
+
+    for (int i = 0; i < num_threads; i++) {
+
+        World* thread_world = new World();
+        thread_world->build();
+
+        AdaptiveThread* new_thread = new AdaptiveThread(thread_world, this); // each thread gets its own copy of the world
+
+        std::thread thread(&AdaptiveThread::Render, new_thread);
+        thread.detach();
+    }
+}
+
 void Raymond::update_image()
 {
     this->mtx.lock();
@@ -267,10 +318,14 @@ void Raymond::update_image()
 
 void Raymond::update_status_message() 
 {
-    if (this->pixels_rendered == this->pixels_to_render)
+    this->mtx.lock();
+    if (this->pixels_rendered >= this->pixels_to_render || (this->adaptive && this->queue.empty())) {
+        this->mtx.unlock();
         this->render_end();
+    }
     else {
-    
+        this->mtx.unlock();
+
         std::string message = "";
         message += "Rendering... ";
         auto curr_time = std::chrono::steady_clock::now();
@@ -291,6 +346,7 @@ void Raymond::update_status_message()
 
 void Raymond::render_end()
 {
+    this->progress_bar->setValue((int)(this->pixels_rendered * 100.0 / this->pixels_to_render));
     delete this->status_timer;
 
     std::string message = "";
@@ -302,5 +358,5 @@ void Raymond::render_end()
     message += time_string_from_int(total_elapsed_milliseconds);
 
     this->status_label->setText(QString::fromStdString(message));
-    this->progress_bar->setValue(100);
+    //this->progress_bar->setValue(100);
 }

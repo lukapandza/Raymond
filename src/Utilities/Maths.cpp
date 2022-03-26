@@ -1,5 +1,3 @@
-#include <math.h>
-#include <cstdint>
 #include "Maths.h"
 
 #define EQN_EPS     1e-90

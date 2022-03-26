@@ -3,7 +3,7 @@
 #include "Matrix_4.h"
 class Normal; // forward decleration
 class Point3D; // forward decleration
-#include <math.h>
+#include "Maths.h"
 
 class Vector3D {
 public:
@@ -144,13 +144,16 @@ Vector3D::operator^ (const Vector3D& v) const
 inline void
 Vector3D::normalize()
 {
-	*this *= 1.0 / this->length();
+	double inv_length = 1.0 / this->length();
+	//double inv_length = fast_inv_sqrt(x * x + y * y + z * z);
+	x *= inv_length; y *= inv_length; z *= inv_length;
 }
 
 inline Vector3D&
 Vector3D::hat()
 {
 	*this *= 1.0 / this->length();
+	//*this *= fast_inv_sqrt(this->len_squared());
 	return *this;
 }
 
