@@ -53,6 +53,8 @@ public:
 
 	Normal get_normal(const Point3D& p);
 
+	Matrix_4 get_forward_matrix() const;
+
 	// affine tranformation functions:
 
 	void translate(const Vector3D& trans);
@@ -138,4 +140,10 @@ inline Normal
 Instance::get_normal(const Point3D& p) 
 {
 	return object_ptr->get_normal(p);
+}
+
+inline Matrix_4
+Instance::get_forward_matrix() const
+{
+	return this->forward_matrix;
 }

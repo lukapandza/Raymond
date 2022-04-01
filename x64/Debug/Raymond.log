@@ -1,3 +1,26 @@
 ﻿  Reading Qt configuration (F:/Qt/5.12.12/msvc2017_64/bin/qmake)
+  moc raymond.h
+  main.cpp
+  raymond.cpp
+  Camera.cpp
+  Pinhole.cpp
+  AmbientOccluder.cpp
+  AreaLight.cpp
+  EnvironmentLight.cpp
+  PointLight.cpp
+  GlossyReflector.cpp
+  Matte.cpp
+  Phong.cpp
+  Reflective.cpp
+  AreaLighting.cpp
+  GlobalTrace.cpp
+  PathTrace.cpp
+  RayCast.cpp
+  SingleSphere.cpp
+  Tracer.cpp
+  Whitted.cpp
+  AdaptiveThread.cpp
+  ShadeRec.cpp
   World.cpp
+  moc_raymond.cpp
   Raymond.vcxproj -> F:\Spring 22\Plan Project\Raymond\x64\Debug\Raymond.exe

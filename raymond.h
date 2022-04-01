@@ -35,7 +35,8 @@ public:
     std::vector<Thread*> threads;
 
     QTimer* timer;
-    int repaint_frequency = 16; // 60 fps = 16.66 ms.
+    int repaint_frequency = 17; // 60 fps = 16.66 ms.
+    int status_update_frequency = 250; // .25s
     std::mutex mtx;
 
     std::priority_queue<QueuedPixel*, std::vector<QueuedPixel*>, ComparePointers> queue;
@@ -49,9 +50,11 @@ public:
     QAction* exit_action;
     QAction* render_start_action;
     QAction* adaptive_render_start_action;
+    unsigned long long samples_skipped = 0;
 
-    unsigned long pixels_to_render;
-    unsigned long pixels_rendered = 0;
+    unsigned long long pixels_to_render;
+    unsigned long long pixels_rendered = 0;
+    int last_pixels_rendered = 0;
 
     std::chrono::time_point<std::chrono::steady_clock> start_time;
 

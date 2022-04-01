@@ -25,8 +25,6 @@ GeometricObject::operator= (const GeometricObject& rhs)
 
 GeometricObject::~GeometricObject () 
 {
-	if (this->material_ptr)
-		delete this->material_ptr;
 }
 
 void

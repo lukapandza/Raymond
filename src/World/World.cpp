@@ -102,7 +102,8 @@
 //#include "../builds/AllMaterialsTest.cpp"
 //#include "../builds/CylinderTest.cpp"
 //#include "../builds/PhongParamTest.cpp"
-#include "../builds/ReflectiveParamTest.cpp"
+//#include "../builds/ReflectiveParamTest.cpp"
+#include "../builds/AdaptiveSamplingTest.cpp"
 
 
 //#include "../builds/PerformanceTest.cpp"

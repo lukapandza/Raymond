@@ -1,10 +1,10 @@
 void
 World::build() {
 
-    int num_samples = 1024;
+    int num_samples = 4096;
 
     this->max_samples = num_samples;
-    this->variance_tolerance = 0.25;
+    this->variance_tolerance = 0.05;
     //this->variance_tolerance = 0.1;
     //this->variance_tolerance = 1;
     //this->variance_tolerance = 10;
@@ -16,7 +16,7 @@ World::build() {
     vp.set_hres(16 * scale_factor);
     vp.set_vres(9 * scale_factor);
     vp.set_samples(num_samples);
-    vp.set_max_depth(6);
+    vp.set_max_depth(12);
 
     background_color = black;
 
@@ -31,9 +31,10 @@ World::build() {
     //camera:
     Pinhole* pinhole_ptr = new Pinhole();
     pinhole_ptr->set_eye(0, 2, 5.5);
-    pinhole_ptr->set_lookat(-2, 1.1, 0);
+    //pinhole_ptr->set_lookat(4.05, 1.5, 0);
+    pinhole_ptr->set_lookat(0, 12, 0);
     pinhole_ptr->set_view_distance(3.0);
-    pinhole_ptr->set_zoom(8 * scale_factor);
+    pinhole_ptr->set_zoom(14 * scale_factor);
     pinhole_ptr->compute_uvw();
     camera_ptr = pinhole_ptr;
 

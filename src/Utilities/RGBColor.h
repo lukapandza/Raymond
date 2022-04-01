@@ -63,6 +63,9 @@ public:
 	// the average of components
 	double average() const;
 
+	// the magnitude in color space
+	double magnitude() const;
+
 	// euclidean distance between colors in rgb space
 	double difference(const RGBColor& rhs) const;
 
@@ -156,6 +159,12 @@ inline double
 RGBColor::average() const 
 {
 	return 0.333333333333 * (this->r + this->g + this->b);
+}
+
+inline double
+RGBColor::magnitude() const
+{
+	return sqrt(r * r + g * g + b * b);
 }
 
 inline double 

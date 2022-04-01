@@ -6,7 +6,8 @@ QueuedPixel::QueuedPixel(int h, int v)
 	num_hits(0), num_samples(0),
 	finished_first_pass(false),
 	M_prev(0), M_curr(0), 
-	S_prev(0), S_curr(0)
+	S_prev(0), S_curr(0),
+	variance(0)
 {}
 
 void
@@ -30,8 +31,11 @@ QueuedPixel::add_sample(const RGBColor& sample)
 		else {
 			// update M and S
 			//this->M_curr = (this->M_prev * (num_hits - 1) + sample) / num_hits;
-			this->M_curr = (this->M_prev * (num_hits - 1) + sample) / num_hits;
-			this->S_curr = this->S_prev + (sample.difference(this->M_prev)) * (sample.difference(this->M_curr));
+			//this->S_curr = this->S_prev + (sample.difference(this->M_prev)) * (sample.difference(this->M_curr));
+			M_curr = M_prev + (sample - M_prev) / num_hits;
+			S_curr = S_prev + (sample - M_prev) * (sample - M_curr);
+
+			//this->variance = this->num_hits > 1 ? sqrt((this->S_curr / (this->num_hits - 1)).average()) : 0.0;
 
 			// set up for next iteration
 			this->M_prev = this->M_curr;

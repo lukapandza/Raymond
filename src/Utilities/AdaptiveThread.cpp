@@ -6,7 +6,7 @@
 
 AdaptiveThread::AdaptiveThread(World* _world, Raymond* _main_window)
     : world(_world), main_window(_main_window),
-    min_samples(max(1, _world->max_samples / 5)), 
+    min_samples(max(1, _world->max_samples / 10)), 
     max_samples(_world->max_samples),
     variance_tolerance(_world->variance_tolerance),
     sample_batch_size(_world->sample_batch_size)
@@ -22,7 +22,6 @@ AdaptiveThread::SetPixel(const int x, const int y, const RGBColor& col, int num_
 
     this->main_window->mtx.lock();
     this->main_window->canvas.setPixelColor(x, y, QColor(r, g, b));
-    this->main_window->pixels_rendered += num_samples;
     this->main_window->mtx.unlock();
 }
 
@@ -61,16 +60,22 @@ AdaptiveThread::Render()
 
         this->SetPixel(pixel->h, this->world->vp.vres - pixel->v - 1, pixel->M_curr * pixel->num_hits / pixel->num_samples, num_samples);
 
-        // rejection criteria for pixel:
-        if (pixel->num_samples < this->max_samples
-            && !(pixel->get_variance() < this->variance_tolerance
-                && pixel->num_hits > pixel->num_samples / 20)) {
+        if ((pixel->get_variance() < this->variance_tolerance
+            && pixel->num_hits > pixel->num_samples / 100)
+            || pixel->num_samples >= this->max_samples) {
+        
+            
+            this->main_window->mtx.lock();
+            this->main_window->pixels_rendered++;
+            this->main_window->samples_skipped += (this->max_samples - pixel->num_samples);
+            this->main_window->mtx.unlock();
+            delete pixel;
+        }
 
+        else {
             this->main_window->mtx.lock();
             this->main_window->queue.push(pixel);
             this->main_window->mtx.unlock();
         }
-        else
-            delete pixel;
     }
 }

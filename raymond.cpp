@@ -268,8 +268,6 @@ void Raymond::adaptive_render_start()
 
     this->adaptive = true;
 
-    this->pixels_to_render = this->world->vp.hres * this->world->vp.vres * this->world->max_samples;
-
     this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
     this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
     this->image_label->adjustSize();
@@ -282,13 +280,15 @@ void Raymond::adaptive_render_start()
         for (int ii(0); ii < this->world->vp.hres; ii++)
             this->queue.push(new QueuedPixel(ii, i));
 
+    this->pixels_to_render = this->queue.size();
+
     this->timer = new QTimer(this);
     connect(this->timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_image));
     this->timer->start(this->repaint_frequency); // update displayed image every time interval
 
     this->status_timer = new QTimer(this);
     connect(this->status_timer, &QTimer::timeout, this, QOverload<>::of(&Raymond::update_status_message));
-    this->status_timer->start(400); // update message every .4 second
+    this->status_timer->start(this->status_update_frequency);
 
     this->start_time = std::chrono::steady_clock::now();
     this->progress_bar->setVisible(true);
@@ -333,7 +333,8 @@ void Raymond::update_status_message()
 
         message += time_string_from_int(total_elapsed_milliseconds);
 
-        int speed = this->pixels_rendered / (total_elapsed_milliseconds / 1000 + 1); // to avoid div by 0
+        int speed = (this->pixels_rendered - this->last_pixels_rendered) * 1000 / this->status_update_frequency;
+        this->last_pixels_rendered = this->pixels_rendered;
 
         message += " [ " + std::to_string(speed) + " pixels / second ] Time Remaining: ";
 
@@ -356,6 +357,9 @@ void Raymond::render_end()
     int total_elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(curr_time - this->start_time).count();
     
     message += time_string_from_int(total_elapsed_milliseconds);
+
+    double percent_skipped = (int)(this->samples_skipped * 100.0 / (this->pixels_to_render * this->world->vp.num_samples));
+    message += " Skipped " + std::to_string(percent_skipped) + " % of samples";
 
     this->status_label->setText(QString::fromStdString(message));
     //this->progress_bar->setValue(100);
