@@ -18,8 +18,9 @@ public:
 	int h, v;
 	int num_hits, num_samples;
 	bool finished_first_pass;
-	RGBColor M_prev, M_curr;
-	RGBColor S_prev, S_curr;
+	RGBColor avg_color;
+	double M_prev, M_curr;
+	double S_prev, S_curr;
 	double variance;
 };
 
@@ -38,7 +39,8 @@ inline double
 QueuedPixel::get_variance() const
 {
 	//return this->num_hits > 1 ? sqrt((this->S_curr / (this->num_hits - 1)).average()) : 0.0;
-	return this->num_hits > 1 ? this->S_curr.magnitude() / (this->num_hits - 1) : 0.0;
+	//return this->num_hits > 1 ? this->S_curr.magnitude() / (this->num_hits - 1) : 0.0;
+	return this->num_hits > 1 ? this->S_curr / (this->num_hits - 1) : 0.0;
 	//return this->variance;
 }
 

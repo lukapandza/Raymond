@@ -5,6 +5,7 @@ QueuedPixel::QueuedPixel(int h, int v)
 	: h(h), v(v),
 	num_hits(0), num_samples(0),
 	finished_first_pass(false),
+	avg_color(0),
 	M_prev(0), M_curr(0), 
 	S_prev(0), S_curr(0),
 	variance(0)
@@ -23,17 +24,17 @@ QueuedPixel::add_sample(const RGBColor& sample)
 	if (sample != black) {// sample hit a light source
 
 		this->num_hits++;
+		this->avg_color += (sample - this->avg_color) / num_hits;
 
 		if (this->num_hits == 1) {
-			this->M_prev = this->M_curr = sample;
+			this->M_prev = this->M_curr = sample.magnitude();
 			this->S_prev = 0.0;
 		}
 		else {
+			double sample_luminosity = sample.magnitude();
 			// update M and S
-			//this->M_curr = (this->M_prev * (num_hits - 1) + sample) / num_hits;
-			//this->S_curr = this->S_prev + (sample.difference(this->M_prev)) * (sample.difference(this->M_curr));
-			M_curr = M_prev + (sample - M_prev) / num_hits;
-			S_curr = S_prev + (sample - M_prev) * (sample - M_curr);
+			M_curr = M_prev + (sample_luminosity - M_prev) / num_hits;
+			S_curr = S_prev + (sample_luminosity - M_prev) * (sample_luminosity - M_curr);
 
 			//this->variance = this->num_hits > 1 ? sqrt((this->S_curr / (this->num_hits - 1)).average()) : 0.0;
 
