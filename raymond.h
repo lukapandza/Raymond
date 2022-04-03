@@ -13,13 +13,32 @@
 #include "src/Utilities/QueuedPixel.h"
 #include "src/Utilities/AdaptiveThread.h"
 #include <queue>
+#include <unordered_map>
 
 // forward declerations:
 class World;
 class Thread;
 
-struct pix_coord {
+struct pix_coord 
+{
     int x, y;
+
+    pix_coord() : x(0), y(0) {};
+
+    pix_coord(int _x, int _y) : x(_x), y(_y) {};
+
+    bool operator== (const pix_coord& rhs) const { return this->x == rhs.x && this->y == rhs.y; }
+};
+
+struct hash_func 
+{
+    std::size_t operator() (const pix_coord& p) const
+    {
+        std::size_t h1 = std::hash<int>()(p.x);
+        std::size_t h2 = std::hash<int>()(p.y);
+
+        return h1 ^ h2;
+    }
 };
 
 class Raymond : public QMainWindow
@@ -39,8 +58,18 @@ public:
     int status_update_frequency = 250; // .25s
     std::mutex mtx;
 
-    std::priority_queue<QueuedPixel*, std::vector<QueuedPixel*>, ComparePointers> queue;
     bool adaptive = false;
+    std::priority_queue<QueuedPixel*, std::vector<QueuedPixel*>, ComparePointers> queue;
+
+    QAction* show_image_action;
+
+    std::unordered_map<pix_coord, int, hash_func> sample_density_map;
+    QImage* sample_canvas = nullptr;
+    QAction* show_sample_map_action;
+
+    std::unordered_map<pix_coord, double, hash_func> variance_density_map;
+    QImage* variance_canvas = nullptr;
+    QAction* show_variance_map_action;
 
     QImage canvas;
     QLabel* image_label;
@@ -73,6 +102,14 @@ private slots:
     void update_image();
     void update_status_message();
     void render_end();
+
+    void show_image();
+    
+    void generate_sample_map();
+    void show_sample_map();
+
+    void generate_variance_map();
+    void show_variance_map();
 };
 
 class Thread{

@@ -51,6 +51,9 @@ AdaptiveThread::Render()
             pixel->finished_first_pass = true;
         }
 
+        if (num_samples > (this->max_samples - pixel->num_samples))
+            num_samples = this->max_samples - pixel->num_samples;
+
         std::vector<RGBColor> samples;
 
         for (int i(0); i < num_samples; i++)
@@ -64,11 +67,16 @@ AdaptiveThread::Render()
             && pixel->num_hits > pixel->num_samples / 100)
             || pixel->num_samples >= this->max_samples) {
         
-            
             this->main_window->mtx.lock();
+
             this->main_window->pixels_rendered++;
             this->main_window->samples_skipped += (this->max_samples - pixel->num_samples);
+
+            this->main_window->sample_density_map[pix_coord(pixel->h, this->world->vp.vres - pixel->v - 1)] = pixel->num_samples;
+            this->main_window->variance_density_map[pix_coord(pixel->h, this->world->vp.vres - pixel->v - 1)] = pixel->get_variance();
+
             this->main_window->mtx.unlock();
+
             delete pixel;
         }
 

@@ -189,6 +189,15 @@ void Raymond::create_actions()
 
     this->adaptive_render_start_action = new QAction("Start (Adaptive Sampling)", this);
     connect(this->adaptive_render_start_action, &QAction::triggered, this, &Raymond::adaptive_render_start);
+
+    this->show_image_action = new QAction("Image", this);
+    connect(this->show_image_action, &QAction::triggered, this, &Raymond::show_image);
+
+    this->show_sample_map_action = new QAction("Sample Map", this);
+    connect(this->show_sample_map_action, &QAction::triggered, this, &Raymond::show_sample_map);
+
+    this->show_variance_map_action = new QAction("Variance Map", this);
+    connect(this->show_variance_map_action, &QAction::triggered, this, &Raymond::show_variance_map);
 }
 
 void Raymond::create_menus()
@@ -204,6 +213,12 @@ void Raymond::create_menus()
     menu_bar->addMenu(render_menu);
     render_menu->addAction(this->render_start_action);
     render_menu->addAction(this->adaptive_render_start_action);
+
+    QMenu* view_menu = new QMenu("View");
+    menu_bar->addMenu(view_menu);
+    view_menu->addAction(this->show_image_action);
+    view_menu->addAction(this->show_sample_map_action);
+    view_menu->addAction(this->show_variance_map_action);
 
     this->layout()->setMenuBar(menu_bar);
 }
@@ -349,6 +364,7 @@ void Raymond::render_end()
 {
     this->progress_bar->setValue((int)(this->pixels_rendered * 100.0 / this->pixels_to_render));
     delete this->status_timer;
+    delete this->timer;
 
     std::string message = "";
     message += "Done. Elapsed time: ";
@@ -363,4 +379,63 @@ void Raymond::render_end()
 
     this->status_label->setText(QString::fromStdString(message));
     //this->progress_bar->setValue(100);
+}
+
+void Raymond::show_image()
+{
+    this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+}
+
+void Raymond::generate_sample_map()
+{
+    this->sample_canvas = new QImage(this->world->vp.hres, this->world->vp.vres, QImage::Format_RGB32);
+
+    int max_s = 0;
+
+    for (auto i : this->sample_density_map) {
+        max_s = i.second > max_s ? i.second : max_s;
+    }
+
+    for (int i(0); i < this->sample_canvas->width(); i++) {
+        for (int ii(0); ii < this->sample_canvas->height(); ii++) {
+            double brightness = (double)(this->sample_density_map[pix_coord(i, ii)]) / max_s;
+            int col = (int)(brightness * 255);
+            this->sample_canvas->setPixelColor(i, ii, QColor(col, col, col));
+        }
+    }
+}
+
+void Raymond::show_sample_map()
+{
+    if (!this->sample_canvas)
+        generate_sample_map();
+
+    this->image_label->setPixmap(QPixmap::fromImage(*this->sample_canvas));
+}
+
+void Raymond::generate_variance_map()
+{
+    this->variance_canvas = new QImage(this->world->vp.hres, this->world->vp.vres, QImage::Format_RGB32);
+
+    double max_v = 0;
+
+    for (auto i : this->variance_density_map) {
+        max_v = i.second > max_v ? i.second : max_v;
+    }
+
+    for (int i(0); i < this->variance_canvas->width(); i++) {
+        for (int ii(0); ii < this->variance_canvas->height(); ii++) {
+            double brightness = this->variance_density_map[pix_coord(i, ii)] / max_v;
+            int col = (int)(brightness * 255);
+            this->variance_canvas->setPixelColor(i, ii, QColor(col, col, col));
+        }
+    }
+}
+
+void Raymond::show_variance_map()
+{
+    if (!this->variance_canvas)
+        generate_variance_map();
+
+    this->image_label->setPixmap(QPixmap::fromImage(*this->variance_canvas));
 }

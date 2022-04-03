@@ -40,7 +40,7 @@ QueuedPixel::get_variance() const
 {
 	//return this->num_hits > 1 ? sqrt((this->S_curr / (this->num_hits - 1)).average()) : 0.0;
 	//return this->num_hits > 1 ? this->S_curr.magnitude() / (this->num_hits - 1) : 0.0;
-	return this->num_hits > 1 ? this->S_curr / (this->num_hits - 1) : 0.0;
+	return this->num_hits > 1 ? sqrt(this->S_curr / (this->num_hits - 1)) : 0.0;
 	//return this->variance;
 }
 

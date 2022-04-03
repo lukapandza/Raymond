@@ -12,7 +12,7 @@ World::build() {
     //this->variance_tolerance = 100;
     this->sample_batch_size = 32;
 
-    double scale_factor = 8;
+    double scale_factor = 16;
 
     vp.set_hres(16 * scale_factor);
     vp.set_vres(16 * scale_factor);
