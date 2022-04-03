@@ -33,34 +33,8 @@
 *.ipch
 
 x64/*
-.vs/Raymond/v16/Browse.VC.opendb
-.vs/Raymond/v16/Browse.VC.db
-.vs/Raymond/v16/.suo
-x64/Release/Raymond.log
-*.log
-*.tlog
+
 *.pdb
-*.pdb
-*.tlog
-*.tlog
-x64/Release/Raymond.tlog/Raymond.write.1u.tlog
-x64/Release/Raymond.tlog/link.write.1.tlog
-x64/Release/Raymond.tlog/link.read.1.tlog
-x64/Release/Raymond.tlog/link.command.1.tlog
-x64/Release/Raymond.tlog/CL.write.1.tlog
-x64/Release/Raymond.tlog/CL.read.1.tlog
-x64/Release/Raymond.tlog/CL.command.1.tlog
-x64/Release/Raymond.log
-x64/Debug/vc142.pdb
-x64/Debug/Raymond.tlog/Raymond.write.1u.tlog
-x64/Debug/Raymond.tlog/CL.write.1.tlog
-x64/Debug/Raymond.tlog/CL.read.1.tlog
-x64/Debug/Raymond.tlog/CL.command.1.tlog
-x64/Debug/Raymond.pdb
-x64/Debug/Raymond.log
-x64/Debug/Raymond.ilk
-x64/Debug/Raymond.pdb
-*.pdb
-/f/Spring 22/Plan Project/Raymond/x64/Debug/Raymond.pdb
+*.db
 
 Renders/Local/*
