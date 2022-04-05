@@ -71,6 +71,8 @@ public:
     QImage* variance_canvas = nullptr;
     QAction* show_variance_map_action;
 
+    QImage* displayed_canvas = nullptr;
+
     QImage canvas;
     QLabel* image_label;
     double scale_factor = 1.0;

@@ -225,8 +225,8 @@ void Raymond::create_menus()
 
 // slots:
 void Raymond::save_as() {
-    QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), "./Renders/untitled.png", tr("Image (*.png)"));
-    this->canvas.save(file_name, nullptr, 100); //max quality
+    QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), "./Renders/Local/untitled.png", tr("Image (*.png)"));
+    this->displayed_canvas->save(file_name, nullptr, 100); //max quality
 }
 
 void Raymond::exit() {
@@ -241,6 +241,7 @@ void Raymond::render_start()
     this->pixels_to_render = this->world->vp.hres * this->world->vp.vres;
 
     this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
+    this->displayed_canvas = &this->canvas;
     this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
     this->image_label->adjustSize();
     this->image_label->setVisible(true);
@@ -284,6 +285,7 @@ void Raymond::adaptive_render_start()
     this->adaptive = true;
 
     this->canvas = CreateCheckered(this->world->vp.hres, this->world->vp.vres);
+    this->displayed_canvas = &this->canvas;
     this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
     this->image_label->adjustSize();
     this->image_label->setVisible(true);
@@ -384,6 +386,7 @@ void Raymond::render_end()
 void Raymond::show_image()
 {
     this->image_label->setPixmap(QPixmap::fromImage(this->canvas));
+    this->displayed_canvas = &this->canvas;
 }
 
 void Raymond::generate_sample_map()
@@ -411,6 +414,7 @@ void Raymond::show_sample_map()
         generate_sample_map();
 
     this->image_label->setPixmap(QPixmap::fromImage(*this->sample_canvas));
+    this->displayed_canvas = this->sample_canvas;
 }
 
 void Raymond::generate_variance_map()
@@ -438,4 +442,5 @@ void Raymond::show_variance_map()
         generate_variance_map();
 
     this->image_label->setPixmap(QPixmap::fromImage(*this->variance_canvas));
+    this->displayed_canvas = this->variance_canvas;
 }
