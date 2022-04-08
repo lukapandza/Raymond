@@ -49,8 +49,8 @@ PerfectSpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i
 	//w_i = -w_o + 2.0 * sr.normal * n_dot_wo;
 	w_i = -w_o + 2.0 * (sr.normal * w_o) * sr.normal;
 
-	//return (kr * cr / (sr.normal * w_i));
-	return kr * cr;
+	return (kr * cr / (sr.normal * w_i));
+	//return kr * cr;
 }
 
 RGBColor

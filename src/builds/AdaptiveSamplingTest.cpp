@@ -36,9 +36,9 @@ World::build() {
     Pinhole* pinhole_ptr = new Pinhole();
     pinhole_ptr->set_eye(4.99, 1, 4.99);
     //pinhole_ptr->set_lookat(4.05, 1.5, 0);
-    pinhole_ptr->set_lookat(0, .8, 0);
+    pinhole_ptr->set_lookat(0, 1.8, 0);
     pinhole_ptr->set_view_distance(10.0);
-    pinhole_ptr->set_zoom(8 * scale_factor);
+    pinhole_ptr->set_zoom(1 * scale_factor);
     pinhole_ptr->compute_uvw();
     camera_ptr = pinhole_ptr;
 

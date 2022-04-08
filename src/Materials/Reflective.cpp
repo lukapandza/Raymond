@@ -56,7 +56,7 @@ Reflective::shade(ShadeRec& sr) const
 	Vector3D w_o = -sr.ray.d;
 	Vector3D w_i;
 
-	RGBColor fr = reflective_brdf->sample_f(sr, w_i, w_o);
+	RGBColor fr = reflective_brdf->sample_f(sr, w_o, w_i);
 	Ray reflected_ray(sr.hit_point, w_i);
 
 	L += fr * sr.w.tracer_ptr->trace_ray(reflected_ray, sr.depth + 1) * (sr.normal * w_i);
@@ -116,14 +116,6 @@ Reflective::path_shade(ShadeRec& sr) const
 
 
 	return RGBColor(0, 0, 0); // light is absorbed (only happens when k_s + k_d < 1.0)
-	
-	/*
-	RGBColor L(Phong::path_shade(sr));
-	Vector3D w_i;
-	RGBColor fr = reflective_brdf->sample_f(sr, -sr.ray.d, w_i);
-
-	return L + fr * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1);
-	*/
 }
 
 RGBColor

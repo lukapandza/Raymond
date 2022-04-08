@@ -155,9 +155,6 @@ GlossyReflector::path_shade(ShadeRec& sr) const
 	RGBColor f = this->diffuse_brdf->sample_f(sr, -sr.ray.d, w_i_d);
 	f += this->specular_brdf->sample_f(sr, -sr.ray.d, w_i_s);
 	f += this->reflected_brdf->sample_f(sr, -sr.ray.d, w_i_r);
-
-	if (f.r == 0.0 && f.g == 0.0 && f.b == 0.0)
-		return f;
 	
 	double rand = rand_float(0, 1.0);
 	double running_threshold = this->diffuse_brdf->get_kd();

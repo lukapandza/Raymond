@@ -249,7 +249,7 @@ void Raymond::render_start()
     this->image_label->show();
     this->resize(this->world->vp.hres + 75, this->world->vp.vres + 75);
 
-    const int num_threads = std::max(std::thread::hardware_concurrency(), uint(1));
+    const int num_threads = std::max(std::thread::hardware_concurrency() - 1, uint(1));
     //const int num_threads = 1;
     std::vector<std::vector<pix_coord>> batches = DistributePixels(num_threads, 32, world->vp.hres, world->vp.vres);
 

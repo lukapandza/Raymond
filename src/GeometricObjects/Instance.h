@@ -121,7 +121,7 @@ Instance::get_material() const
 inline void
 Instance::set_material(Material* materialPtr)
 {
-	material_ptr = materialPtr;
+	this->material_ptr = materialPtr;
 }
 
 inline Point3D

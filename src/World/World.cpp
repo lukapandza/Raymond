@@ -16,6 +16,7 @@
 #include "GeometricObjects/Torus.h"
 #include "GeometricObjects/Instance.h"
 #include "GeometricObjects/Cylinder.h"
+#include "GeometricObjects/Compound.h"
 
 // tracers
 
@@ -103,7 +104,9 @@
 //#include "../builds/CylinderTest.cpp"
 //#include "../builds/PhongParamTest.cpp"
 //#include "../builds/ReflectiveParamTest.cpp"
-#include "../builds/AdaptiveSamplingTest.cpp"
+//#include "../builds/AdaptiveSamplingTest.cpp"
+#include "../builds/CompoundObjectTest.cpp"
+//#include "../builds/Fractal2Test.cpp"
 
 
 //#include "../builds/PerformanceTest.cpp"

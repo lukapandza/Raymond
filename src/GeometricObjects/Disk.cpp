@@ -15,7 +15,8 @@ Disk::Disk(const double c_x, const double c_y, const double c_z, const double r,
 {}
 
 Disk::Disk(const Disk& rhs) 
-	: center(rhs.center),
+	: GeometricObject(rhs),
+	center(rhs.center),
 	radius(rhs.radius),
 	normal(rhs.normal),
 	r_squared(rhs.r_squared)

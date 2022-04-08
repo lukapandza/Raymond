@@ -176,7 +176,6 @@ Phong::path_shade(ShadeRec& sr) const
 		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.w.vp.max_depth);
 
 	return RGBColor(0, 0, 0); // light is absorbed (only happens when k_s + k_d < 1.0)
-	
 }
 
 RGBColor

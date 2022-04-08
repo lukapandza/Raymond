@@ -139,6 +139,7 @@ Matte::path_shade(ShadeRec& sr) const
 	*/
 
 	// optimized code:
+
 	Vector3D w_i;
 	RGBColor f(diffuse_brdf->sample_f(sr, -sr.ray.d, w_i));
 

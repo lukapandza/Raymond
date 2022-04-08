@@ -1,9 +1,11 @@
 void
 World::build(void) {
 
-    vp.set_hres(7680);
-    vp.set_vres(4320);
-    vp.set_samples(1);
+    int num_samples = 16;
+
+    vp.set_hres(480);
+    vp.set_vres(270);
+    vp.set_samples(num_samples);
     vp.set_max_depth(12);
 
     tracer_ptr = new Whitted(this);
@@ -12,7 +14,7 @@ World::build(void) {
     camera_ptr->set_eye(-1, -1, -1);
     camera_ptr->set_lookat(1, 1, 1);
     camera_ptr->set_view_distance(360);
-    camera_ptr->set_zoom(32);
+    camera_ptr->set_zoom(2);
     camera_ptr->compute_uvw();
     set_camera(camera_ptr);
 
@@ -22,6 +24,7 @@ World::build(void) {
 
     //materials:
     Reflective* mat_1 = new Reflective;
+    mat_1->set_samples(num_samples);
     mat_1->set_ka(1);
     mat_1->set_kd(0);
     mat_1->set_cd(0.0, 0.0, 0.0);
