@@ -54,7 +54,7 @@ public:
     std::vector<Thread*> threads;
 
     QTimer* timer;
-    int repaint_frequency = 17; // 60 fps = 16.66 ms.
+    int repaint_frequency = 16; // 60 fps = 16.66 ms.
     int status_update_frequency = 250; // .25s
     std::mutex mtx;
 

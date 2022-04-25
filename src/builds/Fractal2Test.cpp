@@ -60,11 +60,11 @@ World::build()
     add_object(s2);
 
     Sphere* s3 = new Sphere(p3, 1.0);
-    s3->set_material(mat_g);
+    s3->set_material(mat_1);
     add_object(s3);
 
     Sphere* s4 = new Sphere(p4, 1.0);
-    s4->set_material(mat_g);
+    s4->set_material(mat_1);
     add_object(s4);
 
     Sphere* s5 = new Sphere(p5, 1.0);
@@ -77,7 +77,7 @@ World::build()
     for (int i(0); i < 10; i++) {
 
         Sphere* s = new Sphere(Point3D(0, h, 0), small_radius);
-        s->set_material(mat_b);
+        s->set_material(mat_1);
         add_object(s);
         h += small_radius;
         small_radius *= .5;

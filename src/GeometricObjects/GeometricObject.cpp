@@ -2,11 +2,13 @@
 #include "GeometricObject.h"
 
 GeometricObject::GeometricObject()
-	: material_ptr(nullptr)
+	: material_ptr(nullptr),
+	bbox(0, 0, 0, 0, 0, 0)
 {}
 
-GeometricObject::GeometricObject (const GeometricObject& object)
-	: material_ptr(object.material_ptr)
+GeometricObject::GeometricObject(const GeometricObject& object)
+	: material_ptr(object.material_ptr),
+	bbox(object.bbox)
 {}	
 
 GeometricObject&														
@@ -20,11 +22,15 @@ GeometricObject::operator= (const GeometricObject& rhs)
 	else
 		this->material_ptr = nullptr;
 
+	this->bbox = rhs.bbox;
+
 	return *this;
 }
 
-GeometricObject::~GeometricObject () 
+GeometricObject::~GeometricObject()
 {
+	if (this->material_ptr)
+		delete this->material_ptr;
 }
 
 void

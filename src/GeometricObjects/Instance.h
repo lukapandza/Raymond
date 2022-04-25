@@ -35,6 +35,9 @@ public:
 	// returns transformed objects bounding box
 	BBox get_bounding_box() const;
 
+	// compute bounding box of transformed objects bounding box
+	void compute_bounding_box();
+
 	// return material pointer
 	Material* get_material() const;
 

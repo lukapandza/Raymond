@@ -17,6 +17,7 @@
 #include "GeometricObjects/Instance.h"
 #include "GeometricObjects/Cylinder.h"
 #include "GeometricObjects/Compound.h"
+#include "GeometricObjects/Grid.h"
 
 // tracers
 
@@ -105,8 +106,11 @@
 //#include "../builds/PhongParamTest.cpp"
 //#include "../builds/ReflectiveParamTest.cpp"
 //#include "../builds/AdaptiveSamplingTest.cpp"
-#include "../builds/CompoundObjectTest.cpp"
+//#include "../builds/CompoundObjectTest.cpp"
 //#include "../builds/Fractal2Test.cpp"
+//#include "../builds/AccelerationGridTestSpheres.cpp"
+//#include "../builds/HexFractalTest.cpp"
+#include "../builds/ClockRay.cpp"
 
 
 //#include "../builds/PerformanceTest.cpp"

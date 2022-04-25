@@ -128,6 +128,7 @@
     <ClInclude Include="src\GeometricObjects\Cylinder.h" />
     <ClInclude Include="src\GeometricObjects\Disk.h" />
     <ClInclude Include="src\GeometricObjects\GeometricObject.h" />
+    <ClInclude Include="src\GeometricObjects\Grid.h" />
     <ClInclude Include="src\GeometricObjects\Instance.h" />
     <ClInclude Include="src\GeometricObjects\Plane.h" />
     <ClInclude Include="src\GeometricObjects\RectangleObject.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="src\GeometricObjects\Cylinder.cpp" />
     <ClCompile Include="src\GeometricObjects\Disk.cpp" />
     <ClCompile Include="src\GeometricObjects\GeometricObject.cpp" />
+    <ClCompile Include="src\GeometricObjects\Grid.cpp" />
     <ClCompile Include="src\GeometricObjects\Instance.cpp" />
     <ClCompile Include="src\GeometricObjects\Plane.cpp" />
     <ClCompile Include="src\GeometricObjects\RectangleObject.cpp" />

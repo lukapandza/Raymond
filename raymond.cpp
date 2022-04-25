@@ -366,6 +366,7 @@ void Raymond::render_end()
 {
     this->progress_bar->setValue((int)(this->pixels_rendered * 100.0 / this->pixels_to_render));
     delete this->status_timer;
+    update_image(); // for any straggler pixels
     delete this->timer;
 
     std::string message = "";

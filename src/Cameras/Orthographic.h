@@ -1,4 +1,4 @@
-/*
+
 #pragma once
 
 #include "../World/World.h"
@@ -23,6 +23,8 @@ public:
 	// functions:
 
 	virtual void
-		render_scene(const World& world);
+		render_scene(const World& world, std::vector<pix_coord>& batch, Thread*& paintArea);
+
+	RGBColor
+		sample_pixel(World* w, int h, int v);
 };
-*/

@@ -39,6 +39,11 @@ inline double rand_float(int low, double high)
 	return rand_float() * (high - low);
 }
 
+inline double rand_float(double low, double high)
+{
+    return low + rand_float() * (high - low);
+}
+
 // random int in [low, high]
 inline int rand_int(int low, int high) 
 {

@@ -304,6 +304,9 @@
     <ClCompile Include="src\GeometricObjects\Compound.cpp">
       <Filter>Source Files\GeometricObjects</Filter>
     </ClCompile>
+    <ClCompile Include="src\GeometricObjects\Grid.cpp">
+      <Filter>Source Files\GeometricObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="raymond.h">
@@ -492,6 +495,9 @@
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\GeometricObjects\Compound.h">
+      <Filter>Header Files\GeometricObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GeometricObjects\Grid.h">
       <Filter>Header Files\GeometricObjects</Filter>
     </ClInclude>
   </ItemGroup>

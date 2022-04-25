@@ -23,11 +23,11 @@ public:
 
 	void add_object(GeometricObject* object);
 
-	bool hit(const Ray& raymond, double& tmin, ShadeRec& sr) const;
+	virtual bool hit(const Ray& raymond, double& tmin, ShadeRec& sr) const;
 
-	bool shadow_hit(const Ray& raymond, double& tmin) const;
+	virtual bool shadow_hit(const Ray& raymond, double& tmin) const;
 
-private:
+protected:
 
 	std::vector<GeometricObject*> objects;
 };

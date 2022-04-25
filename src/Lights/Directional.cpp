@@ -31,6 +31,13 @@ Directional::operator= (const Directional& rhs) {
 	return *this;
 }
 
+// clone
+Directional*
+Directional::clone() const
+{
+	return new Directional(*this);
+}
+
 // destructor
 Directional::~Directional(void) {}
 

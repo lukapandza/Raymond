@@ -10,7 +10,7 @@ public:
 	Cylinder();
 
 	// component constructor
-	Cylinder(const double y_0, const double y_1, const double r);
+	Cylinder(const double y_0, const double y_1, const double r, const double phi_min = 0.0, const double phi_max = TWO_PI);
 
 	// copy constructor
 	Cylinder(const Cylinder& rhs);
@@ -34,4 +34,6 @@ private:
 
 	//radius
 	double r;
+
+	double phi_min, phi_max;
 };

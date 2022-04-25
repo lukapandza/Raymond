@@ -8,7 +8,9 @@ Sphere::Sphere()
 	radius(1.0),
 	sampler_ptr(nullptr),
 	inv_area(4 * PI)
-{}
+{
+	this->bbox = BBox(-1, -1, -1, 1, 1, 1);
+}
 
 Sphere::Sphere(Point3D c, double r)
 	: GeometricObject(),
@@ -16,7 +18,9 @@ Sphere::Sphere(Point3D c, double r)
 	radius(r),
 	sampler_ptr(nullptr),
 	inv_area(4 * PI * r * r)
-{}
+{
+	this->bbox = BBox(c.x - r, c.y - r, c.z - r, c.x + r, c.y + r, c.z + r);
+}
 
 Sphere* 
 Sphere::clone() const 
@@ -30,7 +34,9 @@ Sphere::Sphere (const Sphere& sphere)
 	radius(sphere.radius),
 	sampler_ptr(sphere.sampler_ptr),
 	inv_area(sphere.inv_area)
-{}
+{
+	this->bbox = sphere.bbox;
+}
 
 Sphere& 
 Sphere::operator= (const Sphere& rhs)		
@@ -44,6 +50,7 @@ Sphere::operator= (const Sphere& rhs)
 	radius	= rhs.radius;
 	sampler_ptr = rhs.sampler_ptr;
 	inv_area = rhs.inv_area;
+	bbox = rhs.bbox;
 
 	return *this;
 }
@@ -56,6 +63,9 @@ Sphere::~Sphere()
 bool
 Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const 
 {
+	if (!this->bbox.hit(ray))
+		return false;
+
 	Vector3D	temp 	= ray.o - center;
 	double 		a 		= ray.d * ray.d;
 	double 		b 		= 2.0 * temp * ray.d;
@@ -92,6 +102,9 @@ Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const
 bool
 Sphere::shadow_hit(const Ray& ray, double& tmin) const 
 {
+	if (!this->bbox.hit(ray))
+		return false;
+
 	Vector3D	temp = ray.o - center;
 	double 		a = ray.d * ray.d;
 	double 		b = 2.0 * temp * ray.d;

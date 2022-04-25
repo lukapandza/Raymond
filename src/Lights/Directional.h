@@ -12,7 +12,7 @@ public:
 	Directional(const Directional& rhs); // copy constructor
 
 	virtual Directional*
-		clone(void) const = 0;
+		clone(void) const;
 
 	virtual
 		~Directional(); // destructor

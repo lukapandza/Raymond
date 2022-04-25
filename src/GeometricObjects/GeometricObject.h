@@ -5,6 +5,7 @@
 #include "../Utilities/Normal.h"
 #include "../Utilities/Ray.h"
 #include "../Utilities/ShadeRec.h"
+#include "../Utilities/BBox.h"
 
 #include "../Utilities/Constants.h"
 					
@@ -47,10 +48,15 @@ public:
 	virtual double pdf(ShadeRec& sr);
 
 	virtual Normal get_normal(const Point3D& p);
+
+	virtual BBox get_bounding_box() const;
+
+	virtual void add_object(GeometricObject* obj);
 	
 protected:
 	
 	mutable Material* material_ptr;
+	BBox bbox;
 };
 
 inline bool
@@ -81,4 +87,13 @@ inline Material*
 GeometricObject::get_material() const
 {
 	return this->material_ptr;
+}
+
+inline void
+GeometricObject::add_object(GeometricObject* obj) {}
+
+inline BBox
+GeometricObject::get_bounding_box() const
+{
+	return this->bbox;
 }
