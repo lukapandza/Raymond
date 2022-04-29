@@ -71,6 +71,7 @@
 #include "../Materials/Emissive.h"
 #include "../Materials/Reflective.h"
 #include "../Materials/GlossyReflector.h"
+#include "../Materials/Dielectric.h"
 
 // build functions
 
@@ -110,7 +111,10 @@
 //#include "../builds/Fractal2Test.cpp"
 //#include "../builds/AccelerationGridTestSpheres.cpp"
 //#include "../builds/HexFractalTest.cpp"
-#include "../builds/ClockRay.cpp"
+//#include "../builds/ClockRay.cpp"
+//#include "../builds/Caustics2.cpp"
+//#include "../builds/Caustics3.cpp"
+#include "../builds/DielectricTest1.cpp"
 
 
 //#include "../builds/PerformanceTest.cpp"
@@ -175,6 +179,7 @@ World::hit_objects(const Ray& raymond) const {
 		if (objects[i]->hit(raymond, t, sr) && (t < tmin)) {
 		
 			sr.hit_an_object = true;
+			sr.t = t;
 			tmin = t;
 			sr.material_ptr = objects[i]->get_material();
 			sr.hit_point = raymond.o + t * raymond.d;
@@ -186,6 +191,7 @@ World::hit_objects(const Ray& raymond) const {
 	if (sr.hit_an_object) {
 		
 		sr.normal = normal;
+		sr.t = tmin;
 		sr.local_hit_point = local_hit_point;
 	}
 

@@ -18,7 +18,7 @@ QueuedPixel::add_sample(const RGBColor& sample)
 	// vol. 2, 3rd ed, p 232.
 	// the idea is to express variance formula as a recurrence relation so that
 	// samples can be added on the fly
-
+	
 	this->num_samples++;
 
 	if (sample != black) {// sample hit a light source
@@ -35,8 +35,6 @@ QueuedPixel::add_sample(const RGBColor& sample)
 			// update M and S
 			M_curr = M_prev + (sample_luminosity - M_prev) / num_hits;
 			S_curr = S_prev + (sample_luminosity - M_prev) * (sample_luminosity - M_curr);
-
-			//this->variance = this->num_hits > 1 ? sqrt((this->S_curr / (this->num_hits - 1)).average()) : 0.0;
 
 			// set up for next iteration
 			this->M_prev = this->M_curr;

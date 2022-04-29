@@ -63,9 +63,8 @@ AdaptiveThread::Render()
 
         this->SetPixel(pixel->h, this->world->vp.vres - pixel->v - 1, pixel->avg_color * pixel->num_hits / pixel->num_samples, num_samples);
 
-        if ((pixel->get_variance() < this->variance_tolerance
-            && pixel->num_hits > pixel->num_samples / 20)
-            || pixel->num_samples >= this->max_samples) {
+        //if ((pixel->get_variance() < this->variance_tolerance && pixel->num_hits > pixel->num_samples / 20) || pixel->num_samples >= this->max_samples) {
+        if (pixel->get_variance() < this->variance_tolerance || pixel->num_samples >= this->max_samples) {
         
             this->main_window->mtx.lock();
 

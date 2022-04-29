@@ -307,6 +307,15 @@
     <ClCompile Include="src\GeometricObjects\Grid.cpp">
       <Filter>Source Files\GeometricObjects</Filter>
     </ClCompile>
+    <ClCompile Include="src\BTDFs\FresnelTransmitter.cpp">
+      <Filter>Source Files\BTDFs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BRDFs\FresnelReflector.cpp">
+      <Filter>Source Files\BRDFs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Materials\Dielectric.cpp">
+      <Filter>Source Files\Materials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="raymond.h">
@@ -499,6 +508,18 @@
     </ClInclude>
     <ClInclude Include="src\GeometricObjects\Grid.h">
       <Filter>Header Files\GeometricObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BTDFs\BTDF.h">
+      <Filter>Header Files\BTDFs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BTDFs\FresnelTransmitter.h">
+      <Filter>Header Files\BTDFs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BRDFs\FresnelReflector.h">
+      <Filter>Header Files\BRDFs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Materials\Dielectric.h">
+      <Filter>Header Files\Materials</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

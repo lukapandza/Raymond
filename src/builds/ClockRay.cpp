@@ -4,7 +4,7 @@ World::build() {
     int num_samples = 16384;
 
     this->max_samples = num_samples;
-    this->variance_tolerance = 0.1;
+    this->variance_tolerance = 0.01;
     this->sample_batch_size = 32;
 
     double scale_factor = 32;

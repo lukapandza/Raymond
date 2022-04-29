@@ -117,9 +117,12 @@
     <None Include="Raymond.ico" />
     <ResourceCompile Include="Raymond.rc" />
     <ClInclude Include="src\BRDFs\BRDF.h" />
+    <ClInclude Include="src\BRDFs\FresnelReflector.h" />
     <ClInclude Include="src\BRDFs\GlossySpecular.h" />
     <ClInclude Include="src\BRDFs\Lambertian.h" />
     <ClInclude Include="src\BRDFs\PerfectSpecular.h" />
+    <ClInclude Include="src\BTDFs\BTDF.h" />
+    <ClInclude Include="src\BTDFs\FresnelTransmitter.h" />
     <ClInclude Include="src\Cameras\Camera.h" />
     <ClInclude Include="src\Cameras\Orthographic.h" />
     <ClInclude Include="src\Cameras\Pinhole.h" />
@@ -142,6 +145,7 @@
     <ClInclude Include="src\Lights\EnvironmentLight.h" />
     <ClInclude Include="src\Lights\Light.h" />
     <ClInclude Include="src\Lights\PointLight.h" />
+    <ClInclude Include="src\Materials\Dielectric.h" />
     <ClInclude Include="src\Materials\Emissive.h" />
     <ClInclude Include="src\Materials\GlossyReflector.h" />
     <ClInclude Include="src\Materials\Material.h" />
@@ -179,9 +183,11 @@
     <ClInclude Include="src\World\World.h" />
     <ClInclude Include="stdafx.h" />
     <ClCompile Include="src\BRDFs\BRDF.cpp" />
+    <ClCompile Include="src\BRDFs\FresnelReflector.cpp" />
     <ClCompile Include="src\BRDFs\GlossySpecular.cpp" />
     <ClCompile Include="src\BRDFs\Lambertian.cpp" />
     <ClCompile Include="src\BRDFs\PerfectSpecular.cpp" />
+    <ClCompile Include="src\BTDFs\FresnelTransmitter.cpp" />
     <ClCompile Include="src\Cameras\Camera.cpp" />
     <ClCompile Include="src\Cameras\Orthographic.cpp" />
     <ClCompile Include="src\Cameras\Pinhole.cpp" />
@@ -204,6 +210,7 @@
     <ClCompile Include="src\Lights\EnvironmentLight.cpp" />
     <ClCompile Include="src\Lights\Light.cpp" />
     <ClCompile Include="src\Lights\PointLight.cpp" />
+    <ClCompile Include="src\Materials\Dielectric.cpp" />
     <ClCompile Include="src\Materials\Emissive.cpp" />
     <ClCompile Include="src\Materials\GlossyReflector.cpp" />
     <ClCompile Include="src\Materials\Matte.cpp" />

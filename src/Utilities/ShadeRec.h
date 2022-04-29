@@ -39,6 +39,8 @@ public:
 
 	// world reference for shading
 	const World& w;
+
+	double t;
 	
 	// world constructor
 	ShadeRec(const World& wr);
