@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 4096;
+    int num_samples = 256;
 
     this->max_samples = num_samples;
     this->variance_tolerance = 0.05;
@@ -31,10 +31,10 @@ World::build() {
     //camera:
     Pinhole* pinhole_ptr = new Pinhole();
     pinhole_ptr->set_eye(0, 2, 5.5);
-    //pinhole_ptr->set_lookat(4.05, 1.5, 0);
-    pinhole_ptr->set_lookat(0, 12, 0);
+    pinhole_ptr->set_lookat(0, 1.5, 0);
+    //pinhole_ptr->set_lookat(0, 12, 0);
     pinhole_ptr->set_view_distance(3.0);
-    pinhole_ptr->set_zoom(14 * scale_factor);
+    pinhole_ptr->set_zoom(2 * scale_factor);
     pinhole_ptr->compute_uvw();
     camera_ptr = pinhole_ptr;
 
@@ -113,6 +113,19 @@ World::build() {
     p_blue->set_kd(.8);
     p_blue->set_ks(.2);
     p_blue->set_exp(256);
+
+    Dielectric* dielectric_ptr = new Dielectric;
+    dielectric_ptr->set_ka(0);
+    dielectric_ptr->set_kd(0);
+    dielectric_ptr->set_cd(1, 1, 1);
+    dielectric_ptr->set_ks(0);
+    dielectric_ptr->set_cs(1, 1, 1);
+    dielectric_ptr->set_samples(num_samples);
+    dielectric_ptr->set_exp(64);
+    dielectric_ptr->set_ior_in(1.5);
+    dielectric_ptr->set_ior_out(1.0);
+    dielectric_ptr->set_cf_in(RGBColor(.8, .8, 1));
+    dielectric_ptr->set_cf_out(RGBColor(1, 1, 1));
     
 
 
@@ -153,7 +166,7 @@ World::build() {
         box_mat->set_cd((1.0 - (i + 1) / 6.0) * RGBColor(.66, .17, .14) + (i + 1) / 6.0 * RGBColor(.18, .58, .43));
 
         Box* box = new Box(-4 + 2 * i - radius, gap, -radius, -4 + 2 * i + radius, gap + box_height, radius);
-        box->set_material(box_mat);
+        box->set_material(dielectric_ptr);
         add_object(box);
 
         Reflective* sphere_mat = new Reflective(*r_mat);

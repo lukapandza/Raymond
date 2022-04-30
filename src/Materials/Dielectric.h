@@ -35,7 +35,7 @@ public:
 
 	RGBColor area_light_shade(ShadeRec& sr) const { return RGBColor(0, 0, 0); }
 
-	RGBColor path_shade(ShadeRec& sr) const { return RGBColor(0, 0, 0); }
+	RGBColor path_shade(ShadeRec& sr) const;
 
 	RGBColor global_shade(ShadeRec& sr) const { return RGBColor(0, 0, 0); }
 
