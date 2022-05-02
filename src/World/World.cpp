@@ -105,7 +105,7 @@
 //#include "../builds/AllMaterialsTest.cpp"
 //#include "../builds/CylinderTest.cpp"
 //#include "../builds/PhongParamTest.cpp"
-#include "../builds/ReflectiveParamTest.cpp"
+//#include "../builds/ReflectiveParamTest.cpp"
 //#include "../builds/AdaptiveSamplingTest.cpp"
 //#include "../builds/CompoundObjectTest.cpp"
 //#include "../builds/Fractal2Test.cpp"
@@ -115,6 +115,7 @@
 //#include "../builds/Caustics2.cpp"
 //#include "../builds/Caustics3.cpp"
 //#include "../builds/DielectricTest1.cpp"
+#include "../builds/PathMaterialsTest.cpp"
 
 
 //#include "../builds/PerformanceTest.cpp"

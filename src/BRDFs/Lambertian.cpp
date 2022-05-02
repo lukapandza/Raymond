@@ -69,7 +69,7 @@ Lambertian::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i, dou
 	Point3D sp = sampler_ptr->sample_hemisphere();
 	w_i = sp.x * u + sp.y * v + sp.z * w;
 	w_i.normalize();
-	pdf = sr.normal * w_i * invPI;
+	pdf = (sr.normal * w_i) * invPI;
 
 	return kd * cd * invPI;
 }

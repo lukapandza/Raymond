@@ -141,9 +141,13 @@ Matte::path_shade(ShadeRec& sr) const
 	// optimized code:
 
 	Vector3D w_i;
-	RGBColor f(diffuse_brdf->sample_f(sr, -sr.ray.d, w_i));
+	double pdf;
+	RGBColor f(diffuse_brdf->sample_f(sr, -sr.ray.d, w_i, pdf));
 
-	return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1);
+	return f 
+		* sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1)
+		* (sr.normal * w_i)
+		/ pdf;
 }
 
 RGBColor

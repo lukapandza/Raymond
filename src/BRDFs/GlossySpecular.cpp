@@ -89,9 +89,10 @@ GlossySpecular::sample_f(const ShadeRec& sr, const Vector3D& w_o, Vector3D& w_i,
 	w_i = sp.x * u + sp.y * v + sp.z * w; // reflected ray direction
 	if (sr.normal * w_i < 0.0) // reflected ray is below surface
 		w_i = -sp.x * u - sp.y * v + sp.z * w;
+	w_i.normalize();
 
-	double  phong_lobe = pow(r * w_i, exp);
+	double  phong_lobe = pow(r * w, exp);
 	pdf = phong_lobe * (sr.normal * w_i);
 
-	return (ks * cs * phong_lobe);
+	return ks * cs * phong_lobe;
 }

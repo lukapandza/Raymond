@@ -159,23 +159,34 @@ Phong::path_shade(ShadeRec& sr) const
 	*/
 
 	// optimized code:
-	
-	Vector3D w_i_d, w_i_s;
-	RGBColor f(this->diffuse_brdf->sample_f(sr, -sr.ray.d, w_i_d));
-	f += this->specular_brdf->sample_f(sr, -sr.ray.d, w_i_s);
 
-	double rand = rand_float(0, max(1.0, this->diffuse_brdf->get_kd() + specular_brdf->get_ks()));
-	double running_threshold = this->diffuse_brdf->get_kd();
+	Vector3D w_i;
+	double pdf;
+	RGBColor L;
 
-	if (rand < running_threshold) // diffuse reflection
-		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_d), sr.depth + 1);
-	
-	running_threshold += this->specular_brdf->get_ks();
+	double rand = rand_float(0, max(1.0, diffuse_brdf->get_kd() + specular_brdf->get_ks()));
 
-	if (rand < running_threshold) // specular reflection
-		return f * sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i_s), sr.w.vp.max_depth);
+	RGBColor f_d(diffuse_brdf->sample_f(sr, -sr.ray.d, w_i, pdf));
+	f_d *= (sr.normal * w_i);
+	f_d /= pdf;
 
-	return RGBColor(0, 0, 0); // light is absorbed (only happens when k_s + k_d < 1.0)
+	double running_threshold = diffuse_brdf->get_kd();
+
+	if (rand < running_threshold)
+		L = sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.depth + 1);
+
+	RGBColor f_s(specular_brdf->sample_f(sr, -sr.ray.d, w_i, pdf));
+	f_s *= (sr.normal * w_i);
+	f_s /= pdf;
+
+	running_threshold += specular_brdf->get_ks();
+
+	if (rand < running_threshold)
+		L = sr.w.tracer_ptr->trace_ray(Ray(sr.hit_point, w_i), sr.w.vp.max_depth);
+	else
+		return black;
+
+	return (f_d + f_s) * L;
 }
 
 RGBColor
