@@ -1,15 +1,16 @@
 # Raymond
 A physically based rendering engine implementing a number of rendering algorithms
 
-<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/matte_only_16384_6.png" width="32%"></img>
-<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/importance_room_16384_32.png" width="32%"></img>
-<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/fun.png" width="32%"></img>
-
-<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/10000_8_3_36_57.png" width="48.33%"></img>
-<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/10000_8_4_12_51.png" width="48.33%"></img>
-
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/matte_only_16384_6.png" width="26%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/fun%202.png" width="46%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/fun.png" width="26%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/10000_8_3_36_57.png" width="49.33%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/10000_8_4_12_51.png" width="49.33%"></img>
 <img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/16384_1080p.png" width="63%"></img>
 <img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/owl_16384.png" width="35.5%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/stacked_r.png" width="32.67%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/stacked_rg.png" width="32.67%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/stacked_rgb.png" width="32.67%"></img>
 
 
 # Code Review Section
