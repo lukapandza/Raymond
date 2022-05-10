@@ -1,7 +1,7 @@
 void
 World::build() {
 
-    int num_samples = 256;
+    int num_samples = 1024;
 
     this->max_samples = num_samples;
     this->variance_tolerance = 0.1;
@@ -37,22 +37,17 @@ World::build() {
     camera_ptr = pinhole_ptr;
     */
 
-    /*
+    
     Orthographic* cmr = new Orthographic;
     cmr->set_eye(0, 1, 0.00001);
     cmr->set_lookat(0, 0, 0);
     cmr->set_up_vector(0, 0, 1);
     cmr->compute_uvw();
-    vp.set_pixel_size(1.0 / (2.56 * scale_factor));
+    //vp.set_pixel_size(1.0 / (2.56 * scale_factor));
+    vp.set_pixel_size(1.0 / (8 * scale_factor));
     camera_ptr = cmr;
-    */
+    
 
-    Pinhole* cmr = new Pinhole;
-    cmr->set_eye(0, 1, .99);
-    cmr->set_lookat(0, .5, 0);
-    cmr->set_zoom(1 * scale_factor);
-    cmr->set_view_distance(20);
-    camera_ptr = cmr;
 
     Sampler* sampler_ptr = new MultiJittered(num_samples);
 
@@ -152,6 +147,7 @@ World::build() {
     for (int i(0); i < num_cyls; i++) {
         Instance* cyl_ins = new Instance(cyl);
         cyl_ins->rotate_y(3 * 180.0 / (2 * num_cyls) + i * 360.0 / num_cyls);
+        cyl_ins->scale(2, 1, 1);
         cyl_ins->set_material(ref);
         add_object(cyl_ins);
     }
@@ -187,8 +183,10 @@ World::build() {
     box_ins->set_material(ref);
     add_object(box_ins);
     */
+
+    /*
     double radius_i = 1.0 / 16;
-    Cylinder* in_cyl = new Cylinder(0, 4, radius_i);
+    Cylinder* in_cyl = new Cylinder(1.1, 4, radius_i);
     
     Instance* in_ins_1 = new Instance(in_cyl);
     in_ins_1->set_material(ref);
@@ -201,7 +199,23 @@ World::build() {
     in_ins_2->scale(1, 1, 4);
     in_ins_2->rotate_y(-45);
     add_object(in_ins_2);
+    */
 
+    /*
+    Sphere* s = new Sphere(Point3D(0, .1, 0), .125);
+    s->set_material(ref);
+    */
+    Cylinder* s = new Cylinder(0, 4, .33, 0, PI / 6.0);
+    s->set_material(ref);
+
+    for (int i(0); i < 6; i++) {
+        Instance* ins = new Instance(s);
+        ins->translate(0, 0, -.33);
+        ins->rotate_y(90);
+        ins->translate(0, 0, .33);
+        ins->rotate_y(30 + i * 60);
+        add_object(ins);
+    }
 
     
 }

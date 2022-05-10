@@ -58,7 +58,7 @@ Orthographic::render_scene(const World& world, std::vector<pix_coord>& batch, Th
 
 			Point3D origin = eye + pp.x * u + pp.y * v; //check this.
 
-			color += world.tracer_ptr->trace_ray(Ray(origin, lookat - eye), 0);
+			color += world.tracer_ptr->trace_ray(Ray(origin, dir), 0);
 		}
 
 		color /= vp.num_samples;
@@ -99,5 +99,12 @@ Orthographic::sample_pixel(World* w, int h, int v)
 	Point2D pp(w->vp.s * (h - w->vp.half_hres + sp.x), w->vp.s * (v - w->vp.half_vres + sp.y));
 
 	Point3D origin = eye + pp.x * u + pp.y * this->v; //check this.
-	return w->tracer_ptr->trace_ray(Ray(origin, lookat - eye), 0);
+	return w->tracer_ptr->trace_ray(Ray(origin, dir), 0);
+}
+
+void
+Orthographic::compute_dir() 
+{
+	dir = lookat - eye;
+	dir.normalize();
 }

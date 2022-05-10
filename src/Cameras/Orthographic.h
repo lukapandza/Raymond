@@ -27,4 +27,9 @@ public:
 
 	RGBColor
 		sample_pixel(World* w, int h, int v);
+
+	void
+		compute_dir();
+
+	Vector3D dir = Vector3D(0, 0, 0);
 };
