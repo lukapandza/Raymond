@@ -5,6 +5,7 @@ The entire engine is written in C++. The project started by following Kevin Suff
 
 I chose to forgo some standard features like texture mapping and noise generation that are common in other similar projects and instead focused on the more mathematically and algorithmically interesting ideas. Below is a showcase of some renders and a list of notable features.
 
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/wide_4096_spp.png" width="99%"></img>
 <img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/matte_only_16384_6.png" width="26%"></img>
 <img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/fun%202.png" width="46%"></img>
 <img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/fun.png" width="26%"></img>
