@@ -31,6 +31,26 @@ In my implementation of this idea, I try to leverage the fact that variance tell
 
 This approach grants some additional perks as well. As the information about variance is stored for each pixel, we can simply render this information into a separate image at the end to see the variance map. These can reveal some useful information.
 
-### Math
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/variance/0_05_i.png" width="33%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/variance/0_05_v.png" width="33%"></img>
 
+This example shows some interesting results. We see that the highly diffuse materials will have the highest variance, while the highly reflective ones with have low variance, as the reflected rays are more concentrated. Additionally, the rays that immediately hit a light source, like the ones that pass through a window will have no variance and can be discarded right after the initial pass. In this particular scene, about 40% fewer samples are needed to generate the image of very similar quality to the common algorithm.
+
+## Noted Caveats
+
+### Variance of color
+The immediate question I had to deal with is how to asses the difference between two color values, as some difference operation needs to be implemented for us to be able to compute statistical variance. The contemporary approach in academia and commerical uses seems to be to track the variance of each color channel independently, and then combine them in proportion to the human eye sensitivity to different color channels. 
+
+For my purposes of simpler proof of concept, I used the luminosity of a color as the value that is to be tracked for variance (magnitude of a color in 3D color space). This seems to produce very good results in most cases.
+
+### Running computation of variance
+The general approach to computing variance necessitates either having access to all the sample so that they can be summed and the differences from the mean can be summed. This is problematic both for computational and memory efficiency and was not acceptable for my purposes, as some of the renders I make use well over 10k samples per pixel. 
+
+Knuth's The Art of Computer Programming offers a solution in its vol. 2 where the formula for variance is re-stated as a recurrence relation. This is the approach that I have implemented in a wrapper class for pixels. See `AdaptiveThread` and `QueuedPixel` for details.
+
+### Problem of very dark pixels
+Some problematic areas in a scene are ones that are very dimly lit, like the space between spheres in the example above. It is very likely that among our initial pass of 10% of the maximum samples, none end up hitting a light source, which would indicate that they should be entirely black, but that is not always the actual case. To address this problem, I only consider the samples that have hit a light source in the variance computation and I add another criterion to discarding of pixels, where at least some part of the samples must have hit a light source. This avoids having solid black areas in the dimly lit areas of the scene, at the expense of some wasted computation.
+
+### Variance computation overhead
+Popping a pixel from the queue, computing the variance and pushing it back into the priority queue introduces significant overhead if it is performed for each sample. Instead, I specify a batch size at the creation of a scene and once a pixel is popped from the queue, I take a number of samples in a single batch. The computation of variance is then also optimized to work better given the batch approach.
 
