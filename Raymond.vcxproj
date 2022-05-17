@@ -109,13 +109,13 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="raymond.qrc" />
-    <QtUic Include="raymond.ui" />
-    <QtMoc Include="raymond.h" />
-    <ClCompile Include="raymond.cpp" />
-    <ClCompile Include="main.cpp" />
-    <None Include="Raymond.ico" />
-    <ResourceCompile Include="Raymond.rc" />
+    <QtRcc Include="src\Resources\raymond.qrc" />
+    <QtUic Include="src\Resources\raymond.ui" />
+    <QtMoc Include="src\UI\raymond.h" />
+    <ClCompile Include="src\UI\raymond.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <None Include="src\Resources\Raymond.ico" />
+    <ResourceCompile Include="src\Resources\Raymond.rc" />
     <ClInclude Include="src\BRDFs\BRDF.h" />
     <ClInclude Include="src\BRDFs\FresnelReflector.h" />
     <ClInclude Include="src\BRDFs\GlossySpecular.h" />
@@ -181,7 +181,7 @@
     <ClInclude Include="src\Utilities\Vector3D.h" />
     <ClInclude Include="src\World\ViewPlane.h" />
     <ClInclude Include="src\World\World.h" />
-    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="src\stdafx.h" />
     <ClCompile Include="src\BRDFs\BRDF.cpp" />
     <ClCompile Include="src\BRDFs\FresnelReflector.cpp" />
     <ClCompile Include="src\BRDFs\GlossySpecular.cpp" />
@@ -244,7 +244,7 @@
     <ClCompile Include="src\Utilities\Vector3D.cpp" />
     <ClCompile Include="src\World\ViewPlane.cpp" />
     <ClCompile Include="src\World\World.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">Create</PrecompiledHeader>
     </ClCompile>

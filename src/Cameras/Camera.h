@@ -3,7 +3,7 @@
 #include "../Utilities/Vector3D.h"
 #include "../Utilities/Point3D.h"
 #include "../Utilities/RGBColor.h"
-#include "../raymond.h"
+#include "../UI/raymond.h"
 
 class World; //because World includes Camera.h
 

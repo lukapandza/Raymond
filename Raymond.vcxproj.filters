@@ -107,21 +107,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="raymond.qrc">
+    <QtRcc Include="src\Resources\raymond.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="raymond.ui">
+    <QtUic Include="src\Resources\raymond.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <None Include="Raymond.ico">
+    <None Include="src\Resources\Raymond.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <ResourceCompile Include="Raymond.rc">
+    <ResourceCompile Include="src\Resources\Raymond.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\BRDFs\BRDF.cpp">
@@ -232,10 +232,10 @@
     <ClCompile Include="src\Utilities\Vector3D.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="raymond.cpp">
+    <ClCompile Include="src\UI\raymond.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\Tracers\AreaLighting.cpp">
@@ -318,12 +318,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="raymond.h">
+    <QtMoc Include="src\UI\raymond.h">
       <Filter>Header Files\UI</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="src\stdafx.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="src\BRDFs\BRDF.h">
