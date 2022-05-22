@@ -19,37 +19,117 @@ I chose to forgo some standard features like texture mapping and noise generatio
 
 ## Notable Features
 
+The hyperlinked entries below lead to my documentation of the features which are entirely or partially my creation and differ significantly from the implementation discussed in Suffern's book. All others include minor additions, optimizations or simply an update to the recent style of C++. For more information on those, please refer to Suffern's book, as it provides a much better explanation than I could. 
+
 ### Algorithms
 
-* Multi-threadded CPU execution
-* Ray Tracing
-* Whitted-style Ray Tracing
-* Ray Tracing with area lights 
-* Path Tracing
+* [Multi-threadded CPU execution](https://github.com/lukapandza/Raymond/blob/main/docs/multi-thread.md)
+* <details>
+    <summary>Ray Tracing</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 1, 3
+    </details>
+* <details>
+    <summary>Whitted-style Ray Tracing</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 24, 25
+    </details>
+* <details>
+    <summary>Ray Tracing with area lights</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 18
+    </details>
+* <details>
+    <summary>Path Tracing</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 26
+    </details>
 * [Importance sampling of complex materials](https://github.com/lukapandza/Raymond/blob/main/docs/importance_sampling.md)
 * [Adaptive Sampling](https://github.com/lukapandza/Raymond/blob/main/docs/adaptive_sampling.md) (priority queue based distribution between all CPU threads)
 * [Regular grid acceleration](https://github.com/lukapandza/Raymond/blob/main/docs/acceleration_grid.md)
-* Pre-computed sampling
+* <details>
+    <summary>Antialiasing</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 4
+    </details>
+* <details>
+    <summary>Pre-computed Sampling</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 5, 6, 7
+    </details>
 
 ### Geometric
 
-* All standard primitives
-* Partial objects
-* Compound objects
-* Instancing
-* Affine Transformation
-* Orthographic and Perspective projections
+* <details>
+    <summary>All Standard Primitives</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 19
+    </details>
+* <details>
+    <summary>Partial Objects</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 19.7
+    </details>
+* <details>
+    <summary>Compound Objects</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 19.8
+    </details>
+* <details>
+    <summary>Instancing</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 21
+    </details>
+* <details>
+    <summary>Affine Transformations</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 20
+    </details>
+* <details>
+    <summary>Orthographic and Perspective projections</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 3, 8, 9
+    </details>
 
 ### Materials & Lights
 
-* Point, Directional Lights
-* Area lights
-* Environment ligths
-* Emissive materials
-* Phong model materials
-* Glossy and Perfect reflections
-* Dielectric transparency
+* <details>
+    <summary>Point, Directional Lights</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 14
+    </details>
+* <details>
+    <summary>Shadows</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 16
+    </details>
+* <details>
+    <summary>Area Lights</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 18
+    </details>
+* <details>
+    <summary>Environment Lights</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 18.10
+    </details>
+* <details>
+    <summary>Emissive Materials</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 18, 26
+    </details>
+* <details>
+    <summary>Phong Model Materials</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 14, 15
+    </details>
+* <details>
+    <summary>Glossy and Perfect Reflection</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 24, 25
+    </details>
+* <details>
+    <summary>Dielectric Transparency</summary> 
+        K. Suffern, Ray Tracing from the Ground Up, CH. 28
+    </details>
 
 ### UI
 
 * Simple GUI built with Qt (primarily there to make test rendering simpler)
+
+## How to build and run
+
+This project was created with Microsoft Visual Studio 2019 Community edition and and the opensource version of the Qt 5.12.12 library for the Visual Studio compiler. 
+
+To build and run the project, [download and install the Qt libraries](https://www.qt.io/offline-installers), or build them from source. Then open the Raymond.sln file using Visual Studio. The Debug and Release buidl settings should import with the Visual Studio configuration file, but there might be some linking that needs to be resolved in the project settings, depending on the location of the Qt binaries. I have not tested this project on any platforms other than Windows 10.
+
+In the `World.cpp` file, there must always be one and only one .cpp file with the `World::build()` function definition. This is how the scenes are made. Use any of the scenes from the `src/builds` folder, or write your own. Writing your own scene might require more extensive study of the existing scenes to familiarize yourself with the process. I recommend making a copy of an existing scene which renders correctly, including it in `World.cpp` and then making modifications. 
+
+## Future Plans
+
+While the idea of simply adding more features to this project seems attractive, I currently plan to return to this project in the near future by reorganizing to keep only the path tracing part of the code, and make it into a CUDA project to move away from the multi-threaded approach and into GPU programming. 
+
+The secondary goal, following the completion of the one above is to explore further academic research in the field, such as photon mapping, directed light transport and neural network denoising.
+
+Lastly, it would be very nice to create a scripting language paired with a more useful GUI and share this as an opensource project for users to actually be able to make some art/simulations with it. This is on the bottom of my list as UI design is not one of my strengths nor high on my list of interests at the moment. 
