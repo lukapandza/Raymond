@@ -49,10 +49,10 @@ Suffern provides a very good explanation of this with supporting diagrams in cha
 
 ## Results
 
-<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/grid/2^3.png" width = "24%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/grid/2^3spheres.png" width = "24%"></img>
 <img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/grid/8^3.png" width = "24%"></img>
 <img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/grid/16^3.png" width = "24%"></img>
-<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/grid/100^3.png" width = "24%"></img>
+<img src="https://github.com/lukapandza/Raymond/blob/main/Renders/Gallery/grid/100^3spheres.png" width = "24%"></img>
 
 The only testing I have done is creating a grid in space that gets filled with an ever increasing number of spheres, which allowed me to test the efficiency upgrade. The left-most picture contains only 8 spheres, with a render time of .4s (including build time). The rightmost picture includes a million spheres and the render time was 45 seconds including the build time, noting that the build time took the vast majority of this. This seems to be one of the more favorable cases, as the gaps are relatively small and most rays will encounter a sphere near the start of the traversal. In any case, this would be something that is entirely impossible to render in the previous configuration.
 
