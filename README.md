@@ -26,7 +26,7 @@ I chose to forgo some standard features like texture mapping and noise generatio
 * Whitted-style Ray Tracing
 * Ray Tracing with area lights 
 * Path Tracing
-* Importance sampling of complex materials
+* [Importance sampling of complex materials](https://github.com/lukapandza/Raymond/blob/main/docs/importance_sampling.md)
 * [Adaptive Sampling](https://github.com/lukapandza/Raymond/blob/main/docs/adaptive_sampling.md) (priority queue based distribution between all CPU threads)
 * Regular grid acceleration
 * Pre-computed sampling
